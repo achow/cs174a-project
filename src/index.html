@@ -24,9 +24,19 @@
         <script type="text/javascript" src="world.js"></script>
         <script type="text/javascript" src="pacman.js"></script>
         <script type="text/javascript" src="monster.js"></script>
+        <script type="text/javascript" src="map.data.js"></script>
         <script>
+            // some tests
             var obj = new Obj(1);
             console.log(obj.where());
+            obj.size = 2;
+            console.log(obj.scale());
+
+
+            var p = new Pacman(1);
+            console.log(p.where());
+            p.moveUp();
+            console.log(p.where());
         </script>
     </body>
 </html>

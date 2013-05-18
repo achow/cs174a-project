@@ -15,7 +15,7 @@ Obj = new JS.Class({
      * return scale matrix
      *
      */
-    size: function() {
+    scale: function() {
         var I = mat4.create();
         return mat4.scale(mat4.create(), I, [this.size, this.size, this.size]);
     },
