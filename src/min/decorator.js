@@ -1,2 +1,50 @@
-JS.Decorator=new JS.Class('Decorator',{initialize:function(a,c){var b=new JS.Class(),f={},e,d;for(e in a.prototype){d=a.prototype[e];if(typeof d==='function'&&d!==a)d=this.klass.delegate(e);f[e]=d}b.include(new JS.Module(f),{_0:false});b.include(this.klass.InstanceMethods,{_0:false});b.include(c);return b},extend:{delegate:function(a){return function(){return this.component[a].apply(this.component,arguments)}},InstanceMethods:new JS.Module({initialize:function(a){this.component=a;this.klass=this.constructor=a.klass;var c,b;for(c in a){if(this[c])continue;b=a[c];if(typeof b==='function')b=JS.Decorator.delegate(c);this[c]=b}},extend:function(a){this.component.extend(a);var c,b;for(c in a){b=a[c];if(typeof b==='function')b=JS.Decorator.delegate(c);this[c]=b}}})}});
-//@ sourceMappingURL=decorator.js.map
+JS.Decorator = new JS.Class('Decorator', {
+  initialize: function(decoree, methods) {
+    var decorator  = new JS.Class(),
+        delegators = {},
+        method, func;
+    
+    for (method in decoree.prototype) {
+      func = decoree.prototype[method];
+      if (typeof func === 'function' && func !== decoree) func = this.klass.delegate(method);
+      delegators[method] = func;
+    }
+    
+    decorator.include(new JS.Module(delegators), {_resolve: false});
+    decorator.include(this.klass.InstanceMethods, {_resolve: false});
+    decorator.include(methods);
+    return decorator;
+  },
+  
+  extend: {
+    delegate: function(name) {
+      return function() {
+        return this.component[name].apply(this.component, arguments);
+      };
+    },
+    
+    InstanceMethods: new JS.Module({
+      initialize: function(component) {
+        this.component = component;
+        this.klass = this.constructor = component.klass;
+        var method, func;
+        for (method in component) {
+          if (this[method]) continue;
+          func = component[method];
+          if (typeof func === 'function') func = JS.Decorator.delegate(method);
+          this[method] = func;
+        }
+      },
+      
+      extend: function(source) {
+        this.component.extend(source);
+        var method, func;
+        for (method in source) {
+          func = source[method];
+          if (typeof func === 'function') func = JS.Decorator.delegate(method);
+          this[method] = func;
+        }
+      }
+    })
+  }
+});

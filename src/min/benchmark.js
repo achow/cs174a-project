@@ -1,2 +1,70 @@
-JS.Benchmark=new JS.Module('Benchmark',{include:JS.Console,N:5,measure:function(a,b,c){var e=[],d,f=[],j=c.test;var g=b*JS.Benchmark.N;while(g--){d={};if(c.setup)c.setup.call(d);e.push(d)}var k=JS.Benchmark.N,h,i;while(k--){g=b;h=new Date().getTime();while(g--)j.call(e.pop());i=new Date().getTime();f.push(i-h)}this.printResult(a,f)},printResult:function(a,b){var c=this.average(b);this.reset();this.print(' ');this.consoleFormat('bgblack','white');this.print('BENCHMARK');this.reset();this.print(' ['+this.format(c)+']');this.consoleFormat('cyan');this.puts(' '+a);this.reset()},format:function(a){var b=(a.value===0)?0:100*a.error/a.value;return Math.round(a.value)+'ms +/- '+Math.round(b)+'%'},average:function(a){return{value:this.mean(a),error:this.stddev(a)}},mean:function(b,c){var e=[],c=c||function(a){return a},d=b.length,f=0;while(d--)e.push(c(b[d]));d=e.length;while(d--)f+=e[d];return f/e.length},stddev:function(b){var c=function(a){return a*a};return Math.sqrt(this.mean(b,c)-c(this.mean(b)))}});JS.Benchmark.extend(JS.Benchmark);
-//@ sourceMappingURL=benchmark.js.map
+JS.Benchmark = new JS.Module('Benchmark', {
+  include: JS.Console,
+  N: 5,
+  
+  measure: function(name, runs, functions) {
+    var envs  = [], env,
+        times = [],
+        block = functions.test;
+        
+    var i = runs * JS.Benchmark.N;
+    while (i--) {
+      env = {};
+      if (functions.setup) functions.setup.call(env);
+      envs.push(env);
+    }
+    
+    var n = JS.Benchmark.N, start, end;
+    while (n--) {
+      i = runs;
+      start = new Date().getTime();
+      while (i--) block.call(envs.pop());
+      end = new Date().getTime();
+      times.push(end - start);
+    }
+    this.printResult(name, times);
+  },
+  
+  printResult: function(name, times) {
+    var average = this.average(times);
+    this.reset();
+    this.print(' ');
+    this.consoleFormat('bgblack', 'white');
+    this.print('BENCHMARK');
+    this.reset();
+    this.print(' [' + this.format(average) + ']');
+    this.consoleFormat('cyan');
+    this.puts(' ' + name);
+    this.reset();
+  },
+  
+  format: function(average) {
+    var error = (average.value === 0) ? 0 : 100 * average.error / average.value;
+    return Math.round(average.value) +
+           'ms +/- ' + Math.round(error) + '%';
+  },
+  
+  average: function(list) {
+    return { value: this.mean(list), error: this.stddev(list) };
+  },
+  
+  mean: function(list, mapper) {
+    var values = [],
+        mapper = mapper || function(x) { return x },
+        n      = list.length,
+        sum    = 0;
+        
+    while (n--) values.push(mapper(list[n]));
+    
+    n = values.length;
+    while (n--) sum += values[n];
+    return sum / values.length;
+  },
+  
+  stddev: function(list) {
+    var square = function(x) { return x*x };
+    return Math.sqrt(this.mean(list, square) - square(this.mean(list)));
+  }
+});
+
+JS.Benchmark.extend(JS.Benchmark);

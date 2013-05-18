@@ -1,4 +1,4 @@
-var Obj = new JS.Class({
+Obj = new JS.Class({
 
     initialize: function(id) {
         this.modelId = id;
@@ -16,14 +16,16 @@ var Obj = new JS.Class({
      *
      */
     size: function() {
-        return null;
+        var I = mat4.create();
+        return mat4.scale(mat4.create(), I, [this.size, this.size, this.size]);
     },
 
     /*
      * return world matrix
      */
     where: function() {
-        return null;
+        var I = mat4.create();
+        return mat4.translate(mat4.create(), I, [this.position.x, this.position.y, this.position.z]);
     },
 
     /*

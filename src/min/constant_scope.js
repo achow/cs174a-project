@@ -1,2 +1,44 @@
-JS.ConstantScope=new JS.Module('ConstantScope',{extend:{included:function(a){a.__consts__=new JS.Module();a.extend(this.ClassMethods);a.__eigen__().extend(this.ClassMethods);a.include(a.__consts__);a.extend(a.__consts__);a.include(this.extract(a.__fns__));a.extend(this.extract(a.__eigen__().__fns__))},ClassMethods:new JS.Module({define:function(a,b){var c=this.__consts__||this.__tgt__.__consts__;if(/^[A-Z]/.test(a))c.define(a,b);else this.callSuper();if(JS.isType(b,JS.Module)){b.include(JS.ConstantScope);b.__consts__.include(c)}}}),extract:function(a,b){var c={},d,e;for(d in a){if(!/^[A-Z]/.test(d))continue;e=a[d];c[d]=e;delete a[d]}return c}}});
-//@ sourceMappingURL=constant_scope.js.map
+JS.ConstantScope = new JS.Module('ConstantScope', {
+  extend: {
+    included: function(base) {
+      base.__consts__ = new JS.Module();
+      base.extend(this.ClassMethods);
+      base.__eigen__().extend(this.ClassMethods);
+      
+      base.include(base.__consts__);
+      base.extend(base.__consts__);
+      
+      base.include(this.extract(base.__fns__));
+      base.extend(this.extract(base.__eigen__().__fns__));
+    },
+    
+    ClassMethods: new JS.Module({
+      define: function(name, callable) {
+        var constants = this.__consts__ || this.__tgt__.__consts__;
+        
+        if (/^[A-Z]/.test(name))
+          constants.define(name, callable);
+        else
+          this.callSuper();
+        
+        if (JS.isType(callable, JS.Module)) {
+          callable.include(JS.ConstantScope);
+          callable.__consts__.include(constants);
+        }
+      }
+    }),
+    
+    extract: function(methods, base) {
+      var constants = {}, key, object;
+      for (key in methods) {
+        if (!/^[A-Z]/.test(key)) continue;
+        
+        object = methods[key];
+        constants[key] = object;
+        delete methods[key];
+      }
+      return constants;
+    }
+  }
+});
+

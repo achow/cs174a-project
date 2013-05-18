@@ -1,2 +1,693 @@
-(function(){var a=(typeof this.global==='object')?this.global:this;a.JS=a.JS||{};JS.ENV=a})();JS.Package=function(a){var b=JS.Package.OrderedSet;JS.Package._6(this);this._0=a;this._4=new b();this._7=new b();this._e=new b();this._f=new b();this._5={};this._8={}};(function(f){f.displayName='Package';f.toString=function(){return f.displayName};f.log=function(a){if(typeof window==='undefined')return;if(typeof window.runtime==='object')window.runtime.trace(a);if(window.console&&console.info)console.info(a)};var q=f.OrderedSet=function(a){this._g=this.list=[];this._6={};if(!a)return;for(var b=0,c=a.length;b<c;b++)this.push(a[b])};q.prototype.push=function(a){var b=(a.id!==undefined)?a.id:a,c=this._6;if(c.hasOwnProperty(b))return;c[b]=this._g.length;this._g.push(a)};var n=f.Deferred=function(){this._h='deferred';this._i=null;this._j=[]};n.prototype.callback=function(a,b){if(this._h==='succeeded')a.call(b,this._i);else this._j.push([a,b])};n.prototype.succeed=function(a){this._h='succeeded';this._i=a;var b;while(b=this._j.shift())b[0].call(b[1],a)};f.ENV=JS.ENV;f.onerror=function(a){throw a};f._k=function(a){f.onerror(new Error(a));};var m=f.prototype,o=[['requires','_7'],['uses','_e'],['styling','_f']],p=o.length;while(p--)(function(pair){var r=pair[0],s=pair[1];m[r]=function(){var a=arguments.length,b;for(b=0;b<a;b++)this[s].push(arguments[b]);return this}})(o[p]);m.provides=function(){var a=arguments.length,b;for(b=0;b<a;b++){this._4.push(arguments[b]);f._9(arguments[b]).pkg=this}return this};m.setup=function(a){this._l=a;return this};m._s=function(a,b,c){if(this._8[a])return b.call(c);var d=this._5[a]=this._5[a]||[];d.push([b,c]);this._t()};m._3=function(a){if(this._8[a])return false;this._8[a]=true;var b=this._5[a];if(!b)return true;delete this._5[a];for(var c=0,d=b.length;c<d;c++)b[c][0].call(b[c][1]);return true};m._m=function(a){if(!a&&this.__isLoaded!==undefined)return this.__isLoaded;var b=this._4.list,c=b.length,d,g;while(c--){d=b[c];g=f._1(d,this._n);if(g!==undefined)continue;if(a)return f._k('Expected package at '+this._0+' to define '+d);else return this.__isLoaded=false}return this.__isLoaded=true};m._t=function(){if(!this._3('request'))return;this._u();var j=this._7.list.concat(this._e.list),i=this._a||[],l=(this._0||{}).length,k=this;f.when({load:j});f.when({complete:this._7.list},function(){f.when({complete:j,load:[this]},function(){this._3('complete')},this);var c=function(a){if(l===0)return d(a);l-=1;var b=k._0.length-l-1;f.Loader.loadFile(k._0[b],c,i[b])};var d=function(a){k._n=a;if(k._l)k._l();k._m(true);k._3('load')};if(this._m()){this._3('download');return this._3('load')}if(this._0===undefined)return f._k('No load path found for '+this._4.list[0]);if(typeof this._0==='function')this._0(d);else c();if(!f.Loader.loadStyle)return;var g=this._f.list,h=g.length;while(h--)f.Loader.loadStyle(g[h]);this._3('download')},this)};m._u=function(){if(this._a||!(this._0 instanceof Array)||!f.Loader.fetch)return;this._a=[];for(var a=0,b=this._0.length;a<b;a++)this._a[a]=f.Loader.fetch(this._0[a])};m.toString=function(){return'Package:'+this._4.list.join(',')};f.when=function(a,b,c){var d=[],g={},h,j,i;for(h in a){if(!a.hasOwnProperty(h))continue;g[h]=[];j=new f.OrderedSet(a[h]);i=j.list.length;while(i--)d.push([h,j.list[i],i])}var l=i=d.length;if(l===0)return b&&b.call(c,g);while(i--)(function(h){var k=f._b(h[1]);k._s(h[0],function(){g[h[0]][h[2]]=f._1(h[1],k._n);l-=1;if(l===0&&b)b.call(c,g)})})(d[i])};f._o=1;f._c={};f._d={};f._p=[];f._6=function(a){a.id=this._o;this._o+=1};f._q=function(a){var b=a.toString(),c=this._c[b];if(c)return c;if(typeof a==='string')a=[].slice.call(arguments);c=this._c[b]=new this(a);return c};f._b=function(a){if(typeof a!=='string')return a;var b=this._9(a);if(b.pkg)return b.pkg;var c=this._v(a);if(c)return c;var d=new this();d.provides(a);return d};f.remove=function(a){var b=this._b(a);delete this._d[a];delete this._c[b._0]};f._w=function(a,b){this._p.push([a,b])};f._v=function(d){var g=this._p,h=g.length,j,i,l;for(j=0;j<h;j++){i=g[j];if(!i[0].test(d))continue;l=i[1].from+'/'+d.replace(/([a-z])([A-Z])/g,function(a,b,c){return b+'_'+c}).replace(/\./g,'/').toLowerCase()+'.js';var k=new this([l]);k.provides(d);if(l=i[1].require)k.requires(d.replace(i[0],l));return k}return null};f._9=function(a){return this._d[a]=this._d[a]||{}};f._1=function(a,b){if(typeof a!=='string')return undefined;var c=b?{}:this._9(a);if(c.obj!==undefined)return c.obj;var d=b||this.ENV,g=a.split('.'),h;while(h=g.shift())d=d&&d[h];if(b&&d===undefined)return this._1(a);return c.obj=d}})(JS.Package);JS.Package.CommonJSLoader={usable:function(){return typeof require==='function'&&typeof exports==='object'},__FILE__:function(){return this._2},loadFile:function(a,b){var c=process.cwd(),d=a.replace(/\.[^\.]+$/g,''),a=require('path'),g=a.resolve(d);this._2=g+'.js';b(require(g))}};JS.Package.DomLoader={HOST_REGEX:/^https?\:\/\/[^\/]+/i,usable:function(){return!!JS.Package._1('window.document.getElementsByTagName')},__FILE__:function(){var a=document.getElementsByTagName('script');src=a[a.length-1].src,url=window.location.href;if(/^\w+\:\/+/.test(src))return src;if(/^\//.test(src))return window.location.origin+src;return url.replace(/[^\/]*$/g,'')+src},cacheBust:function(a){var b=new Date().getTime();return a+(/\?/.test(a)?'&':'?')+b},fetch:function(a){var b=a;if(JS.cacheBust)a=this.cacheBust(a);this.HOST=this.HOST||this.HOST_REGEX.exec(window.location.href);var c=this.HOST_REGEX.exec(a);if(!this.HOST||(c&&c[0]!==this.HOST[0]))return null;JS.Package.log('Loading '+a);var d=new JS.Package.Deferred(),g=this,h=window.ActiveXObject?new ActiveXObject('Microsoft.XMLHTTP'):new XMLHttpRequest();h.open('GET',a,true);h.onreadystatechange=function(){if(h.readyState!==4)return;h.onreadystatechange=g._r;d.succeed(h.responseText+'\n//@ sourceURL='+b);h=null};h.send(null);return d},loadFile:function(c,d,g){if(JS.cacheBust&&!g)c=this.cacheBust(c);var h=this,j=document.getElementsByTagName('head')[0],i=document.createElement('script');i.type='text/javascript';if(g)return g.callback(function(code){JS.Package.log('Executing '+c);eval(code);d()});JS.Package.log('Loading and executing '+c);i.src=c;i.onload=i.onreadystatechange=function(){var a=i.readyState,b=i.status;if(!a||a==='loaded'||a==='complete'||(a===4&&b===200)){d();i.onload=i.onreadystatechange=h._r;j=null;i=null}};j.appendChild(i)},loadStyle:function(a){var b=document.createElement('link');b.rel='stylesheet';b.type='text/css';b.href=a;document.getElementsByTagName('head')[0].appendChild(b)},_r:function(){}};JS.Package.RhinoLoader={usable:function(){return typeof java==='object'&&typeof require==='function'},__FILE__:function(){return this._2},loadFile:function(a,b){var c=java.lang.System.getProperty('user.dir'),d=a.replace(/\.[^\.]+$/g,'');var g=new java.io.File(c,d).toString();this._2=g+'.js';b(require(g))}};JS.Package.ServerLoader={usable:function(){return typeof JS.Package._1('load')==='function'&&typeof JS.Package._1('version')==='function'},__FILE__:function(){return this._2},loadFile:function(a,b){this._2=a;load(a);b()}};JS.Package.WshLoader={usable:function(){return!!JS.Package._1('ActiveXObject')&&!!JS.Package._1('WScript')},__FILE__:function(){return this._2},loadFile:function(a,b){this._2=a;var c=new ActiveXObject('Scripting.FileSystemObject'),d,g;try{d=c.OpenTextFile(a);g=function(){eval(d.ReadAll())};g();b()}finally{try{if(d)d.Close()}catch(e){}}}};JS.Package.XULRunnerLoader={jsloader:'@mozilla.org/moz/jssubscript-loader;1',cssservice:'@mozilla.org/content/style-sheet-service;1',ioservice:'@mozilla.org/network/io-service;1',usable:function(){try{var a=(Components||{}).classes;return!!(a&&a[this.jsloader]&&a[this.jsloader].getService)}catch(e){return false}},setup:function(){var a=Components.classes,b=Components.interfaces;this.ssl=a[this.jsloader].getService(b.mozIJSSubScriptLoader);this.sss=a[this.cssservice].getService(b.nsIStyleSheetService);this.ios=a[this.ioservice].getService(b.nsIIOService)},loadFile:function(a,b){if(window.console&&console.info)console.info('Loading '+a);this.ssl.loadSubScript(a);b()},loadStyle:function(a){var b=this.ios.newURI(a,null,null);this.sss.loadAndRegisterSheet(b,this.sss.USER_SHEET)}};(function(){var a=[JS.Package.XULRunnerLoader,JS.Package.DomLoader,JS.Package.RhinoLoader,JS.Package.CommonJSLoader,JS.Package.ServerLoader,JS.Package.WshLoader],b=a.length,c,d;for(c=0;c<b;c++){d=a[c];if(d.usable()){JS.Package.Loader=d;if(d.setup)d.setup();break}}})();JS.Package.DSL={__FILE__:function(){return JS.Package.Loader.__FILE__()},pkg:function(a,b){var c=b?JS.Package._q(b):JS.Package._b(a);c.provides(a);return c},file:function(){return JS.Package._q.apply(JS.Package,arguments)},load:function(a,b){JS.Package.Loader.loadFile(a,b)},autoload:function(a,b){JS.Package._w(a,b)}};JS.Package.DSL.files=JS.Package.DSL.file;JS.Package.DSL.loader=JS.Package.DSL.file;JS.Packages=function(a){a.call(JS.Package.DSL)};JS.cacheBust=false;JS.load=function(a,b){JS.Package.Loader.loadFile(a,function(){if(typeof b==='function')b()});return this};JS.require=function(){var b=[],c=0;while(typeof arguments[c]==='string'){b.push(arguments[c]);c+=1}var d=arguments[c],g=arguments[c+1];JS.Package.when({complete:b},function(a){if(!d)return;d.apply(g||null,a&&a.complete)});return this};
-//@ sourceMappingURL=package.js.map
+/**
+ * JS.Class: Ruby-style JavaScript
+ * http://jsclass.jcoglan.com
+ * Copyright (c) 2007-2012 James Coglan and contributors
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * Parts of the Software build on techniques from the following open-source
+ * projects:
+ * 
+ * * The Prototype framework, (c) 2005-2010 Sam Stephenson (MIT license)
+ * * Alex Arnell's Inheritance library, (c) 2006 Alex Arnell (MIT license)
+ * * Base, (c) 2006-2010 Dean Edwards (MIT license)
+ * 
+ * The Software contains direct translations to JavaScript of these open-source
+ * Ruby libraries:
+ * 
+ * * Ruby standard library modules, (c) Yukihiro Matsumoto and contributors (Ruby license)
+ * * Test::Unit, (c) 2000-2003 Nathaniel Talbott (Ruby license)
+ * * Context, (c) 2008 Jeremy McAnally (MIT license)
+ * * EventMachine::Deferrable, (c) 2006-07 Francis Cianfrocca (Ruby license)
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+(function() {
+  var $ = (typeof this.global === 'object') ? this.global : this;
+  $.JS = $.JS || {};
+  JS.ENV = $;
+})();
+
+JS.Package = function(loader) {
+  var Set = JS.Package.OrderedSet;
+  JS.Package._index(this);
+  
+  this._loader    = loader;
+  this._names     = new Set();
+  this._deps      = new Set();
+  this._uses      = new Set();
+  this._styles    = new Set();
+  this._observers = {};
+  this._events    = {};
+};
+
+(function(klass) {
+  klass.displayName = 'Package';
+  klass.toString = function() { return klass.displayName };
+  
+  klass.log = function(message) {
+    if (typeof window === 'undefined') return;
+    if (typeof window.runtime === 'object') window.runtime.trace(message);
+    if (window.console && console.info) console.info(message);
+  };
+  
+  //================================================================
+  // Ordered list of unique elements, for storing dependencies
+  
+  var Set = klass.OrderedSet = function(list) {
+    this._members = this.list = [];
+    this._index = {};
+    if (!list) return;
+    
+    for (var i = 0, n = list.length; i < n; i++)
+      this.push(list[i]);
+  };
+
+  Set.prototype.push = function(item) {
+    var key   = (item.id !== undefined) ? item.id : item,
+        index = this._index;
+    
+    if (index.hasOwnProperty(key)) return;
+    index[key] = this._members.length;
+    this._members.push(item);
+  };
+  
+  //================================================================
+  // Wrapper for deferred values
+  
+  var Deferred = klass.Deferred = function() {
+    this._status    = 'deferred';
+    this._value     = null;
+    this._callbacks = [];
+  };
+  
+  Deferred.prototype.callback = function(callback, context) {
+    if (this._status === 'succeeded') callback.call(context, this._value);
+    else this._callbacks.push([callback, context]);
+  };
+  
+  Deferred.prototype.succeed = function(value) {
+    this._status = 'succeeded';
+    this._value  = value;
+    var callback;
+    while (callback = this._callbacks.shift())
+      callback[0].call(callback[1], value);
+  };
+  
+  //================================================================
+  // Environment settings
+  
+  klass.ENV = JS.ENV;
+  
+  klass.onerror = function(e) { throw e };
+  
+  klass._throw = function(message) {
+    klass.onerror(new Error(message));
+  };
+  
+  
+  //================================================================
+  // Configuration methods, called by the DSL
+  
+  var instance = klass.prototype,
+      
+      methods = [['requires', '_deps'],
+                 ['uses',     '_uses'],
+                 ['styling',  '_styles']],
+      
+      i = methods.length;
+  
+  while (i--)
+    (function(pair) {
+      var method = pair[0], list = pair[1];
+      instance[method] = function() {
+        var n = arguments.length, i;
+        for (i = 0; i < n; i++) this[list].push(arguments[i]);
+        return this;
+      };
+    })(methods[i]);
+  
+  instance.provides = function() {
+    var n = arguments.length, i;
+    for (i = 0; i < n; i++) {
+      this._names.push(arguments[i]);
+      klass._getFromCache(arguments[i]).pkg = this;
+    }
+    return this;
+  };
+  
+  instance.setup = function(block) {
+    this._onload = block;
+    return this;
+  };
+  
+  //================================================================
+  // Event dispatchers, for communication between packages
+  
+  instance._on = function(eventType, block, context) {
+    if (this._events[eventType]) return block.call(context);
+    var list = this._observers[eventType] = this._observers[eventType] || [];
+    list.push([block, context]);
+    this._load();
+  };
+  
+  instance._fire = function(eventType) {
+    if (this._events[eventType]) return false;
+    this._events[eventType] = true;
+    
+    var list = this._observers[eventType];
+    if (!list) return true;
+    delete this._observers[eventType];
+    
+    for (var i = 0, n = list.length; i < n; i++)
+      list[i][0].call(list[i][1]);
+    
+    return true;
+  };
+  
+  //================================================================
+  // Loading frontend and other miscellany
+  
+  instance._isLoaded = function(withExceptions) {
+    if (!withExceptions && this.__isLoaded !== undefined) return this.__isLoaded;
+    
+    var names = this._names.list,
+        i     = names.length,
+        name, object;
+    
+    while (i--) { name = names[i];
+      object = klass._getObject(name, this._exports);
+      if (object !== undefined) continue;
+      if (withExceptions)
+        return klass._throw('Expected package at ' + this._loader + ' to define ' + name);
+      else
+        return this.__isLoaded = false;
+    }
+    return this.__isLoaded = true;
+  };
+  
+  instance._load = function() {
+    if (!this._fire('request')) return;
+    this._prefetch();
+    
+    var allDeps = this._deps.list.concat(this._uses.list),
+        source  = this._source || [],
+        n       = (this._loader || {}).length,
+        self    = this;
+    
+    klass.when({load: allDeps});
+    
+    klass.when({complete: this._deps.list}, function() {
+      klass.when({complete: allDeps, load: [this]}, function() {
+        this._fire('complete');
+      }, this);
+      
+      var loadNext = function(exports) {
+        if (n === 0) return fireOnLoad(exports);
+        n -= 1;
+        var index = self._loader.length - n - 1;
+        klass.Loader.loadFile(self._loader[index], loadNext, source[index]);
+      };
+      
+      var fireOnLoad = function(exports) {
+        self._exports = exports;
+        if (self._onload) self._onload();
+        self._isLoaded(true);
+        self._fire('load');
+      };
+      
+      if (this._isLoaded()) {
+        this._fire('download');
+        return this._fire('load');
+      }
+      
+      if (this._loader === undefined)
+        return klass._throw('No load path found for ' + this._names.list[0]);
+      
+      if (typeof this._loader === 'function')
+        this._loader(fireOnLoad);
+      else
+        loadNext();
+      
+      if (!klass.Loader.loadStyle) return;
+      
+      var styles = this._styles.list,
+          i      = styles.length;
+      
+      while (i--) klass.Loader.loadStyle(styles[i]);
+      
+      this._fire('download');
+    }, this);
+  };
+  
+  instance._prefetch = function() {
+    if (this._source || !(this._loader instanceof Array) || !klass.Loader.fetch)
+      return;
+    
+    this._source = [];
+    
+    for (var i = 0, n = this._loader.length; i < n; i++)
+      this._source[i] = klass.Loader.fetch(this._loader[i]);
+  };
+  
+  instance.toString = function() {
+    return 'Package:' + this._names.list.join(',');
+  };
+  
+  //================================================================
+  // Class-level event API, handles group listeners
+  
+  klass.when = function(eventTable, block, context) {
+    var eventList = [], objects = {}, event, packages, i;
+    for (event in eventTable) {
+      if (!eventTable.hasOwnProperty(event)) continue;
+      objects[event] = [];
+      packages = new klass.OrderedSet(eventTable[event]);
+      i = packages.list.length;
+      while (i--) eventList.push([event, packages.list[i], i]);
+    }
+    
+    var waiting = i = eventList.length;
+    if (waiting === 0) return block && block.call(context, objects);
+    
+    while (i--)
+      (function(event) {
+        var pkg = klass._getByName(event[1]);
+        pkg._on(event[0], function() {
+          objects[event[0]][event[2]] = klass._getObject(event[1], pkg._exports);
+          waiting -= 1;
+          if (waiting === 0 && block) block.call(context, objects);
+        });
+      })(eventList[i]);
+  };
+  
+  //================================================================
+  // Indexes for fast lookup by path and name, and assigning IDs
+  
+  klass._autoIncrement = 1;
+  klass._indexByPath = {};
+  klass._indexByName = {};
+  klass._autoloaders = [];
+  
+  klass._index = function(pkg) {
+    pkg.id = this._autoIncrement;
+    this._autoIncrement += 1;
+  };
+  
+  klass._getByPath = function(loader) {
+    var path = loader.toString(),
+        pkg  = this._indexByPath[path];
+    
+    if (pkg) return pkg;
+    
+    if (typeof loader === 'string')
+      loader = [].slice.call(arguments);
+    
+    pkg = this._indexByPath[path] = new this(loader);
+    return pkg;
+  };
+  
+  klass._getByName = function(name) {
+    if (typeof name !== 'string') return name;
+    var cached = this._getFromCache(name);
+    if (cached.pkg) return cached.pkg;
+    
+    var autoloaded = this._manufacture(name);
+    if (autoloaded) return autoloaded;
+    
+    var placeholder = new this();
+    placeholder.provides(name);
+    return placeholder;
+  };
+  
+  klass.remove = function(name) {
+    var pkg = this._getByName(name);
+    delete this._indexByName[name];
+    delete this._indexByPath[pkg._loader];
+  };
+  
+  //================================================================
+  // Auotloading API, generates packages from naming patterns
+  
+  klass._autoload = function(pattern, options) {
+    this._autoloaders.push([pattern, options]);
+  };
+  
+  klass._manufacture = function(name) {
+    var autoloaders = this._autoloaders,
+        n = autoloaders.length,
+        i, autoloader, path;
+    
+    for (i = 0; i < n; i++) {
+      autoloader = autoloaders[i];
+      if (!autoloader[0].test(name)) continue;
+      
+      path = autoloader[1].from + '/' +
+             name.replace(/([a-z])([A-Z])/g, function(m,a,b) { return a + '_' + b })
+                 .replace(/\./g, '/')
+                 .toLowerCase() + '.js';
+      
+      var pkg = new this([path]);
+      pkg.provides(name);
+      
+      if (path = autoloader[1].require)
+        pkg.requires(name.replace(autoloader[0], path));
+      
+      return pkg;
+    }
+    return null;
+  };
+  
+  //================================================================
+  // Cache for named packages and runtime objects
+  
+  klass._getFromCache = function(name) {
+    return this._indexByName[name] = this._indexByName[name] || {};
+  };
+  
+  klass._getObject = function(name, rootObject) {
+    if (typeof name !== 'string') return undefined;
+    
+    var cached = rootObject ? {} : this._getFromCache(name);
+    if (cached.obj !== undefined) return cached.obj;
+    
+    var object = rootObject || this.ENV,
+        parts  = name.split('.'), part;
+    
+    while (part = parts.shift()) object = object && object[part];
+    
+    if (rootObject && object === undefined)
+      return this._getObject(name);
+    
+    return cached.obj = object;
+  };
+  
+})(JS.Package);
+
+
+JS.Package.CommonJSLoader = {
+  usable: function() {
+    return typeof require === 'function' &&
+           typeof exports === 'object';
+  },
+  
+  __FILE__: function() {
+    return this._currentPath;
+  },
+  
+  loadFile: function(path, fireCallbacks) {
+    var cwd    = process.cwd(),
+        module = path.replace(/\.[^\.]+$/g, ''),
+        path   = require('path'),
+        file   = path.resolve(module);
+    
+    this._currentPath = file + '.js';
+    fireCallbacks(require(file));
+  }
+};
+
+JS.Package.DomLoader = {
+  HOST_REGEX: /^https?\:\/\/[^\/]+/i,
+  
+  usable: function() {
+    return !!JS.Package._getObject('window.document.getElementsByTagName');
+  },
+  
+  __FILE__: function() {
+    var scripts = document.getElementsByTagName('script');
+        src     = scripts[scripts.length - 1].src,
+        url     = window.location.href;
+    
+    if (/^\w+\:\/+/.test(src)) return src;
+    if (/^\//.test(src)) return window.location.origin + src;
+    return url.replace(/[^\/]*$/g, '') + src;
+  },
+  
+  cacheBust: function(path) {
+    var token = new Date().getTime();
+    return path + (/\?/.test(path) ? '&' : '?') + token;
+  },
+  
+  fetch: function(path) {
+    var originalPath = path;
+    if (JS.cacheBust) path = this.cacheBust(path);
+    
+    this.HOST = this.HOST || this.HOST_REGEX.exec(window.location.href);
+    var host = this.HOST_REGEX.exec(path);
+    
+    if (!this.HOST || (host && host[0] !== this.HOST[0])) return null;
+    JS.Package.log('Loading ' + path);
+    
+    var source = new JS.Package.Deferred(),
+        self   = this,
+        xhr    = window.ActiveXObject
+               ? new ActiveXObject('Microsoft.XMLHTTP')
+               : new XMLHttpRequest();
+    
+    xhr.open('GET', path, true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) return;
+      xhr.onreadystatechange = self._K;
+      source.succeed(xhr.responseText + '\n//@ sourceURL=' + originalPath);
+      xhr = null;
+    };
+    xhr.send(null);
+    return source;
+  },
+  
+  loadFile: function(path, fireCallbacks, source) {
+    if (JS.cacheBust && !source) path = this.cacheBust(path);
+    
+    var self   = this,
+        head   = document.getElementsByTagName('head')[0],
+        script = document.createElement('script');
+    
+    script.type = 'text/javascript';
+    
+    if (source)
+      return source.callback(function(code) {
+        JS.Package.log('Executing ' + path);
+        eval(code);
+        fireCallbacks();
+      });
+    
+    JS.Package.log('Loading and executing ' + path);
+    script.src = path;
+    
+    script.onload = script.onreadystatechange = function() {
+      var state = script.readyState, status = script.status;
+      if ( !state || state === 'loaded' || state === 'complete' ||
+           (state === 4 && status === 200) ) {
+        fireCallbacks();
+        script.onload = script.onreadystatechange = self._K;
+        head   = null;
+        script = null;
+      }
+    };
+    head.appendChild(script);
+  },
+  
+  loadStyle: function(path) {
+    var link  = document.createElement('link');
+    link.rel  = 'stylesheet';
+    link.type = 'text/css';
+    link.href = path;
+    
+    document.getElementsByTagName('head')[0].appendChild(link);
+  },
+  
+  _K: function() {}
+};
+
+JS.Package.RhinoLoader = {
+  usable: function() {
+    return typeof java === 'object' &&
+           typeof require === 'function';
+  },
+  
+  __FILE__: function() {
+    return this._currentPath;
+  },
+  
+  loadFile: function(path, fireCallbacks) {
+    var cwd    = java.lang.System.getProperty('user.dir'),
+        module = path.replace(/\.[^\.]+$/g, '');
+    
+    var requirePath = new java.io.File(cwd, module).toString();
+    this._currentPath = requirePath + '.js';
+    fireCallbacks(require(requirePath));
+  }
+};
+
+JS.Package.ServerLoader = {
+  usable: function() {
+    return typeof JS.Package._getObject('load') === 'function' &&
+           typeof JS.Package._getObject('version') === 'function';
+  },
+  
+  __FILE__: function() {
+    return this._currentPath;
+  },
+  
+  loadFile: function(path, fireCallbacks) {
+    this._currentPath = path;
+    load(path);
+    fireCallbacks();
+  }
+};
+
+JS.Package.WshLoader = {
+  usable: function() {
+    return !!JS.Package._getObject('ActiveXObject') &&
+           !!JS.Package._getObject('WScript');
+  },
+  
+  __FILE__: function() {
+    return this._currentPath;
+  },
+  
+  loadFile: function(path, fireCallbacks) {
+    this._currentPath = path;
+    var fso = new ActiveXObject('Scripting.FileSystemObject'), file, runner;
+    try {
+      file   = fso.OpenTextFile(path);
+      runner = function() { eval(file.ReadAll()) };
+      runner();
+      fireCallbacks();
+    } finally {
+      try { if (file) file.Close() } catch (e) {}
+    }
+  }
+};
+
+JS.Package.XULRunnerLoader = {
+  jsloader:   '@mozilla.org/moz/jssubscript-loader;1',
+  cssservice: '@mozilla.org/content/style-sheet-service;1',
+  ioservice:  '@mozilla.org/network/io-service;1',
+  
+  usable: function() {
+    try {
+      var CC = (Components || {}).classes;
+      return !!(CC && CC[this.jsloader] && CC[this.jsloader].getService);
+    } catch(e) {
+      return false;
+    }
+  },
+
+  setup: function() {
+    var Cc = Components.classes, Ci = Components.interfaces;
+    this.ssl = Cc[this.jsloader].getService(Ci.mozIJSSubScriptLoader);
+    this.sss = Cc[this.cssservice].getService(Ci.nsIStyleSheetService);
+    this.ios = Cc[this.ioservice].getService(Ci.nsIIOService);
+  },
+
+  loadFile: function(path, fireCallbacks) {
+    if (window.console && console.info)
+      console.info('Loading ' + path);
+    
+    this.ssl.loadSubScript(path);
+    fireCallbacks();
+  },
+  
+  loadStyle: function(path) {
+    var uri = this.ios.newURI(path, null, null);
+    this.sss.loadAndRegisterSheet(uri, this.sss.USER_SHEET);
+  }
+};
+
+(function() {
+  var candidates = [  JS.Package.XULRunnerLoader,
+                      JS.Package.DomLoader,
+                      JS.Package.RhinoLoader,
+                      JS.Package.CommonJSLoader,
+                      JS.Package.ServerLoader,
+                      JS.Package.WshLoader ],
+      
+      n = candidates.length,
+      i, candidate;
+  
+  for (i = 0; i < n; i++) {
+    candidate = candidates[i];
+    if (candidate.usable()) {
+      JS.Package.Loader = candidate;
+      if (candidate.setup) candidate.setup();
+      break;
+    }
+  }
+})();
+
+
+JS.Package.DSL = {
+  __FILE__: function() {
+    return JS.Package.Loader.__FILE__();
+  },
+  
+  pkg: function(name, path) {
+    var pkg = path
+        ? JS.Package._getByPath(path)
+        : JS.Package._getByName(name);
+    pkg.provides(name);
+    return pkg;
+  },
+  
+  file: function() {
+    return JS.Package._getByPath.apply(JS.Package, arguments);
+  },
+  
+  load: function(path, fireCallbacks) {
+    JS.Package.Loader.loadFile(path, fireCallbacks);
+  },
+  
+  autoload: function(pattern, options) {
+    JS.Package._autoload(pattern, options);
+  }
+};
+
+JS.Package.DSL.files  = JS.Package.DSL.file;
+JS.Package.DSL.loader = JS.Package.DSL.file;
+
+JS.Packages = function(declaration) {
+  declaration.call(JS.Package.DSL);
+};
+
+JS.cacheBust = false;
+
+JS.load = function(url, callback) {
+  JS.Package.Loader.loadFile(url, function() {
+    if (typeof callback === 'function') callback();
+  });
+  return this;
+};
+ 
+JS.require = function() {
+  var requirements = [], i = 0;
+  
+  while (typeof arguments[i] === 'string'){
+    requirements.push(arguments[i]);
+    i += 1;
+  }
+  var callback = arguments[i], context = arguments[i+1];
+  
+  JS.Package.when({complete: requirements}, function(objects) {
+    if (!callback) return;
+    callback.apply(context || null, objects && objects.complete);
+  });
+  
+  return this;
+};
+

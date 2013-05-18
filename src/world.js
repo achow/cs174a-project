@@ -1,4 +1,4 @@
-var World = new JS.Class({
+World = new JS.Class({
 
     initialize: function(id) {
         this.box = [];

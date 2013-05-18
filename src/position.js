@@ -1,4 +1,4 @@
-var Position = new JS.Class({
+Position = new JS.Class({
 
     initialize: function(name) {
         this.x = 0;

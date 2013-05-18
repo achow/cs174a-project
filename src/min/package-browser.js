@@ -1,2 +1,556 @@
-(function(){var a=(typeof this.global==='object')?this.global:this;a.JS=a.JS||{};JS.ENV=a})();JS.Package=function(a){var b=JS.Package.OrderedSet;JS.Package._5(this);this._0=a;this._2=new b();this._6=new b();this._d=new b();this._e=new b();this._3={};this._7={}};(function(d){d.displayName='Package';d.toString=function(){return d.displayName};d.log=function(a){if(typeof window==='undefined')return;if(typeof window.runtime==='object')window.runtime.trace(a);if(window.console&&console.info)console.info(a)};var p=d.OrderedSet=function(a){this._f=this.list=[];this._5={};if(!a)return;for(var b=0,c=a.length;b<c;b++)this.push(a[b])};p.prototype.push=function(a){var b=(a.id!==undefined)?a.id:a,c=this._5;if(c.hasOwnProperty(b))return;c[b]=this._f.length;this._f.push(a)};var m=d.Deferred=function(){this._g='deferred';this._h=null;this._i=[]};m.prototype.callback=function(a,b){if(this._g==='succeeded')a.call(b,this._h);else this._i.push([a,b])};m.prototype.succeed=function(a){this._g='succeeded';this._h=a;var b;while(b=this._i.shift())b[0].call(b[1],a)};d.ENV=JS.ENV;d.onerror=function(a){throw a};d._j=function(a){d.onerror(new Error(a));};var l=d.prototype,n=[['requires','_6'],['uses','_d'],['styling','_e']],o=n.length;while(o--)(function(pair){var q=pair[0],r=pair[1];l[q]=function(){var a=arguments.length,b;for(b=0;b<a;b++)this[r].push(arguments[b]);return this}})(n[o]);l.provides=function(){var a=arguments.length,b;for(b=0;b<a;b++){this._2.push(arguments[b]);d._8(arguments[b]).pkg=this}return this};l.setup=function(a){this._k=a;return this};l._r=function(a,b,c){if(this._7[a])return b.call(c);var e=this._3[a]=this._3[a]||[];e.push([b,c]);this._s()};l._1=function(a){if(this._7[a])return false;this._7[a]=true;var b=this._3[a];if(!b)return true;delete this._3[a];for(var c=0,e=b.length;c<e;c++)b[c][0].call(b[c][1]);return true};l._l=function(a){if(!a&&this.__isLoaded!==undefined)return this.__isLoaded;var b=this._2.list,c=b.length,e,h;while(c--){e=b[c];h=d._4(e,this._m);if(h!==undefined)continue;if(a)return d._j('Expected package at '+this._0+' to define '+e);else return this.__isLoaded=false}return this.__isLoaded=true};l._s=function(){if(!this._1('request'))return;this._t();var i=this._6.list.concat(this._d.list),g=this._9||[],k=(this._0||{}).length,j=this;d.when({load:i});d.when({complete:this._6.list},function(){d.when({complete:i,load:[this]},function(){this._1('complete')},this);var c=function(a){if(k===0)return e(a);k-=1;var b=j._0.length-k-1;d.Loader.loadFile(j._0[b],c,g[b])};var e=function(a){j._m=a;if(j._k)j._k();j._l(true);j._1('load')};if(this._l()){this._1('download');return this._1('load')}if(this._0===undefined)return d._j('No load path found for '+this._2.list[0]);if(typeof this._0==='function')this._0(e);else c();if(!d.Loader.loadStyle)return;var h=this._e.list,f=h.length;while(f--)d.Loader.loadStyle(h[f]);this._1('download')},this)};l._t=function(){if(this._9||!(this._0 instanceof Array)||!d.Loader.fetch)return;this._9=[];for(var a=0,b=this._0.length;a<b;a++)this._9[a]=d.Loader.fetch(this._0[a])};l.toString=function(){return'Package:'+this._2.list.join(',')};d.when=function(a,b,c){var e=[],h={},f,i,g;for(f in a){if(!a.hasOwnProperty(f))continue;h[f]=[];i=new d.OrderedSet(a[f]);g=i.list.length;while(g--)e.push([f,i.list[g],g])}var k=g=e.length;if(k===0)return b&&b.call(c,h);while(g--)(function(f){var j=d._a(f[1]);j._r(f[0],function(){h[f[0]][f[2]]=d._4(f[1],j._m);k-=1;if(k===0&&b)b.call(c,h)})})(e[g])};d._n=1;d._b={};d._c={};d._o=[];d._5=function(a){a.id=this._n;this._n+=1};d._p=function(a){var b=a.toString(),c=this._b[b];if(c)return c;if(typeof a==='string')a=[].slice.call(arguments);c=this._b[b]=new this(a);return c};d._a=function(a){if(typeof a!=='string')return a;var b=this._8(a);if(b.pkg)return b.pkg;var c=this._u(a);if(c)return c;var e=new this();e.provides(a);return e};d.remove=function(a){var b=this._a(a);delete this._c[a];delete this._b[b._0]};d._v=function(a,b){this._o.push([a,b])};d._u=function(e){var h=this._o,f=h.length,i,g,k;for(i=0;i<f;i++){g=h[i];if(!g[0].test(e))continue;k=g[1].from+'/'+e.replace(/([a-z])([A-Z])/g,function(a,b,c){return b+'_'+c}).replace(/\./g,'/').toLowerCase()+'.js';var j=new this([k]);j.provides(e);if(k=g[1].require)j.requires(e.replace(g[0],k));return j}return null};d._8=function(a){return this._c[a]=this._c[a]||{}};d._4=function(a,b){if(typeof a!=='string')return undefined;var c=b?{}:this._8(a);if(c.obj!==undefined)return c.obj;var e=b||this.ENV,h=a.split('.'),f;while(f=h.shift())e=e&&e[f];if(b&&e===undefined)return this._4(a);return c.obj=e}})(JS.Package);JS.Package.DomLoader={HOST_REGEX:/^https?\:\/\/[^\/]+/i,usable:function(){return!!JS.Package._4('window.document.getElementsByTagName')},__FILE__:function(){var a=document.getElementsByTagName('script');src=a[a.length-1].src,url=window.location.href;if(/^\w+\:\/+/.test(src))return src;if(/^\//.test(src))return window.location.origin+src;return url.replace(/[^\/]*$/g,'')+src},cacheBust:function(a){var b=new Date().getTime();return a+(/\?/.test(a)?'&':'?')+b},fetch:function(a){var b=a;if(JS.cacheBust)a=this.cacheBust(a);this.HOST=this.HOST||this.HOST_REGEX.exec(window.location.href);var c=this.HOST_REGEX.exec(a);if(!this.HOST||(c&&c[0]!==this.HOST[0]))return null;JS.Package.log('Loading '+a);var e=new JS.Package.Deferred(),h=this,f=window.ActiveXObject?new ActiveXObject('Microsoft.XMLHTTP'):new XMLHttpRequest();f.open('GET',a,true);f.onreadystatechange=function(){if(f.readyState!==4)return;f.onreadystatechange=h._q;e.succeed(f.responseText+'\n//@ sourceURL='+b);f=null};f.send(null);return e},loadFile:function(c,e,h){if(JS.cacheBust&&!h)c=this.cacheBust(c);var f=this,i=document.getElementsByTagName('head')[0],g=document.createElement('script');g.type='text/javascript';if(h)return h.callback(function(code){JS.Package.log('Executing '+c);eval(code);e()});JS.Package.log('Loading and executing '+c);g.src=c;g.onload=g.onreadystatechange=function(){var a=g.readyState,b=g.status;if(!a||a==='loaded'||a==='complete'||(a===4&&b===200)){e();g.onload=g.onreadystatechange=f._q;i=null;g=null}};i.appendChild(g)},loadStyle:function(a){var b=document.createElement('link');b.rel='stylesheet';b.type='text/css';b.href=a;document.getElementsByTagName('head')[0].appendChild(b)},_q:function(){}};JS.Package.Loader=JS.Package.DomLoader;JS.Package.DSL={__FILE__:function(){return JS.Package.Loader.__FILE__()},pkg:function(a,b){var c=b?JS.Package._p(b):JS.Package._a(a);c.provides(a);return c},file:function(){return JS.Package._p.apply(JS.Package,arguments)},load:function(a,b){JS.Package.Loader.loadFile(a,b)},autoload:function(a,b){JS.Package._v(a,b)}};JS.Package.DSL.files=JS.Package.DSL.file;JS.Package.DSL.loader=JS.Package.DSL.file;JS.Packages=function(a){a.call(JS.Package.DSL)};JS.cacheBust=false;JS.load=function(a,b){JS.Package.Loader.loadFile(a,function(){if(typeof b==='function')b()});return this};JS.require=function(){var b=[],c=0;while(typeof arguments[c]==='string'){b.push(arguments[c]);c+=1}var e=arguments[c],h=arguments[c+1];JS.Package.when({complete:b},function(a){if(!e)return;e.apply(h||null,a&&a.complete)});return this};
-//@ sourceMappingURL=package-browser.js.map
+/**
+ * JS.Class: Ruby-style JavaScript
+ * http://jsclass.jcoglan.com
+ * Copyright (c) 2007-2012 James Coglan and contributors
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * Parts of the Software build on techniques from the following open-source
+ * projects:
+ * 
+ * * The Prototype framework, (c) 2005-2010 Sam Stephenson (MIT license)
+ * * Alex Arnell's Inheritance library, (c) 2006 Alex Arnell (MIT license)
+ * * Base, (c) 2006-2010 Dean Edwards (MIT license)
+ * 
+ * The Software contains direct translations to JavaScript of these open-source
+ * Ruby libraries:
+ * 
+ * * Ruby standard library modules, (c) Yukihiro Matsumoto and contributors (Ruby license)
+ * * Test::Unit, (c) 2000-2003 Nathaniel Talbott (Ruby license)
+ * * Context, (c) 2008 Jeremy McAnally (MIT license)
+ * * EventMachine::Deferrable, (c) 2006-07 Francis Cianfrocca (Ruby license)
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+(function() {
+  var $ = (typeof this.global === 'object') ? this.global : this;
+  $.JS = $.JS || {};
+  JS.ENV = $;
+})();
+
+JS.Package = function(loader) {
+  var Set = JS.Package.OrderedSet;
+  JS.Package._index(this);
+  
+  this._loader    = loader;
+  this._names     = new Set();
+  this._deps      = new Set();
+  this._uses      = new Set();
+  this._styles    = new Set();
+  this._observers = {};
+  this._events    = {};
+};
+
+(function(klass) {
+  klass.displayName = 'Package';
+  klass.toString = function() { return klass.displayName };
+  
+  klass.log = function(message) {
+    if (typeof window === 'undefined') return;
+    if (typeof window.runtime === 'object') window.runtime.trace(message);
+    if (window.console && console.info) console.info(message);
+  };
+  
+  //================================================================
+  // Ordered list of unique elements, for storing dependencies
+  
+  var Set = klass.OrderedSet = function(list) {
+    this._members = this.list = [];
+    this._index = {};
+    if (!list) return;
+    
+    for (var i = 0, n = list.length; i < n; i++)
+      this.push(list[i]);
+  };
+
+  Set.prototype.push = function(item) {
+    var key   = (item.id !== undefined) ? item.id : item,
+        index = this._index;
+    
+    if (index.hasOwnProperty(key)) return;
+    index[key] = this._members.length;
+    this._members.push(item);
+  };
+  
+  //================================================================
+  // Wrapper for deferred values
+  
+  var Deferred = klass.Deferred = function() {
+    this._status    = 'deferred';
+    this._value     = null;
+    this._callbacks = [];
+  };
+  
+  Deferred.prototype.callback = function(callback, context) {
+    if (this._status === 'succeeded') callback.call(context, this._value);
+    else this._callbacks.push([callback, context]);
+  };
+  
+  Deferred.prototype.succeed = function(value) {
+    this._status = 'succeeded';
+    this._value  = value;
+    var callback;
+    while (callback = this._callbacks.shift())
+      callback[0].call(callback[1], value);
+  };
+  
+  //================================================================
+  // Environment settings
+  
+  klass.ENV = JS.ENV;
+  
+  klass.onerror = function(e) { throw e };
+  
+  klass._throw = function(message) {
+    klass.onerror(new Error(message));
+  };
+  
+  
+  //================================================================
+  // Configuration methods, called by the DSL
+  
+  var instance = klass.prototype,
+      
+      methods = [['requires', '_deps'],
+                 ['uses',     '_uses'],
+                 ['styling',  '_styles']],
+      
+      i = methods.length;
+  
+  while (i--)
+    (function(pair) {
+      var method = pair[0], list = pair[1];
+      instance[method] = function() {
+        var n = arguments.length, i;
+        for (i = 0; i < n; i++) this[list].push(arguments[i]);
+        return this;
+      };
+    })(methods[i]);
+  
+  instance.provides = function() {
+    var n = arguments.length, i;
+    for (i = 0; i < n; i++) {
+      this._names.push(arguments[i]);
+      klass._getFromCache(arguments[i]).pkg = this;
+    }
+    return this;
+  };
+  
+  instance.setup = function(block) {
+    this._onload = block;
+    return this;
+  };
+  
+  //================================================================
+  // Event dispatchers, for communication between packages
+  
+  instance._on = function(eventType, block, context) {
+    if (this._events[eventType]) return block.call(context);
+    var list = this._observers[eventType] = this._observers[eventType] || [];
+    list.push([block, context]);
+    this._load();
+  };
+  
+  instance._fire = function(eventType) {
+    if (this._events[eventType]) return false;
+    this._events[eventType] = true;
+    
+    var list = this._observers[eventType];
+    if (!list) return true;
+    delete this._observers[eventType];
+    
+    for (var i = 0, n = list.length; i < n; i++)
+      list[i][0].call(list[i][1]);
+    
+    return true;
+  };
+  
+  //================================================================
+  // Loading frontend and other miscellany
+  
+  instance._isLoaded = function(withExceptions) {
+    if (!withExceptions && this.__isLoaded !== undefined) return this.__isLoaded;
+    
+    var names = this._names.list,
+        i     = names.length,
+        name, object;
+    
+    while (i--) { name = names[i];
+      object = klass._getObject(name, this._exports);
+      if (object !== undefined) continue;
+      if (withExceptions)
+        return klass._throw('Expected package at ' + this._loader + ' to define ' + name);
+      else
+        return this.__isLoaded = false;
+    }
+    return this.__isLoaded = true;
+  };
+  
+  instance._load = function() {
+    if (!this._fire('request')) return;
+    this._prefetch();
+    
+    var allDeps = this._deps.list.concat(this._uses.list),
+        source  = this._source || [],
+        n       = (this._loader || {}).length,
+        self    = this;
+    
+    klass.when({load: allDeps});
+    
+    klass.when({complete: this._deps.list}, function() {
+      klass.when({complete: allDeps, load: [this]}, function() {
+        this._fire('complete');
+      }, this);
+      
+      var loadNext = function(exports) {
+        if (n === 0) return fireOnLoad(exports);
+        n -= 1;
+        var index = self._loader.length - n - 1;
+        klass.Loader.loadFile(self._loader[index], loadNext, source[index]);
+      };
+      
+      var fireOnLoad = function(exports) {
+        self._exports = exports;
+        if (self._onload) self._onload();
+        self._isLoaded(true);
+        self._fire('load');
+      };
+      
+      if (this._isLoaded()) {
+        this._fire('download');
+        return this._fire('load');
+      }
+      
+      if (this._loader === undefined)
+        return klass._throw('No load path found for ' + this._names.list[0]);
+      
+      if (typeof this._loader === 'function')
+        this._loader(fireOnLoad);
+      else
+        loadNext();
+      
+      if (!klass.Loader.loadStyle) return;
+      
+      var styles = this._styles.list,
+          i      = styles.length;
+      
+      while (i--) klass.Loader.loadStyle(styles[i]);
+      
+      this._fire('download');
+    }, this);
+  };
+  
+  instance._prefetch = function() {
+    if (this._source || !(this._loader instanceof Array) || !klass.Loader.fetch)
+      return;
+    
+    this._source = [];
+    
+    for (var i = 0, n = this._loader.length; i < n; i++)
+      this._source[i] = klass.Loader.fetch(this._loader[i]);
+  };
+  
+  instance.toString = function() {
+    return 'Package:' + this._names.list.join(',');
+  };
+  
+  //================================================================
+  // Class-level event API, handles group listeners
+  
+  klass.when = function(eventTable, block, context) {
+    var eventList = [], objects = {}, event, packages, i;
+    for (event in eventTable) {
+      if (!eventTable.hasOwnProperty(event)) continue;
+      objects[event] = [];
+      packages = new klass.OrderedSet(eventTable[event]);
+      i = packages.list.length;
+      while (i--) eventList.push([event, packages.list[i], i]);
+    }
+    
+    var waiting = i = eventList.length;
+    if (waiting === 0) return block && block.call(context, objects);
+    
+    while (i--)
+      (function(event) {
+        var pkg = klass._getByName(event[1]);
+        pkg._on(event[0], function() {
+          objects[event[0]][event[2]] = klass._getObject(event[1], pkg._exports);
+          waiting -= 1;
+          if (waiting === 0 && block) block.call(context, objects);
+        });
+      })(eventList[i]);
+  };
+  
+  //================================================================
+  // Indexes for fast lookup by path and name, and assigning IDs
+  
+  klass._autoIncrement = 1;
+  klass._indexByPath = {};
+  klass._indexByName = {};
+  klass._autoloaders = [];
+  
+  klass._index = function(pkg) {
+    pkg.id = this._autoIncrement;
+    this._autoIncrement += 1;
+  };
+  
+  klass._getByPath = function(loader) {
+    var path = loader.toString(),
+        pkg  = this._indexByPath[path];
+    
+    if (pkg) return pkg;
+    
+    if (typeof loader === 'string')
+      loader = [].slice.call(arguments);
+    
+    pkg = this._indexByPath[path] = new this(loader);
+    return pkg;
+  };
+  
+  klass._getByName = function(name) {
+    if (typeof name !== 'string') return name;
+    var cached = this._getFromCache(name);
+    if (cached.pkg) return cached.pkg;
+    
+    var autoloaded = this._manufacture(name);
+    if (autoloaded) return autoloaded;
+    
+    var placeholder = new this();
+    placeholder.provides(name);
+    return placeholder;
+  };
+  
+  klass.remove = function(name) {
+    var pkg = this._getByName(name);
+    delete this._indexByName[name];
+    delete this._indexByPath[pkg._loader];
+  };
+  
+  //================================================================
+  // Auotloading API, generates packages from naming patterns
+  
+  klass._autoload = function(pattern, options) {
+    this._autoloaders.push([pattern, options]);
+  };
+  
+  klass._manufacture = function(name) {
+    var autoloaders = this._autoloaders,
+        n = autoloaders.length,
+        i, autoloader, path;
+    
+    for (i = 0; i < n; i++) {
+      autoloader = autoloaders[i];
+      if (!autoloader[0].test(name)) continue;
+      
+      path = autoloader[1].from + '/' +
+             name.replace(/([a-z])([A-Z])/g, function(m,a,b) { return a + '_' + b })
+                 .replace(/\./g, '/')
+                 .toLowerCase() + '.js';
+      
+      var pkg = new this([path]);
+      pkg.provides(name);
+      
+      if (path = autoloader[1].require)
+        pkg.requires(name.replace(autoloader[0], path));
+      
+      return pkg;
+    }
+    return null;
+  };
+  
+  //================================================================
+  // Cache for named packages and runtime objects
+  
+  klass._getFromCache = function(name) {
+    return this._indexByName[name] = this._indexByName[name] || {};
+  };
+  
+  klass._getObject = function(name, rootObject) {
+    if (typeof name !== 'string') return undefined;
+    
+    var cached = rootObject ? {} : this._getFromCache(name);
+    if (cached.obj !== undefined) return cached.obj;
+    
+    var object = rootObject || this.ENV,
+        parts  = name.split('.'), part;
+    
+    while (part = parts.shift()) object = object && object[part];
+    
+    if (rootObject && object === undefined)
+      return this._getObject(name);
+    
+    return cached.obj = object;
+  };
+  
+})(JS.Package);
+
+
+JS.Package.DomLoader = {
+  HOST_REGEX: /^https?\:\/\/[^\/]+/i,
+  
+  usable: function() {
+    return !!JS.Package._getObject('window.document.getElementsByTagName');
+  },
+  
+  __FILE__: function() {
+    var scripts = document.getElementsByTagName('script');
+        src     = scripts[scripts.length - 1].src,
+        url     = window.location.href;
+    
+    if (/^\w+\:\/+/.test(src)) return src;
+    if (/^\//.test(src)) return window.location.origin + src;
+    return url.replace(/[^\/]*$/g, '') + src;
+  },
+  
+  cacheBust: function(path) {
+    var token = new Date().getTime();
+    return path + (/\?/.test(path) ? '&' : '?') + token;
+  },
+  
+  fetch: function(path) {
+    var originalPath = path;
+    if (JS.cacheBust) path = this.cacheBust(path);
+    
+    this.HOST = this.HOST || this.HOST_REGEX.exec(window.location.href);
+    var host = this.HOST_REGEX.exec(path);
+    
+    if (!this.HOST || (host && host[0] !== this.HOST[0])) return null;
+    JS.Package.log('Loading ' + path);
+    
+    var source = new JS.Package.Deferred(),
+        self   = this,
+        xhr    = window.ActiveXObject
+               ? new ActiveXObject('Microsoft.XMLHTTP')
+               : new XMLHttpRequest();
+    
+    xhr.open('GET', path, true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) return;
+      xhr.onreadystatechange = self._K;
+      source.succeed(xhr.responseText + '\n//@ sourceURL=' + originalPath);
+      xhr = null;
+    };
+    xhr.send(null);
+    return source;
+  },
+  
+  loadFile: function(path, fireCallbacks, source) {
+    if (JS.cacheBust && !source) path = this.cacheBust(path);
+    
+    var self   = this,
+        head   = document.getElementsByTagName('head')[0],
+        script = document.createElement('script');
+    
+    script.type = 'text/javascript';
+    
+    if (source)
+      return source.callback(function(code) {
+        JS.Package.log('Executing ' + path);
+        eval(code);
+        fireCallbacks();
+      });
+    
+    JS.Package.log('Loading and executing ' + path);
+    script.src = path;
+    
+    script.onload = script.onreadystatechange = function() {
+      var state = script.readyState, status = script.status;
+      if ( !state || state === 'loaded' || state === 'complete' ||
+           (state === 4 && status === 200) ) {
+        fireCallbacks();
+        script.onload = script.onreadystatechange = self._K;
+        head   = null;
+        script = null;
+      }
+    };
+    head.appendChild(script);
+  },
+  
+  loadStyle: function(path) {
+    var link  = document.createElement('link');
+    link.rel  = 'stylesheet';
+    link.type = 'text/css';
+    link.href = path;
+    
+    document.getElementsByTagName('head')[0].appendChild(link);
+  },
+  
+  _K: function() {}
+};
+
+JS.Package.Loader = JS.Package.DomLoader;
+
+JS.Package.DSL = {
+  __FILE__: function() {
+    return JS.Package.Loader.__FILE__();
+  },
+  
+  pkg: function(name, path) {
+    var pkg = path
+        ? JS.Package._getByPath(path)
+        : JS.Package._getByName(name);
+    pkg.provides(name);
+    return pkg;
+  },
+  
+  file: function() {
+    return JS.Package._getByPath.apply(JS.Package, arguments);
+  },
+  
+  load: function(path, fireCallbacks) {
+    JS.Package.Loader.loadFile(path, fireCallbacks);
+  },
+  
+  autoload: function(pattern, options) {
+    JS.Package._autoload(pattern, options);
+  }
+};
+
+JS.Package.DSL.files  = JS.Package.DSL.file;
+JS.Package.DSL.loader = JS.Package.DSL.file;
+
+JS.Packages = function(declaration) {
+  declaration.call(JS.Package.DSL);
+};
+
+JS.cacheBust = false;
+
+JS.load = function(url, callback) {
+  JS.Package.Loader.loadFile(url, function() {
+    if (typeof callback === 'function') callback();
+  });
+  return this;
+};
+ 
+JS.require = function() {
+  var requirements = [], i = 0;
+  
+  while (typeof arguments[i] === 'string'){
+    requirements.push(arguments[i]);
+    i += 1;
+  }
+  var callback = arguments[i], context = arguments[i+1];
+  
+  JS.Package.when({complete: requirements}, function(objects) {
+    if (!callback) return;
+    callback.apply(context || null, objects && objects.complete);
+  });
+  
+  return this;
+};
+

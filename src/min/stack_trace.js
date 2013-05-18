@@ -1,2 +1,177 @@
-JS.StackTrace=new JS.Module('StackTrace',{extend:{logger:new JS.Singleton({include:JS.Console,active:false,update:function(a,b){if(!this.active)return;switch(a){case'call':return this.logEnter(b);case'return':return this.logExit(b);case'error':return this.logError(b)}},indent:function(){var a=' ';JS.StackTrace.forEach(function(){a+='|  '});return a},fullName:function(a){var b=JS.Console,f=a.method,g=a.env,d=f.name,c=f.module;return b.nameOf(g)+(c===g?'':'('+b.nameOf(c)+')')+'#'+d},logEnter:function(a){var b=this.fullName(a),f=JS.Console.convert(a.args).replace(/^\[/,'(').replace(/\]$/,')');if(this._0)this.puts();this.reset();this.print(' ');this.consoleFormat('bgblack','white');this.print('TRACE');this.reset();this.print(this.indent());this.blue();this.print(b);this.red();this.print(f);this.reset();this._0=true},logExit:function(a){var b=this.fullName(a);if(a.leaf){this.consoleFormat('red');this.print(' --> ')}else{this.reset();this.print(' ');this.consoleFormat('bgblack','white');this.print('TRACE');this.reset();this.print(this.indent());this.blue();this.print(b);this.red();this.print(' --> ')}this.consoleFormat('yellow');this.puts(JS.Console.convert(a.result));this.reset();this.print('');this._0=false},logError:function(a){this.puts();this.reset();this.print(' ');this.consoleFormat('bgred','white');this.print('ERROR');this.consoleFormat('bold','red');this.print(' '+JS.Console.convert(a));this.reset();this.print(' thrown by ');this.bold();this.print(JS.StackTrace.top().name);this.reset();this.puts('. Backtrace:');this.backtrace()},backtrace:function(){JS.StackTrace.reverseForEach(function(a){var b=JS.Console.convert(a.args).replace(/^\[/,'(').replace(/\]$/,')');this.print('      | ');this.consoleFormat('blue');this.print(a.name);this.red();this.print(b);this.reset();this.puts(' in ');this.print('      |  ');this.bold();this.puts(JS.Console.convert(a.object))},this);this.reset();this.puts()}}),include:[JS.Observable,JS.Enumerable],wrap:function(b,f,g){var d=JS.StackTrace;var c=function(){var a;d.push(this,f,g,Array.prototype.slice.call(arguments));try{a=b.apply(this,arguments)}catch(e){d.error(e)}d.pop(a);return a};c.toString=function(){return b.toString()};c.__traced__=true;return c},stack:[],forEach:function(a,b){JS.Enumerable.forEach.call(this.stack,a,b)},top:function(){return this.stack[this.stack.length-1]||{}},push:function(a,b,f,g){var d=this.stack;if(d.length>0)d[d.length-1].leaf=false;var c={object:a,method:b,env:f,args:g,leaf:true};c.name=this.logger.fullName(c);this.notifyObservers('call',c);d.push(c)},pop:function(a){var b=this.stack.pop();b.result=a;this.notifyObservers('return',b)},error:function(a){if(a.logged)throw a;a.logged=true;this.notifyObservers('error',a);this.stack=[];throw a;}}});JS.StackTrace.addObserver(JS.StackTrace.logger);
-//@ sourceMappingURL=stack_trace.js.map
+JS.StackTrace = new JS.Module('StackTrace', {
+  extend: {
+    logger: new JS.Singleton({
+      include: JS.Console,
+      active: false,
+      
+      update: function(event, data) {
+        if (!this.active) return;
+        switch (event) {
+          case 'call':    return this.logEnter(data);
+          case 'return':  return this.logExit(data);
+          case 'error':   return this.logError(data);
+        }
+      },
+      
+      indent: function() {
+        var indent = ' ';
+        JS.StackTrace.forEach(function() { indent += '|  ' });
+        return indent;
+      },
+      
+      fullName: function(frame) {
+        var C        = JS.Console,
+            method   = frame.method,
+            env      = frame.env,
+            name     = method.name,
+            module   = method.module;
+            
+        return C.nameOf(env) +
+                (module === env ? '' : '(' + C.nameOf(module) + ')') +
+                '#' + name;
+      },
+      
+      logEnter: function(frame) {
+        var fullName = this.fullName(frame),
+            args = JS.Console.convert(frame.args).replace(/^\[/, '(').replace(/\]$/, ')');
+        
+        if (this._open) this.puts();
+        
+        this.reset();
+        this.print(' ');
+        this.consoleFormat('bgblack', 'white');
+        this.print('TRACE');
+        this.reset();
+        this.print(this.indent());
+        this.blue();
+        this.print(fullName);
+        this.red();
+        this.print(args);
+        this.reset();
+        
+        this._open = true;
+      },
+      
+      logExit: function(frame) {
+        var fullName = this.fullName(frame);
+        
+        if (frame.leaf) {
+          this.consoleFormat('red');
+          this.print(' --> ');
+        } else {
+          this.reset();
+          this.print(' ');
+          this.consoleFormat('bgblack', 'white');
+          this.print('TRACE');
+          this.reset();
+          this.print(this.indent());
+          this.blue();
+          this.print(fullName);
+          this.red();
+          this.print(' --> ');
+        }
+        this.consoleFormat('yellow');
+        this.puts(JS.Console.convert(frame.result));
+        this.reset();
+        this.print('');
+        this._open = false;
+      },
+      
+      logError: function(e) {
+        this.puts();
+        this.reset();
+        this.print(' ');
+        this.consoleFormat('bgred', 'white');
+        this.print('ERROR');
+        this.consoleFormat('bold', 'red');
+        this.print(' ' + JS.Console.convert(e));
+        this.reset();
+        this.print(' thrown by ');
+        this.bold();
+        this.print(JS.StackTrace.top().name);
+        this.reset();
+        this.puts('. Backtrace:');
+        this.backtrace();
+      },
+      
+      backtrace: function() {
+        JS.StackTrace.reverseForEach(function(frame) {
+          var args = JS.Console.convert(frame.args).replace(/^\[/, '(').replace(/\]$/, ')');
+          this.print('      | ');
+          this.consoleFormat('blue');
+          this.print(frame.name);
+          this.red();
+          this.print(args);
+          this.reset();
+          this.puts(' in ');
+          this.print('      |  ');
+          this.bold();
+          this.puts(JS.Console.convert(frame.object));
+        }, this);
+        this.reset();
+        this.puts();
+      }
+    }),
+    
+    include: [JS.Observable, JS.Enumerable],
+    
+    wrap: function(func, method, env) {
+      var self = JS.StackTrace;
+      var wrapper = function() {
+        var result;
+        self.push(this, method, env, Array.prototype.slice.call(arguments));
+        
+        try { result = func.apply(this, arguments) }
+        catch (e) { self.error(e) }
+        
+        self.pop(result);
+        return result;
+      };
+      wrapper.toString = function() { return func.toString() };
+      wrapper.__traced__ = true;
+      return wrapper;
+    },
+    
+    stack: [],
+    
+    forEach: function(block, context) {
+      JS.Enumerable.forEach.call(this.stack, block, context);
+    },
+    
+    top: function() {
+      return this.stack[this.stack.length - 1] || {};
+    },
+    
+    push: function(object, method, env, args) {
+      var stack = this.stack;
+      if (stack.length > 0) stack[stack.length - 1].leaf = false;
+      
+      var frame = {
+        object: object,
+        method: method,
+        env:    env,
+        args:   args,
+        leaf:   true
+      };
+      frame.name = this.logger.fullName(frame);
+      this.notifyObservers('call', frame);
+      stack.push(frame);
+    },
+    
+    pop: function(result) {
+      var frame = this.stack.pop();
+      frame.result = result;
+      this.notifyObservers('return', frame);
+    },
+    
+    error: function(e) {
+      if (e.logged) throw e;
+      e.logged = true;
+      this.notifyObservers('error', e);
+      this.stack = [];
+      throw e;
+    }
+  }
+});
+
+JS.StackTrace.addObserver(JS.StackTrace.logger);

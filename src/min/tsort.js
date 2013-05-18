@@ -1,2 +1,76 @@
-JS.TSort=new JS.Module('TSort',{extend:{Cyclic:new JS.Class(Error)},tsort:function(){var a=[];this.tsortEach(a.push,a);return a},tsortEach:function(c,e){this.eachStronglyConnectedComponent(function(a){if(a.length===1)c.call(e||null,a[0]);else throw new JS.TSort.Cyclic('topological sort failed: '+a.toString());})},stronglyConnectedComponents:function(){var a=[];this.eachStronglyConnectedComponent(a.push,a);return a},eachStronglyConnectedComponent:function(e,g){var b=new JS.Hash(),d=[];this.tsortEachNode(function(c){if(b.hasKey(c))return;this.eachStronglyConnectedComponentFrom(c,b,d,function(a){e.call(g||null,a)})},this)},eachStronglyConnectedComponentFrom:function(g,b,d,k,l){var i=b.size,m=d.length,f=i,h,j;b.store(g,i);d.push(g);this.tsortEachChild(g,function(a){if(b.hasKey(a)){var c=b.get(a);if(a!==undefined&&c<f)f=c}else{var e=this.eachStronglyConnectedComponentFrom(a,b,d,k,l);if(e<f)f=e}},this);if(i===f){h=d.splice(m,d.length-m);j=h.length;while(j--)b.store(h[j],undefined);k.call(l||null,h)}return f},tsortEachNode:function(){throw new JS.NotImplementedError('tsortEachNode');},tsortEachChild:function(){throw new JS.NotImplementedError('tsortEachChild');}});
-//@ sourceMappingURL=tsort.js.map
+JS.TSort = new JS.Module('TSort', {
+  extend: {
+    Cyclic: new JS.Class(Error)
+  },
+  
+  tsort: function() {
+    var result = [];
+    this.tsortEach(result.push, result);
+    return result;
+  },
+  
+  tsortEach: function(block, context) {
+    this.eachStronglyConnectedComponent(function(component) {
+      if (component.length === 1)
+        block.call(context || null, component[0]);
+      else
+        throw new JS.TSort.Cyclic('topological sort failed: ' + component.toString());
+    });
+  },
+  
+  stronglyConnectedComponents: function() {
+    var result = [];
+    this.eachStronglyConnectedComponent(result.push, result);
+    return result;
+  },
+  
+  eachStronglyConnectedComponent: function(block, context) {
+    var idMap = new JS.Hash(),
+        stack = [];
+    
+    this.tsortEachNode(function(node) {
+      if (idMap.hasKey(node)) return;
+      this.eachStronglyConnectedComponentFrom(node, idMap, stack, function(child) {
+        block.call(context || null, child);
+      });
+    }, this);
+  },
+  
+  eachStronglyConnectedComponentFrom: function(node, idMap, stack, block, context) {
+    var nodeId      = idMap.size,
+        stackLength = stack.length,
+        minimumId   = nodeId,
+        component, i;
+    
+    idMap.store(node, nodeId);
+    stack.push(node);
+    
+    this.tsortEachChild(node, function(child) {
+      if (idMap.hasKey(child)) {
+        var childId = idMap.get(child);
+        if (child !== undefined && childId < minimumId) minimumId = childId;
+      } else {
+        var subMinimumId = this.eachStronglyConnectedComponentFrom(child, idMap, stack, block, context);
+        if (subMinimumId < minimumId) minimumId = subMinimumId;
+      }
+    }, this);
+    
+    if (nodeId === minimumId) {
+      component = stack.splice(stackLength, stack.length - stackLength);
+      i = component.length;
+      while (i--) idMap.store(component[i], undefined);
+      block.call(context || null, component);
+    }
+    
+    return minimumId;
+  },
+  
+  tsortEachNode: function() {
+    throw new JS.NotImplementedError('tsortEachNode');
+  },
+  
+  tsortEachChild: function() {
+    throw new JS.NotImplementedError('tsortEachChild');
+  }
+});
+

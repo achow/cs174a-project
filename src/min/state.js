@@ -1,2 +1,103 @@
-JS.State=new JS.Module('State',{__getState__:function(a){if(typeof a==='object')return a;if(typeof a==='string')return(this.states||{})[a];return{}},setState:function(a){this.__state__=this.__getState__(a);JS.State.addMethods(this.__state__,this.klass)},inState:function(){var a=arguments.length;while(a--){if(this.__state__===this.__getState__(arguments[a]))return true}return false},extend:{ClassMethods:new JS.Module({states:function(a){this.define('states',JS.State.buildCollection(this,a))}}),included:function(a){a.extend(this.ClassMethods)},stub:function(){return this},buildStubs:function(a,c,d){var b,e;for(b in d){c[b]={};for(e in d[b])a[e]=this.stub}},findStates:function(a,c){var d=a.length,b=[];while(d--){if(a[d].hasOwnProperty(c))b.push(a[d][c])}return b},buildCollection:function(a,c){var d={},b={},e=a.lookup('states'),h,g,k,i,j,f,l;this.buildStubs(d,b,c);for(f=0,l=e.length;f<l;f++)this.buildStubs(d,b,e[f]);for(h in b){g=new JS.Class(c[h]);j=this.findStates(e,h);f=j.length;while(f--){if(j[f])g.include(j[f].klass)}k={};for(i in d){if(!g.prototype[i])k[i]=d[i]}g.include(k);b[h]=new g}if(a.__tgt__)this.addMethods(d,a.__tgt__.klass);return b},addMethods:function(a,c){if(!c)return;var d={},b=c.prototype,e;for(e in a){if(b[e])continue;c.define(e,this.wrapped(e))}},wrapped:function(c){return function(){var a=(this.__state__||{})[c];return a?a.apply(this,arguments):this}}}});
-//@ sourceMappingURL=state.js.map
+JS.State = new JS.Module('State', {
+  __getState__: function(state) {
+    if (typeof state === 'object') return state;
+    if (typeof state === 'string') return (this.states || {})[state];
+    return {};
+  },
+  
+  setState: function(state) {
+    this.__state__ = this.__getState__(state);
+    JS.State.addMethods(this.__state__, this.klass);
+  },
+  
+  inState: function() {
+    var i = arguments.length;
+    while (i--) {
+      if (this.__state__ === this.__getState__(arguments[i])) return true;
+    }
+    return false;
+  },
+  
+  extend: {
+    ClassMethods: new JS.Module({
+      states: function(block) {
+        this.define('states', JS.State.buildCollection(this, block));
+      }
+    }),
+    
+    included: function(klass) {
+      klass.extend(this.ClassMethods);
+    },
+    
+    stub: function() { return this; },
+    
+    buildStubs: function(stubs, collection, states) {
+      var state, method;
+      for (state in states) {
+        collection[state] = {};
+        for (method in states[state]) stubs[method] = this.stub;
+      }
+    },
+    
+    findStates: function(collections, name) {
+      var i = collections.length, results = [];
+      while (i--) {
+        if (collections[i].hasOwnProperty(name))
+          results.push(collections[i][name]);
+      }
+      return results;
+    },
+    
+    buildCollection: function(module, states) {
+      var stubs       = {},
+          collection  = {},
+          superstates = module.lookup('states'),
+          state, klass, methods, name, mixins, i, n;
+      
+      this.buildStubs(stubs, collection, states);
+      
+      for (i = 0, n = superstates.length; i < n;  i++)
+        this.buildStubs(stubs, collection, superstates[i]);
+      
+      for (state in collection) {
+        klass  = new JS.Class(states[state]);
+        mixins = this.findStates(superstates, state);
+        
+        i = mixins.length;
+        while (i--) {
+          if (mixins[i]) klass.include(mixins[i].klass);
+        }
+        
+        methods = {};
+        for (name in stubs) {
+          if (!klass.prototype[name]) methods[name] = stubs[name];
+        }
+        klass.include(methods);
+        collection[state] = new klass;
+      }
+      if (module.__tgt__) this.addMethods(stubs, module.__tgt__.klass);
+      return collection;
+    },
+    
+    addMethods: function(state, klass) {
+      if (!klass) return;
+      
+      var methods = {},
+          proto   = klass.prototype,
+          method;
+      
+      for (method in state) {
+        if (proto[method]) continue;
+        klass.define(method, this.wrapped(method));
+      }
+    },
+    
+    wrapped: function(method) {
+      return function() {
+        var func = (this.__state__ || {})[method];
+        return func ? func.apply(this, arguments) : this;
+      };
+    }
+  }
+});
+

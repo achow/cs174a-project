@@ -1,0 +1,31 @@
+min:
+    minimized version of js class library
+
+gl-matrix:
+    vector library
+
+actor:
+    extends: object
+    for monster and pacman
+
+block:
+    extends: object
+    1x1x1 wall
+
+monster:
+    extends: actor
+    pacman's enemy
+
+object:
+    base class
+    provides draw()..
+
+pacman:
+    extends: actor
+    controllable
+
+position:
+    x, y, z, w
+
+world:
+    contains object
