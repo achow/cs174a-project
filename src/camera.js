@@ -11,7 +11,16 @@ Camera = new JS.Class({
      * return view matrix
      */
     view: function() {
-        return null;
+        var up = [0, 1, 0, 0];
+
+        // we face negative z
+        var at = [
+            Math.sin(glMatrix.toRadian(this.theta))*Math.cos(glMatrix.toRadian(this.phi)),
+            -Math.sin(glMatrix.toRadian(this.phi)),
+            Math.cos(glMatrix.toRadian(this.theta))*Math.cos(glMatrix.toRadian(this.phi)),
+            1 ];
+        var t = vec4.subtract(vec4.create(), this.position, at);
+        return mat4.lookAt(mat4.create(), this.position, t, up);
     },
 
     /*
