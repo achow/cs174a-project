@@ -1,29 +1,26 @@
 var Actor = new JS.Class(Obj, {
-	initialize: function(id)
-	{
-		this.modelid = id;
-		this.position = new position();
-		this.size = 1;
-	}
+    moveUp: function()
+    {
+        this.position.y ++;
+        //move up, set y+1
+    },
 
-	MoveUp: function()
-	{
-		//move up, set y+1
-	}
+    moveDown: function()
+    {
+        this.position.y --;
+        //move down, set y-1
+    },
 
-	MoveDown: function()
-	{
-		//move down, set y-1
-	}
+    moveLeft: function()
+    {
+        this.position.x --;
+        //move left, set x-1
+    },
 
-	MoveLeft: function()
-	{
-		//move left, set x-1
-	}
-
-	MoveRight: function()
-	{
-		//move right, set x+1
-	}
+    moveRight: function()
+    {
+        this.position.x ++;
+        //move right, set x+1
+    },
 
 })

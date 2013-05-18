@@ -3,23 +3,23 @@ Pacman = new JS.Class(Actor, {
         this.callSuper(id);
     },
 
-    IsDead: function()
+    isDead: function()
     {
-    	return this.m_dead;
-    }
+        return this.m_dead;
+    },
 
-    SetDead: function(dead)
+    setDead: function(dead)
     {
-    	this.m_dead = dead;
-    }
+        this.m_dead = dead;
+    },
 
-    GetNumLivesLeft: function()
+    getNumLivesLeft: function()
     {
-    	return this.m_lives;
-    }
+        return this.m_lives;
+    },
 
-    DecrementNumLives: function()
+    decrementNumLives: function()
     {
-    	this.m_lives = this.m_lives - 1;
+        this.m_lives = this.m_lives - 1;
     }
 });
