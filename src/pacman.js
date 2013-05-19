@@ -1,6 +1,8 @@
 Pacman = new JS.Class(Actor, {
     initialize: function(id) {
         this.callSuper(id);
+        this.m_dead = false;
+        this.m_lives = 3;
     },
 
     isDead: function()

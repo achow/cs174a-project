@@ -1,5 +1,15 @@
-var Monster = new JS.Class(Actor, {
+MONSTER_STATE = {
+    DEAD: 1,
+    GO_HOME: 2,
+    ALIVE: 3,
+    STOP: 4,
+};
 
+Monster = new JS.Class(Actor, {
+    initialize: function(id) {
+        this.callSuper(id);
+        this.m_state = MONSTER_STATE.ALIVE;
+    },
     getState: function()
     {
         return this.m_state;

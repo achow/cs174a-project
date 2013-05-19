@@ -37,8 +37,10 @@ Obj = new JS.Class({
     /*
      * advanced topic: collision detection
      * return true if this object hits another object
+     * sphere mode
      */
     bump: function(otherObj) {
-
+        var dist = this.position.diff(otherObj.position);
+        return dist < (this.size + otherObj.size)/2;
     },
 });
