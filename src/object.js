@@ -25,7 +25,7 @@ Obj = new JS.Class({
      */
     where: function() {
         var I = mat4.create();
-        return mat4.translate(mat4.create(), I, [this.position.x, this.position.y, this.position.z]);
+        return mat4.translate(mat4.create(), I, this.position.toVec3());
     },
 
     /*
@@ -33,5 +33,12 @@ Obj = new JS.Class({
      */
     dt: function() {
 
-    }
+    },
+    /*
+     * advanced topic: collision detection
+     * return true if this object hits another object
+     */
+    bump: function(otherObj) {
+
+    },
 });
