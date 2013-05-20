@@ -34,8 +34,7 @@ World = new JS.Class({
             _.each(row.split(), function(entry, w) {
                 // this is a wall
                 if (entry === "#") {
-                    // TODO: change the model id
-                    var block = new Block(ModelId.Block);
+                    var block = new Block(MODEL_ID.BLOCK);
                     block.position.x = w;
                     block.position.y = h;
                     block.position.z = 1;
