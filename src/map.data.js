@@ -1,3 +1,12 @@
+MAPELEMENT = {
+    WALL: '#',
+    PELLET: '.',
+    SUPERPELLET: '*',
+    CAGEDOOR: '%',
+    MONSTERSPAWN: '$',
+    PACMANSPAWN: '@',
+};
+    
 MapData = [
 "#####################",
 "#*.................*#",
@@ -26,4 +35,3 @@ Y |
 
 MAP_SIZE_H = MapData.length;
 MAP_SIZE_W = MapData[0].length;
-MAP_PACMAN_START = 

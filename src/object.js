@@ -1,21 +1,17 @@
-document.write('<script type="text/javascript" language="javascript">JSCLASS_PATH = "min"</script>')
-document.write('<script type="text/javascript" language="javascript" src="min/core.js"></script>')
-document.write('<script type="text/javascript" language="javascript" src="gl-matrix/common.js"></script>')
-document.write('<script type="text/javascript" language="javascript" src="gl-matrix/mat4.js"></script>')
-document.write('<script type="text/javascript" language="javascript" src="gl-matrix/mat3.js"></script>')
-document.write('<script type="text/javascript" language="javascript" src="gl-matrix/vec4.js"></script>')
-document.write('<script type="text/javascript" language="javascript" src="gl-matrix/vec3.js"></script>')
-document.write('<script type="text/javascript" language="javascript" src="gl-matrix/vec2.js"></script>')
-
 Obj = new JS.Class({
 
-    initialize: function(id, world) {
+    initialize: function(world, id) {
         this.modelId = id;
         this.position = new Position();
         this.size = 1;
-		this.myWorld = world;
+		this.world = world;
     },
-
+    
+    setPosition: function(newX, newY) {
+        this.position.x = newX;
+        this.position.y = newY;
+    },
+    
 	 initSphere: function() {
 		this.numVertices = (Math.pow(4, 5+1)*3);
 		this.Vertices = new Array();

@@ -1,7 +1,7 @@
 Pacman = new JS.Class(Actor, {
 
-    initialize: function(id, world) {
-        this.callSuper(id, world);
+    initialize: function(world, id) {
+        this.callSuper(world, id);
         this.m_dead = false;
         this.m_lives = 3;
 		this.initSphere();

@@ -1,16 +1,3 @@
-document.write('<script type="text/javascript" language="javascript" src="gl-matrix/common.js"></script>')
-document.write('<script type="text/javascript" language="javascript" src="gl-matrix/mat4.js"></script>')
-document.write('<script type="text/javascript" language="javascript" src="gl-matrix/mat3.js"></script>')
-document.write('<script type="text/javascript" language="javascript" src="gl-matrix/vec4.js"></script>')
-document.write('<script type="text/javascript" language="javascript" src="gl-matrix/vec3.js"></script>')
-document.write('<script type="text/javascript" language="javascript" src="gl-matrix/vec2.js"></script>')
-
-/*
-        <script type="text/javascript" src="position.js"></script>
-        <script type="text/javascript" src="block.js"></script>
-        <script type="text/javascript" src="camera.js"></script>
-*/
-
 World = new JS.Class({
 
     initialize: function(id) {
@@ -22,6 +9,7 @@ World = new JS.Class({
 		this.aVertexPosition;
         this.initMap();
 
+        this.pacman = new Pacman(this, 0);
     },
 	
 	getShader: function(gl, shaderScript) {
@@ -97,4 +85,8 @@ World = new JS.Class({
             });
         });
     },
+    
+    getMapElement : function(x, y) {
+        return MapData[y][x];
+    }
 });
