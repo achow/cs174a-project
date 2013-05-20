@@ -30,17 +30,18 @@ World = new JS.Class({
      * make a map
      */
     initMap: function() {
+        self = this;
         _.each(MapData, function(row, h) {
-            _.each(row.split(), function(entry, w) {
+            _.each(row.split(""), function(entry, w) {
                 // this is a wall
                 if (entry === "#") {
                     var block = new Block(MODEL_ID.BLOCK);
                     block.position.x = w;
                     block.position.y = h;
                     block.position.z = 1;
-                    this.add(block);
+                    self.add(block);
                 }
             });
-        }); 
+        });
     },
 });
