@@ -1,3 +1,9 @@
+model:
+    list all model ID
+
+underscore:
+    for map reduce, array opts
+
 min:
     minimized version of js class library
 

@@ -20,6 +20,8 @@ World = new JS.Class({
 		this.fShaderScript;
 		this.shaderProgram;
 		this.aVertexPosition;
+        this.initMap();
+
     },
 	
 	getShader: function(gl, shaderScript) {
@@ -65,16 +67,34 @@ World = new JS.Class({
      * run all object's dt
      */
     dt: function() {
-        for (var i in this.box) {
-            this.box[i].dt();
-        }
+        _.each(this.box, function(obj) {
+            obj.dt();
+        });
     },
     /*
      * run all object's render
      */
     renderScene: function() {
-        for (var i in this.box) {
-            this.box[i].draw();
-        }
-    }
+        _.each(this.box, function(obj) {
+            obj.draw();
+        });
+    },
+    /*
+     * make a map
+     */
+    initMap: function() {
+        self = this;
+        _.each(MapData, function(row, h) {
+            _.each(row.split(""), function(entry, w) {
+                // this is a wall
+                if (entry === "#") {
+                    var block = new Block(MODEL_ID.BLOCK);
+                    block.position.x = w;
+                    block.position.y = h;
+                    block.position.z = 1;
+                    self.add(block);
+                }
+            });
+        });
+    },
 });

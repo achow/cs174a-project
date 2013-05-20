@@ -19,8 +19,8 @@ Camera = new JS.Class({
             -Math.sin(glMatrix.toRadian(this.phi)),
             Math.cos(glMatrix.toRadian(this.theta))*Math.cos(glMatrix.toRadian(this.phi)),
             1 ];
-        var t = vec4.subtract(vec4.create(), this.position, at);
-        return mat4.lookAt(mat4.create(), this.position, t, up);
+        var t = vec4.subtract(vec4.create(), this.position.toVec4(), at);
+        return mat4.lookAt(mat4.create(), this.position.toVec4(), t, up);
     },
 
     /*

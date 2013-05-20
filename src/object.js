@@ -105,7 +105,9 @@ Obj = new JS.Class({
     /*
      * drawing function
      */
+    draw: function() {
 
+    },
 	
     /*
      * return scale matrix
@@ -121,7 +123,7 @@ Obj = new JS.Class({
      */
     where: function() {
         var I = mat4.create();
-        return mat4.translate(mat4.create(), I, [this.position.x, this.position.y, this.position.z]);
+        return mat4.translate(mat4.create(), I, this.position.toVec3());
     },
 
     /*
@@ -129,5 +131,15 @@ Obj = new JS.Class({
      */
     dt: function() {
 
-    }
+    },
+
+    /*
+     * advanced topic: collision detection
+     * return true if this object hits another object
+     * sphere mode
+     */
+    bump: function(otherObj) {
+        var dist = this.position.diff(otherObj.position);
+        return dist < (this.size + otherObj.size)/2;
+    },
 });
