@@ -16,5 +16,14 @@ MapData = [
 "#####################",
 ];
 
+/*
+    X
+    ->
+Y |
+  v
+
+ */
+
 MAP_SIZE_H = MapData.length;
 MAP_SIZE_W = MapData[0].length;
+MAP_PACMAN_START = 

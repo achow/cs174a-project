@@ -33,9 +33,10 @@
             console.log(obj.scale());
 
 
-            var p = new Pacman(1);
+            var p = new Pacman(1, 1, 2);
             console.log(p.where());
-            p.moveUp();
+            p.setDirection(DIRECTION.UP);
+            p.move();
             console.log(p.where());
         </script>
 
