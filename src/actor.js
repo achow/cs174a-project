@@ -1,9 +1,9 @@
 DIRECTION = {
-    NONE: 0, // For when we start, pacman is immobile
-    DOWN: 1,
-    UP: 2,
-    LEFT: 3,
-    RIGHT: 4,
+    NONE: -1, // For when we start, pacman is immobile
+    DOWN: 0,
+    UP: 1,
+    LEFT: 2,
+    RIGHT: 3,
 };
 
 var Actor = new JS.Class(Obj, {
@@ -54,7 +54,6 @@ var Actor = new JS.Class(Obj, {
                 console.log("Bad direction: ", this.direction);
         }
     },
-    
 
     /*
      * called for each turn
