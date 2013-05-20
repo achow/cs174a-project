@@ -14,22 +14,34 @@ World = new JS.Class({
      * run all object's dt
      */
     dt: function() {
-        for (var i in this.box) {
-            this.box[i].dt();
-        }
+        _.each(this.box, function(obj) {
+            obj.dt();
+        });
     },
     /*
      * run all object's render
      */
     renderScene: function() {
-        for (var i in this.box) {
-            this.box[i].draw();
-        }
+        _.each(this.box, function(obj) {
+            obj.draw();
+        });
     },
     /*
      * make a map
      */
     initMap: function() {
-        
+        _.each(MapData, function(row, h) {
+            _.each(row.split(), function(entry, w) {
+                // this is a wall
+                if (entry === "#") {
+                    // TODO: change the model id
+                    var block = new Block(ModelId.Block);
+                    block.position.x = w;
+                    block.position.y = h;
+                    block.position.z = 1;
+                    this.add(block);
+                }
+            });
+        }); 
     },
 });
