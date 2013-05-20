@@ -2,6 +2,7 @@ World = new JS.Class({
 
     initialize: function(id) {
         this.box = [];
+        this.initMap();
     },
     /*
      * add object to the box
@@ -24,5 +25,11 @@ World = new JS.Class({
         for (var i in this.box) {
             this.box[i].draw();
         }
-    }
+    },
+    /*
+     * make a map
+     */
+    initMap: function() {
+        
+    },
 });
