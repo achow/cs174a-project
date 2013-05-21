@@ -11,7 +11,7 @@ Pacman = new JS.Class(Actor, {
      * drawing function
      */
     draw: function() {
-        this.drawSphere();
+        //this.drawSphere();
     },
 
     isDead: function() {

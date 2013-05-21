@@ -27,11 +27,6 @@
 
         <script>
             console.log("Begin tests");
-            /*var p = new Pacman(1, 1, 2);
-            console.log(p.where());
-            p.setDirection(DIRECTION.UP);
-            p.move();
-            console.log(p.where());*/
 
             var w = new World(1);
             w.pacman.setPosition(1, 2);
@@ -64,7 +59,10 @@
 
         <script type="text/javascript">
 
+
         var gl;
+        var world; // the map
+
         function initGL(canvas) {
             try {
                 gl = canvas.getContext("experimental-webgl");
@@ -135,12 +133,15 @@
 
         function initBuffers() {
             // load model here
+            world = new World();
         }
 
 
         function drawScene() {
             gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+            world.renderScene();
         }
 
 
