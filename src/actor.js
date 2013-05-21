@@ -16,51 +16,51 @@ var Actor = new JS.Class(Obj, {
     setDirection: function(dir) {
         this.direction = dir;
     },
-    
+
     getDirection: function(dir) {
         return this.direction;
     },
-    
+
     move: function() {
         switch (this.direction) {
             case DIRECTION.NONE:
                 break;
-                
-            case DIRECTION.DOWN: 
+
+            case DIRECTION.DOWN:
                 if (this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT_WALL
                     && getMapElement(this.position.x, this.position.y-1) != MAPELEMENT_CAGEDOOR)
                     --this.position.y;
                 break;
-                
-            case DIRECTION.UP: 
+
+            case DIRECTION.UP:
                 if (this.world.getMapElement(this.position.x, this.position.y+1) != MAPELEMENT_WALL
                     && this.world.getMapElement(this.position.x, this.position.y+1) != MAPELEMENT_CAGEDOOR)
                     ++this.position.y;
                 break;
-                
-            case DIRECTION.LEFT: 
+
+            case DIRECTION.LEFT:
                 if (this.world.getMapElement(this.position.x-1, this.position.y) != MAPELEMENT_WALL
                     && this.world.getMapElement(this.position.x-1, this.position.y) != MAPELEMENT_CAGEDOOR)
                     --this.position.x;
                 break;
-                
+
             case DIRECTION.RIGHT:
                 if (this.world.getMapElement(this.position.x+1, this.position.y) != MAPELEMENT_WALL
                     && this.world.getMapElement(this.position.x+1, this.position.y) != MAPELEMENT_CAGEDOOR)
                     ++this.position.x;
                 break;
-                
+
             default:
                 console.log("Bad direction: ", this.direction);
         }
     },
-    
+
 
     /*
      * called for each turn
      * actor should make a move here
      */
-    action: function() {
-        throw "action() called on superclass Actor";
-    },
+    //action: function() {
+        //throw "action() called on superclass Actor";
+    //},
 });

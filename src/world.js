@@ -2,49 +2,50 @@ World = new JS.Class({
 
     initialize: function(id) {
         this.box = [];
-		this.gl;
-		this.vShaderScript;
-		this.fShaderScript;
-		this.shaderProgram;
-		this.aVertexPosition;
+        //this.gl;
+        //this.vShaderScript;
+        //this.fShaderScript;
+        //this.shaderProgram;
+        //this.aVertexPosition;
         this.initMap();
 
         this.pacman = new Pacman(this, 0);
+        this.add(this.pacman);
     },
-	
-	getShader: function(gl, shaderScript) {
-		//var shaderScript = document.getElementById(id);
-		if (!shaderScript) {
-			 return null;
-		}
-		var str = "";
-		var k = shaderScript.firstChild;
-		while (k) {
-		  if (k.nodeType == 3) {
-			str += k.textContent;
-		  }
-		  k = k.nextSibling;
-		}
-		var shader;
-		if (shaderScript.type == "x-shader/x-fragment") {
-		  shader = gl.createShader(gl.FRAGMENT_SHADER);
-		  //alert("yes1!");
-		} else if (shaderScript.type == "x-shader/x-vertex") {
-		//  alert("yes2!");
-		  shader = gl.createShader(gl.VERTEX_SHADER);
-		} else {
-			alert("no!");
-		  return null;
-		}
-		gl.shaderSource(shader, str);
-		gl.compileShader(shader);
-		if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-		  alert(gl.getShaderInfoLog(shader));
-		  return null;
-		}
-		return shader;
-	},
-	
+
+    //getShader: function(gl, shaderScript) {
+        ////var shaderScript = document.getElementById(id);
+        //if (!shaderScript) {
+             //return null;
+        //}
+        //var str = "";
+        //var k = shaderScript.firstChild;
+        //while (k) {
+          //if (k.nodeType == 3) {
+            //str += k.textContent;
+          //}
+          //k = k.nextSibling;
+        //}
+        //var shader;
+        //if (shaderScript.type == "x-shader/x-fragment") {
+          //shader = gl.createShader(gl.FRAGMENT_SHADER);
+          ////alert("yes1!");
+        //} else if (shaderScript.type == "x-shader/x-vertex") {
+        ////  alert("yes2!");
+          //shader = gl.createShader(gl.VERTEX_SHADER);
+        //} else {
+            //alert("no!");
+          //return null;
+        //}
+        //gl.shaderSource(shader, str);
+        //gl.compileShader(shader);
+        //if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+          //alert(gl.getShaderInfoLog(shader));
+          //return null;
+        //}
+        //return shader;
+    //},
+
     /*
      * add object to the box
      */
@@ -75,7 +76,7 @@ World = new JS.Class({
         _.each(MapData, function(row, h) {
             _.each(row.split(""), function(entry, w) {
                 // this is a wall
-                if (entry === "#") {
+                if (entry === MAPELEMENT.WALL) {
                     var block = new Block(MODEL_ID.BLOCK);
                     block.position.x = w;
                     block.position.y = h;
@@ -85,7 +86,7 @@ World = new JS.Class({
             });
         });
     },
-    
+
     getMapElement : function(x, y) {
         return MapData[y][x];
     }
