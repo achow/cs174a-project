@@ -23,24 +23,84 @@ Monster = new JS.Class(Actor, {
 
     moveToward: function(targetX, targetY) {
         // Check if movement is achievable without changing direction
-        /*
+        
         // Horizontal movement
         if (this.position.x != targetX) {
-            if (this.getDirection() != DIRECTION.EAST && this.position.x > targetX 
-                && getMapElement(this.position.x-1, this.position.y) != MAPELEMENT.WALL) {
-                
-                SetX(GetX()-1);
-                setDirection(WEST);
+            // West
+            if (this.getDirection() != DIRECTION.LEFT && this.position.x > targetX 
+                && this.world.getMapElement(this.position.x-1, this.position.y) != MAPELEMENT.WALL) {
+                this.setDirection(DIRECTION.RIGHT);
+                this.move();
                 return;
             }
-            //east
-            if (GetX() < targetx && maze->GetGridContents(GetX()+1, GetY()) != WALL && getDirection() != WEST) {
-                SetX(GetX()+1);
-                setDirection(EAST);
+            // East
+            if (this.getDirection() != DIRECTION.RIGHT && this.position.x < targetX 
+                && this.world.getMapElement(this.position.x+1, this.position.y) != MAPELEMENT.WALL) {
+                this.setDirection(DIRECTION.LEFT);
+                this.move();
                 return;
             }
-        }*/
-        //logic to move toward pacman
+        }
+        
+        // Vertical movement
+        if (this.position.y != targetY) {
+            // North
+            if (this.getDirection() != DIRECTION.DOWN && this.position.y > targetY
+                && this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.WALL) {
+                this.setDirection(DIRECTION.UP);
+                this.move();
+                return;
+            }
+            // South
+            if (this.getDirection() != DIRECTION.UP && this.position.y < targetY
+                && this.world.getMapElement(this.position.x, this.position.y+1) != MAPELEMENT.WALL) {
+                this.setDirection(SOUTH);
+                this.move();
+                return;
+            }
+        }
+        
+        // Otherwise move in a random valid direction
+        var dirmove = Math.floor(Math.random() * 4);
+        for (var i = 0; i < 4; i++) {
+            switch (dirmove) {
+                case 0: // North
+                    if (this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.WALL
+                        && this.getDirection() != DIRECTION.DOWN) {
+                        this.setDirection(DIRECTION.UP);
+                        this.move();
+                        return;
+                    }	
+                    break;
+                    
+                case 1: // East
+                    if (this.world.getMapElement(this.position.x+1, this.position.y) != MAPELEMENT.WALL
+                        && this.getDirection() != DIRECTION.LEFT) {
+                        this.setDirection(DIRECTION.RIGHT);
+                        this.move();
+                        return;
+                    }
+                    break;
+                    
+                case 2:	// South
+                    if (this.world.getMapElement(this.position.x, this.position.y+1) != MAPELEMENT.WALL
+                        && this.getDirection() != DIRECTION.UP) {
+                        this.setDirection(DIRECTION.DOWN);
+                        this.move();
+                        return;
+                    }
+                    break;
+                case 3: // West
+                    if (this.world.getMapElement(this.position.x-1, this.position.y) != MAPELEMENT.WALL
+                        && this.getDirection() != DIRECTION.RIGHT) {
+                        this.setDirection(DIRECTION.LEFT);
+                        this.move();
+                        return;
+                    }
+                    break;
+            }
+            dirmove = (dirmove + 1) % 4;
+        }
     },
 
     goHome: function()
