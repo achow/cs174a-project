@@ -24,7 +24,10 @@
         <script type="text/javascript" src="monster.js"></script>
         <script type="text/javascript" src="pacman.js"></script>
         <script type="text/javascript" src="world.js"></script>
-
+		
+		<script type="text/javascript" src="sphere.buffer.js"></script>
+		<script type="text/javascript" src="cube.buffer.js"></script>
+		
         <script>
             console.log("Begin tests");
             /*var p = new Pacman(1, 1, 2);
@@ -54,10 +57,11 @@
 
         <!-- vertex shader-->
         <script id="shader-vs" type="x-shader/x-vertex">
-
-
+			attribute vec4 vPosition;
+			
             void main(void) {
-                gl_Position = vec4(1.0, 1.0, 1.0, 1.0);
+
+                gl_Position = vPosition;
             }
         </script>
 
@@ -115,7 +119,7 @@
 
 
         var shaderProgram;
-
+		//var aVertexPosition;
         function initShaders() {
             var fragmentShader = getShader(gl, "shader-fs");
             var vertexShader = getShader(gl, "shader-vs");
@@ -130,25 +134,61 @@
             }
 
             gl.useProgram(shaderProgram);
-
+			
+			shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "vPosition");
+			gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+			
         }
 
+
+		var myCube; var mySphere;
         function initBuffers() {
             // load model here
+			
+			// cube
+			myCube.positionBuffer = gl.createBuffer();
+			gl.bindBuffer(gl.ARRAY_BUFFER, myCube.positionBuffer);
+			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(myCube.Vertices), gl.STATIC_DRAW);
+			myCube.positionBuffer.itemSize = 4;
+			myCube.positionBuffer.numItems = myCube.numVertices;
+			
+			// sphere
+			mySphere.positionBuffer = gl.createBuffer();
+			gl.bindBuffer(gl.ARRAY_BUFFER, mySphere.positionBuffer);
+			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mySphere.Vertices), gl.STATIC_DRAW);
+			mySphere.positionBuffer.itemSize = 4;
+			mySphere.positionBuffer.numItems = mySphere.numVertices;
+
         }
 
 
         function drawScene() {
             gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+			
+			// draw it
+			
+			//cube
+			gl.bindBuffer(gl.ARRAY_BUFFER, myCube.positionBuffer);
+			gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, myCube.positionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+			gl.drawArrays(gl.TRIANGLES, 0, myCube.positionBuffer.numItems);
+			
+			//sphere
+			gl.bindBuffer(gl.ARRAY_BUFFER, mySphere.positionBuffer);
+			gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, mySphere.positionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+			gl.drawArrays(gl.TRIANGLES, 0, mySphere.positionBuffer.numItems);
+			
         }
 
 
 
         function webGLStart() {
+			myCube = new CubeBuffer();
+			mySphere = new SphereBuffer();
+			
             var canvas = document.getElementById("game-canvas");
             initGL(canvas);
-            initShaders();
+            initShaders();			
             initBuffers();
 
             gl.clearColor(0.0, 0.0, 0.0, 1.0);
