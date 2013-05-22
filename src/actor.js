@@ -59,7 +59,7 @@ var Actor = new JS.Class(Obj, {
      * called for each turn
      * actor should make a move here
      */
-    //action: function() {
-        //throw "action() called on superclass Actor";
-    //},
+    doAction: function() {
+        throw "action() called on superclass Actor";
+    },
 });

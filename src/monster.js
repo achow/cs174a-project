@@ -102,6 +102,10 @@ Monster = new JS.Class(Actor, {
             dirmove = (dirmove + 1) % 4;
         }
     },
+    
+    doAction(): function() {
+        this.moveToward(this.world.pacman.position.x, this.world.pacman.position.y);
+    },
 
     goHome: function()
     {

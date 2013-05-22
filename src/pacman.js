@@ -28,5 +28,9 @@ Pacman = new JS.Class(Actor, {
 
     decrementNumLives: function() {
         this.m_lives = this.m_lives - 1;
-    }
+    },
+    
+    doAction: function() {
+        this.move();
+    },
 });

@@ -9,7 +9,7 @@ World = new JS.Class({
         //this.aVertexPosition;
         this.initMap();
 
-        this.pacman = new Pacman(this, 0);
+        this.pacman = new Pacman(this, MODEL_ID.PACMAN);
         this.add(this.pacman);
         this.camera = new Camera();
     },
