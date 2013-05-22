@@ -30,11 +30,6 @@
 		
         <script>
             console.log("Begin tests");
-            /*var p = new Pacman(1, 1, 2);
-            console.log(p.where());
-            p.setDirection(DIRECTION.UP);
-            p.move();
-            console.log(p.where());*/
 
             var w = new World(1);
             w.pacman.setPosition(1, 2);
@@ -68,7 +63,10 @@
 
         <script type="text/javascript">
 
+
         var gl;
+        var world; // the map
+
         function initGL(canvas) {
             try {
                 gl = canvas.getContext("experimental-webgl");
@@ -158,7 +156,8 @@
 			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mySphere.Vertices), gl.STATIC_DRAW);
 			mySphere.positionBuffer.itemSize = 4;
 			mySphere.positionBuffer.numItems = mySphere.numVertices;
-
+			
+            //world = new World();
         }
 
 
@@ -178,6 +177,7 @@
 			gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, mySphere.positionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 			gl.drawArrays(gl.TRIANGLES, 0, mySphere.positionBuffer.numItems);
 			
+           // world.renderScene();
         }
 
 

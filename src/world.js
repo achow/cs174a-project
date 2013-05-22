@@ -11,6 +11,7 @@ World = new JS.Class({
 
         this.pacman = new Pacman(this, 0);
         this.add(this.pacman);
+        this.camera = new Camera();
     },
 
     //getShader: function(gl, shaderScript) {
