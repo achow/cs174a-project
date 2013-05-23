@@ -1,45 +1,45 @@
 <html>
     <head>
-        <script type="text/javascript">JSCLASS_PATH = 'min'</script>
-        <script type="text/javascript" src="underscore/underscore.js"></script>
-        <script type="text/javascript" src="min/core.js"></script>
+        <title>pacman!</title>
+        <style>
+            body, html { width: 100%; height: 100%; margin: 0;}
+        </style>
+    </head>
 
-        <script type="text/javascript" src="gl-matrix/common.js"></script>
-        <script type="text/javascript" src="gl-matrix/mat4.js"></script>
-        <script type="text/javascript" src="gl-matrix/mat3.js"></script>
+    <body>
+        <script>JSCLASS_PATH = 'min'</script>
+        <script src="underscore/underscore.js"></script>
+        <script src="min/core.js"></script>
 
-        <script type="text/javascript" src="gl-matrix/vec4.js"></script>
-        <script type="text/javascript" src="gl-matrix/vec3.js"></script>
-        <script type="text/javascript" src="gl-matrix/vec2.js"></script>
+        <script src="gl-matrix/common.js"></script>
+        <script src="gl-matrix/mat4.js"></script>
+        <script src="gl-matrix/mat3.js"></script>
 
-        <script type="text/javascript" src="map.data.js"></script>
-        <script type="text/javascript" src="model.js"></script>
+        <script src="gl-matrix/vec4.js"></script>
+        <script src="gl-matrix/vec3.js"></script>
+        <script src="gl-matrix/vec2.js"></script>
 
-        <script type="text/javascript" src="position.js"></script>
-        <script type="text/javascript" src="object.js"></script>
-        <script type="text/javascript" src="actor.js"></script>
-        <script type="text/javascript" src="block.js"></script>
-        <script type="text/javascript" src="camera.js"></script>
+        <script src="webgl.js"></script>
 
-        <script type="text/javascript" src="monster.js"></script>
-        <script type="text/javascript" src="pacman.js"></script>
-        <script type="text/javascript" src="world.js"></script>
-		
-		<script type="text/javascript" src="sphere.buffer.js"></script>
-		<script type="text/javascript" src="cube.buffer.js"></script>
-		
-        <script>
-            console.log("Begin tests");
+        <script src="map.data.js"></script>
+        <script src="model.js"></script>
 
-            var w = new World(1);
-            w.pacman.setPosition(1, 2);
-            console.log(w.pacman.where());
-            w.pacman.setDirection(DIRECTION.UP);
-            w.pacman.move();
-            console.log(w.pacman.where());
+        <script src="position.js"></script>
+        <script src="object.js"></script>
+        <script src="actor.js"></script>
+        <script src="block.js"></script>
+        <script src="camera.js"></script>
 
-            console.log("End tests");
-        </script>
+        <script src="monster.js"></script>
+        <script src="pacman.js"></script>
+        <script src="world.js"></script>
+
+        <script src="sphere.buffer.js"></script>
+        <script src="cube.buffer.js"></script>
+
+        <script src="cube.buffer.js"></script>
+
+        <script src="test.js"></script>
 
         <!-- fragment shader-->
         <script id="shader-fs" type="x-shader/x-fragment">
@@ -52,8 +52,8 @@
 
         <!-- vertex shader-->
         <script id="shader-vs" type="x-shader/x-vertex">
-			attribute vec4 vPosition;
-			
+            attribute vec4 vPosition;
+
             void main(void) {
 
                 gl_Position = vPosition;
@@ -61,148 +61,12 @@
         </script>
 
 
-        <script type="text/javascript">
 
-
-        var gl;
-        var world; // the map
-
-        function initGL(canvas) {
-            try {
-                gl = canvas.getContext("experimental-webgl");
-                gl.viewportWidth = canvas.width;
-                gl.viewportHeight = canvas.height;
-            } catch (e) {
-            }
-            if (!gl) {
-                alert("Could not initialise WebGL, sorry :-(");
-            }
-        }
-
-
-        function getShader(gl, id) {
-            var shaderScript = document.getElementById(id);
-            if (!shaderScript) {
-                return null;
-            }
-
-            var str = "";
-            var k = shaderScript.firstChild;
-            while (k) {
-                if (k.nodeType == 3) {
-                    str += k.textContent;
-                }
-                k = k.nextSibling;
-            }
-
-            var shader;
-            if (shaderScript.type == "x-shader/x-fragment") {
-                shader = gl.createShader(gl.FRAGMENT_SHADER);
-            } else if (shaderScript.type == "x-shader/x-vertex") {
-                shader = gl.createShader(gl.VERTEX_SHADER);
-            } else {
-                return null;
-            }
-
-            gl.shaderSource(shader, str);
-            gl.compileShader(shader);
-
-            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-                alert(gl.getShaderInfoLog(shader));
-                return null;
-            }
-
-            return shader;
-        }
-
-
-        var shaderProgram;
-		//var aVertexPosition;
-        function initShaders() {
-            var fragmentShader = getShader(gl, "shader-fs");
-            var vertexShader = getShader(gl, "shader-vs");
-
-            shaderProgram = gl.createProgram();
-            gl.attachShader(shaderProgram, vertexShader);
-            gl.attachShader(shaderProgram, fragmentShader);
-            gl.linkProgram(shaderProgram);
-
-            if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-                alert("Could not initialise shaders");
-            }
-
-            gl.useProgram(shaderProgram);
-			
-			shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "vPosition");
-			gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
-			
-        }
-
-
-		var myCube; var mySphere;
-        function initBuffers() {
-            // load model here
-			
-			// cube
-			myCube.positionBuffer = gl.createBuffer();
-			gl.bindBuffer(gl.ARRAY_BUFFER, myCube.positionBuffer);
-			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(myCube.Vertices), gl.STATIC_DRAW);
-			myCube.positionBuffer.itemSize = 4;
-			myCube.positionBuffer.numItems = myCube.numVertices;
-			
-			// sphere
-			mySphere.positionBuffer = gl.createBuffer();
-			gl.bindBuffer(gl.ARRAY_BUFFER, mySphere.positionBuffer);
-			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mySphere.Vertices), gl.STATIC_DRAW);
-			mySphere.positionBuffer.itemSize = 4;
-			mySphere.positionBuffer.numItems = mySphere.numVertices;
-			
-            //world = new World();
-        }
-
-
-        function drawScene() {
-            gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
-            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-			
-			// draw it
-			
-			//cube
-			gl.bindBuffer(gl.ARRAY_BUFFER, myCube.positionBuffer);
-			gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, myCube.positionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-			gl.drawArrays(gl.TRIANGLES, 0, myCube.positionBuffer.numItems);
-			
-			//sphere
-			gl.bindBuffer(gl.ARRAY_BUFFER, mySphere.positionBuffer);
-			gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, mySphere.positionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-			gl.drawArrays(gl.TRIANGLES, 0, mySphere.positionBuffer.numItems);
-			
-           // world.renderScene();
-        }
-
-
-
-        function webGLStart() {
-			myCube = new CubeBuffer();
-			mySphere = new SphereBuffer();
-			
-            var canvas = document.getElementById("game-canvas");
-            initGL(canvas);
-            initShaders();			
-            initBuffers();
-
-            gl.clearColor(0.0, 0.0, 0.0, 1.0);
-            gl.enable(gl.DEPTH_TEST);
-
-            drawScene();
-        }
-
-
+        <canvas id="game-canvas" style="border: none;"></canvas>
+        <script src="webgl.js"></script>
+        <script>
+            GL = new GL();
         </script>
-    </head>
-
-    <body onload="webGLStart();">
-        <canvas id="game-canvas" style="border: none;" width="500" height="500"></canvas>
     </body>
 
 </html>
