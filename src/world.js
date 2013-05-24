@@ -10,8 +10,8 @@ def ("World") ({
 
         this.lightPosition = new Position();
         this.lightPosition.x = 0;
-        this.lightPosition.y = 4;
-        this.lightPosition.z = 20;
+        this.lightPosition.y = 0;
+        this.lightPosition.z = 200;
 
         this.initMap();
     },
