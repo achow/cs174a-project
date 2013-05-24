@@ -4,14 +4,6 @@ Pacman = new JS.Class(Actor, {
         this.callSuper(world, id);
         this.m_dead = false;
         this.m_lives = 3;
-        //this.initSphere();
-    },
-
-    /*
-     * drawing function
-     */
-    draw: function() {
-        //this.drawSphere();
     },
 
     isDead: function() {
@@ -29,7 +21,7 @@ Pacman = new JS.Class(Actor, {
     decrementNumLives: function() {
         this.m_lives = this.m_lives - 1;
     },
-    
+
     doAction: function() {
         this.move();
     },

@@ -1,9 +1,10 @@
 /*
- * model Id to use
- */ 
+ * model to use
+ */
 
-MODEL_ID = {
+MODEL = {
     BLOCK: 1,
     PACMAN: 2,
     MONSTER: 3,
+    buffer: [],
 };

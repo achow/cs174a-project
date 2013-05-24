@@ -1,7 +1,7 @@
 Block = new JS.Class(Obj, {
 
-    initialize: function(id) {
-        this.callSuper(id);
-        this.skin = "block skin";
+    initialize: function(world, id) {
+        this.callSuper(world, id);
+        //this.skin = "block skin";
     },
 });

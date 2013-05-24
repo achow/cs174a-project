@@ -4,7 +4,7 @@ World = new JS.Class({
         this.box = [];
         this.initMap();
 
-        this.pacman = new Pacman(this, MODEL_ID.PACMAN);
+        this.pacman = new Pacman(this, MODEL.PACMAN);
         this.add(this.pacman);
         this.camera = new Camera();
     },
@@ -26,7 +26,7 @@ World = new JS.Class({
     /*
      * run all object's render
      */
-    renderScene: function() {
+    draw: function() {
         _.each(this.box, function(obj) {
             obj.draw();
         });
@@ -35,12 +35,12 @@ World = new JS.Class({
      * make a map
      */
     initMap: function() {
-        self = this;
+        var self = this;
         _.each(MapData, function(row, h) {
             _.each(row.split(""), function(entry, w) {
                 // this is a wall
                 if (entry === MAPELEMENT.WALL) {
-                    var block = new Block(MODEL_ID.BLOCK);
+                    var block = new Block(this, MODEL.BLOCK);
                     block.position.x = w;
                     block.position.y = h;
                     block.position.z = 1;

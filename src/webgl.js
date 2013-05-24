@@ -67,22 +67,26 @@ GL = new JS.Class({
 
     initBuffers: function() {
         // load model here
+        var myCube = new CubeBuffer();
+        var mySphere = new SphereBuffer();
 
         // cube
-        myCube.positionBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, myCube.positionBuffer);
+        var cubeBuf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, cubeBuf);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(myCube.Vertices), gl.STATIC_DRAW);
-        myCube.positionBuffer.itemSize = 4;
-        myCube.positionBuffer.numItems = myCube.numVertices;
+        cubeBuf.itemSize = 4;
+        cubeBuf.numItems = myCube.numVertices;
 
         // sphere
-        mySphere.positionBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, mySphere.positionBuffer);
+        var sphereBuf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, sphereBuf);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mySphere.Vertices), gl.STATIC_DRAW);
-        mySphere.positionBuffer.itemSize = 4;
-        mySphere.positionBuffer.numItems = mySphere.numVertices;
+        sphereBuf.itemSize = 4;
+        sphereBuf.numItems = mySphere.numVertices;
 
-        //world = new World();
+        MODEL.buffer[MODEL.BLOCK] = cubeBuf;
+        MODEL.buffer[MODEL.PACMAN] = sphereBuf;
+        MODEL.buffer[MODEL.MONSTER] = sphereBuf;
     },
 
 
@@ -91,24 +95,13 @@ GL = new JS.Class({
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         // draw it
-
-        //cube
-        gl.bindBuffer(gl.ARRAY_BUFFER, myCube.positionBuffer);
-        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, myCube.positionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-        gl.drawArrays(gl.TRIANGLES, 0, myCube.positionBuffer.numItems);
-
-        //sphere
-        gl.bindBuffer(gl.ARRAY_BUFFER, mySphere.positionBuffer);
-        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, mySphere.positionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-        gl.drawArrays(gl.TRIANGLES, 0, mySphere.positionBuffer.numItems);
-
-       // world.renderScene();
+        world.draw();
+    },
+    createObject: function () {
+        world = new World();
     },
 
     initialize: function() {
-        myCube = new CubeBuffer();
-        mySphere = new SphereBuffer();
-
         var canvas = document.getElementById("game-canvas");
 
         // full screen
@@ -118,6 +111,7 @@ GL = new JS.Class({
         this.initGL(canvas);
         this.initShaders();
         this.initBuffers();
+        this.createObject();
 
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.enable(gl.DEPTH_TEST);

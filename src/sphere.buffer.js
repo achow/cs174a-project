@@ -1,26 +1,25 @@
 SphereBuffer = new JS.Class({
 
-	 initialize: function() {
-		this.initSphere();
-		this.positionBuffer;
-	 },
+     initialize: function() {
+        this.initSphere();
+     },
 
-	 initSphere: function() {
+     initSphere: function() {
         this.numVertices = (Math.pow(4, 5+1)*3);
         this.Vertices = [];
         this.Normals = [];
 
         //this.Index = 0;
-		
-		this.VIndex = 0;
-		this.NIndex = 0;
-		
+
+        this.VIndex = 0;
+        this.NIndex = 0;
+
         this.generateSphere();
      },
-	 
+
      generateSphere: function() {
         var v = [];
-		
+
         v[0] = [0.0, 0.0, 1.0, 1.0];
         v[1] = [0.0, 0.942809, -0.333333, 1.0];
         v[2] = [-0.816497, -0.471405, -0.333333, 1.0];
@@ -63,7 +62,7 @@ SphereBuffer = new JS.Class({
             this.dividTriangle(v1, v3, v2, n-1);
         }
         else{
-		/*
+        /*
             this.Vertices[this.Index] = a;
             this.Normals[this.Index] = vec3.fromValues(a[0], a[1], a[2]);//get the normal of the triangle
             this.Index++;
@@ -73,55 +72,55 @@ SphereBuffer = new JS.Class({
             this.Vertices[this.Index] = c;
             this.Normals[this.Index] = vec3.fromValues(c[0], c[1], c[2]);
             this.Index++;
-			*/
+            */
             this.Vertices[this.VIndex] = a[0];
-			this.VIndex++;
+            this.VIndex++;
             this.Vertices[this.VIndex] = a[1];
-			this.VIndex++;			
+            this.VIndex++;
             this.Vertices[this.VIndex] = a[2];
-			this.VIndex++;			
+            this.VIndex++;
             this.Vertices[this.VIndex] = a[3];
-			this.VIndex++;			
+            this.VIndex++;
             this.Normals[this.NIndex] = a[0];
             this.NIndex++;
             this.Normals[this.NIndex] = a[1];
             this.NIndex++;
             this.Normals[this.NIndex] = a[2];
-            this.NIndex++;			
+            this.NIndex++;
 
             this.Vertices[this.VIndex] = b[0];
-			this.VIndex++;
+            this.VIndex++;
             this.Vertices[this.VIndex] = b[1];
-			this.VIndex++;			
+            this.VIndex++;
             this.Vertices[this.VIndex] = b[2];
-			this.VIndex++;			
+            this.VIndex++;
             this.Vertices[this.VIndex] = b[3];
-			this.VIndex++;			
+            this.VIndex++;
             this.Normals[this.NIndex] = b[0];
             this.NIndex++;
             this.Normals[this.NIndex] = b[1];
             this.NIndex++;
             this.Normals[this.NIndex] = b[2];
             this.NIndex++;
-			
+
 
             this.Vertices[this.VIndex] = c[0];
-			this.VIndex++;
+            this.VIndex++;
             this.Vertices[this.VIndex] = c[1];
-			this.VIndex++;			
+            this.VIndex++;
             this.Vertices[this.VIndex] = c[2];
-			this.VIndex++;			
+            this.VIndex++;
             this.Vertices[this.VIndex] = c[3];
-			this.VIndex++;			
+            this.VIndex++;
             this.Normals[this.NIndex] = c[0];
             this.NIndex++;
             this.Normals[this.NIndex] = c[1];
             this.NIndex++;
             this.Normals[this.NIndex] = c[2];
             this.NIndex++;
-			
+
         }
-	}
+    }
 
 });
-		
+
