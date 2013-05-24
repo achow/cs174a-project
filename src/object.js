@@ -3,6 +3,8 @@ Obj = new JS.Class({
     initialize: function(world, id) {
         this.modelId = id;
         this.position = new Position();
+        this.ambLight = new Color();
+        this.dirLight = new Color();
         this.size = 1;
         this.world = world;
     },
