@@ -1,6 +1,6 @@
-SphereBuffer = new JS.Class({
+def ("SphereBuffer") ({
 
-     initialize: function() {
+     init: function() {
         this.initSphere();
      },
 

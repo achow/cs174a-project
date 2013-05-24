@@ -1,6 +1,6 @@
-Obj = new JS.Class({
+def ("Obj") ({
 
-    initialize: function(world, id) {
+    init: function(world, id) {
         this.modelId = id;
         this.position = new Position();
         //this.ambLight = new Color();

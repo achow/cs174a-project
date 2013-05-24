@@ -1,6 +1,6 @@
-Color = new JS.Class({
+def ("Color") ({
 
-    initialize: function() {
+    init: function() {
         this.r = 255;
         this.g = 255;
         this.b = 255;

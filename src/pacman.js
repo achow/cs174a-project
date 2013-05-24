@@ -1,7 +1,7 @@
-Pacman = new JS.Class(Actor, {
+def ("Pacman") << Actor ({
 
-    initialize: function(world, id) {
-        this.callSuper(world, id);
+    init: function(world, id) {
+        this._super(world, id);
         this.m_dead = false;
         this.m_lives = 3;
     },

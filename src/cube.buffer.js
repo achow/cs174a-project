@@ -1,6 +1,6 @@
-CubeBuffer = new JS.Class({
+def ("CubeBuffer") ({
 
-     initialize: function() {
+     init: function() {
         this.initCube();
      },
 

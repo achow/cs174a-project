@@ -8,9 +8,8 @@
 
     <body>
         <!-- library -->
-        <script>JSCLASS_PATH = 'min'</script>
         <script src="underscore/underscore.js"></script>
-        <script src="min/core.js"></script>
+        <script src="def.js/def.js"></script>
 
         <script src="gl-matrix/common.js"></script>
         <script src="gl-matrix/mat4.js"></script>
@@ -50,7 +49,7 @@
 
             void main(void) {
                 //gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
-                gl_FragColor = vec4(0, 0, 0, 0);
+                gl_FragColor = vec4(1, 1, 1, 1);
             }
         </script>
 

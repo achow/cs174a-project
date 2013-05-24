@@ -5,9 +5,10 @@ MONSTER_STATE = {
     STOP: 4,
 };
 
-Monster = new JS.Class(Actor, {
-    initialize: function(world, id) {
-        this.callSuper(world, id);
+def ("Monster") << Actor ({
+
+    init: function(world, id) {
+        this._super(world, id);
         this.m_state = MONSTER_STATE.ALIVE;
     },
 

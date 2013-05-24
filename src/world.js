@@ -1,6 +1,6 @@
-World = new JS.Class({
+def ("World") ({
 
-    initialize: function(id) {
+    init: function(id) {
         this.box = [];
         this.camera = new Camera();
         // move cam back a little bit

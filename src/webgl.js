@@ -1,4 +1,4 @@
-GL = new JS.Class({
+def ("GL") ({
     initGL: function(canvas) {
         try {
             gl = canvas.getContext("experimental-webgl");
@@ -103,7 +103,7 @@ GL = new JS.Class({
         // draw it
         this.world.draw();
     },
-    initialize: function() {
+    init: function() {
 
         // set up key
         var self = this;

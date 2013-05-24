@@ -6,10 +6,10 @@ DIRECTION = {
     RIGHT: 3,
 };
 
-var Actor = new JS.Class(Obj, {
+def ("Actor") << Obj ({
 
-    initialize: function(world, id) {
-        this.callSuper(world, id);
+    init: function(world, id) {
+        this._super(world, id);
         this.direction = DIRECTION.NONE;
     },
 

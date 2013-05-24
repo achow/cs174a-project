@@ -1,6 +1,6 @@
-Camera = new JS.Class({
+def ("Camera") ({
 
-    initialize: function() {
+    init: function() {
         this.position = new Position();
         this.theta = 0;
         this.phi = 0;
