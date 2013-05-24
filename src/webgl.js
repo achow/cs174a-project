@@ -10,43 +10,43 @@ def ("GL") ({
             console.log("Could not initialise WebGL, sorry :-(");
         }
     },
-    initShaders: function() {
-        function getShader(gl, id) {
-            var shaderScript = document.getElementById(id);
-            if (!shaderScript) {
-                return null;
-            }
-
-            var str = "";
-            var k = shaderScript.firstChild;
-            while (k) {
-                if (k.nodeType == 3) {
-                    str += k.textContent;
-                }
-                k = k.nextSibling;
-            }
-
-            var shader;
-            if (shaderScript.type == "x-shader/x-fragment") {
-                shader = gl.createShader(gl.FRAGMENT_SHADER);
-            } else if (shaderScript.type == "x-shader/x-vertex") {
-                shader = gl.createShader(gl.VERTEX_SHADER);
-            } else {
-                return null;
-            }
-
-            gl.shaderSource(shader, str);
-            gl.compileShader(shader);
-
-            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-                console.log(gl.getShaderInfoLog(shader));
-                return null;
-            }
-
-            return shader;
+    getShader: function(id) {
+        var shaderScript = document.getElementById(id);
+        if (!shaderScript) {
+            return null;
         }
-        var fragmentShader = getShader(gl, "shader-fs");
-        var vertexShader = getShader(gl, "shader-vs");
+
+        var str = "";
+        var k = shaderScript.firstChild;
+        while (k) {
+            if (k.nodeType == 3) {
+                str += k.textContent;
+            }
+            k = k.nextSibling;
+        }
+
+        var shader;
+        if (shaderScript.type == "x-shader/x-fragment") {
+            shader = gl.createShader(gl.FRAGMENT_SHADER);
+        } else if (shaderScript.type == "x-shader/x-vertex") {
+            shader = gl.createShader(gl.VERTEX_SHADER);
+        } else {
+            return null;
+        }
+
+        gl.shaderSource(shader, str);
+        gl.compileShader(shader);
+
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            console.log(gl.getShaderInfoLog(shader));
+            return null;
+        }
+
+        return shader;
+    },
+    initShaders: function() {
+        var fragmentShader = this.getShader("shader-fs");
+        var vertexShader = this.getShader("shader-vs");
 
         shaderProgram = gl.createProgram();
         gl.attachShader(shaderProgram, vertexShader);
@@ -59,16 +59,18 @@ def ("GL") ({
 
         gl.useProgram(shaderProgram);
 
-        shaderProgram.aPosition = gl.getAttribLocation(shaderProgram, "aPosition");
         shaderProgram.uView = gl.getUniformLocation(shaderProgram, "uView");
         shaderProgram.uWorld = gl.getUniformLocation(shaderProgram, "uWorld");
         shaderProgram.uPerspective = gl.getUniformLocation(shaderProgram, "uPerspective");
-        shaderProgram.aTextureCoord = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-        shaderProgram.aNormal = gl.getAttribLocation(shaderProgram, "aNormal");
         shaderProgram.uLightPosition = gl.getUniformLocation(shaderProgram, "uLightPosition");
+
+        shaderProgram.aPosition = gl.getAttribLocation(shaderProgram, "aPosition");
+        shaderProgram.aNormal = gl.getAttribLocation(shaderProgram, "aNormal");
+        shaderProgram.aTextureCoord = gl.getAttribLocation(shaderProgram, "aTextureCoord");
 
         gl.enableVertexAttribArray(shaderProgram.aPosition);
         gl.enableVertexAttribArray(shaderProgram.aNormal);
+        gl.enableVertexAttribArray(shaderProgram.aTextureCoord);
     },
 
     initBuffers: function() {
