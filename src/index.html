@@ -7,6 +7,7 @@
     </head>
 
     <body>
+        <!-- library -->
         <script>JSCLASS_PATH = 'min'</script>
         <script src="underscore/underscore.js"></script>
         <script src="min/core.js"></script>
@@ -19,26 +20,26 @@
         <script src="gl-matrix/vec3.js"></script>
         <script src="gl-matrix/vec2.js"></script>
 
-        <script src="webgl.js"></script>
-
+        <!-- scene -->
         <script src="map.data.js"></script>
         <script src="model.js"></script>
-
-        <script src="position.js"></script>
-        <script src="object.js"></script>
-        <script src="actor.js"></script>
-        <script src="block.js"></script>
+        <script src="world.js"></script>
         <script src="camera.js"></script>
 
+        <!-- class (must be placed in order) -->
+        <script src="position.js"></script>
+        <script src="color.js"></script>
+        <script src="object.js"></script>
+        <script src="actor.js"></script>
         <script src="monster.js"></script>
         <script src="pacman.js"></script>
-        <script src="world.js"></script>
+        <script src="block.js"></script>
 
+        <!-- buffer -->
         <script src="sphere.buffer.js"></script>
         <script src="cube.buffer.js"></script>
 
-        <script src="cube.buffer.js"></script>
-
+        <!-- test cases -->
         <script src="test.js"></script>
 
         <!-- fragment shader-->
@@ -62,13 +63,9 @@
             }
         </script>
 
-
-
         <canvas id="game-canvas" style="border: none;"></canvas>
         <script src="webgl.js"></script>
-        <script>
-            GL = new GL();
-        </script>
+        <script> GL = new GL(); </script>
     </body>
 
 </html>
