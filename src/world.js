@@ -50,19 +50,27 @@ World = new JS.Class({
             h = - (MAP_SIZE_H/2) + MAP_SIZE_H - 1 - h; // the map is upside down (by design)
             _.each(row.split(""), function(entry, w) {
                 w = w - (MAP_SIZE_W/2);
-                // this is a wall
+
                 if (entry === MAPELEMENT.WALL) {
+                    // wall
                     var block = new Block(this, MODEL.BLOCK);
                     block.position.x = w;
                     block.position.y = h;
                     block.position.z = 1;
                     self.add(block);
                 } else if (entry === MAPELEMENT.PACMANSPAWN){
+                    // pacman
                     var pacman = new Pacman(self, MODEL.PACMAN);
                     pacman.position.x = w;
                     pacman.position.y = h;
                     self.add(pacman);
                     self.pacman = pacman;
+                } else if (entry === MAPELEMENT.MONSTERSPAWN) {
+                    // monster
+                    var monster = new Monster(self, MODEL.MONSTER);
+                    monster.position.x = w;
+                    monster.position.y = h;
+                    self.add(monster);
                 }
             });
         });
