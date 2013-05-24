@@ -106,22 +106,18 @@ def ("GL") ({
         MODEL.buffer[MODEL.PACMAN] = { vertices: sphereVertices, normals: sphereNormals };
         MODEL.buffer[MODEL.MONSTER] = { vertices: sphereVertices, normals: sphereNormals };
     },
-    
+
     onKeyUp: function (key) {
-        console.log(key);
-        
         var charRep = String.fromCharCode(key);
-        
+
         if (charRep == "W")
             this.world.camera.move(0, 1, 0);
         else if (charRep == "A")
             this.world.camera.move(-1, 0, 0);
         else if (charRep == "S")
             this.world.camera.move(0, -1, 0);
-        else if (charRep == "D")  
+        else if (charRep == "D")
             this.world.camera.move(1, 0, 0);
-        
-        this.drawScene();
     },
 
     drawScene: function() {
@@ -155,5 +151,12 @@ def ("GL") ({
         gl.enable(gl.DEPTH_TEST);
 
         this.drawScene();
+
+        // animate
+        window.setInterval(function() {
+            self.world.camera.dt();
+            self.world.dt();
+            self.drawScene();
+        }, 1000/30);
     }
 });

@@ -1,7 +1,8 @@
 def ("World") ({
 
     init: function(id) {
-        this.box = [];
+        this.renderList = [];
+        this.animateList = [];
         this.camera = new Camera();
         // move cam back a little bit
         this.camera.position.z = 7;
@@ -19,14 +20,17 @@ def ("World") ({
     /*
      * add object to the box
      */
-    add: function(obj) {
-        this.box.push(obj);
+    addToRenderList: function(obj) {
+        this.renderList.push(obj);
+    },
+    addToAnimateList: function(obj) {
+        this.animateList.push(obj);
     },
     /*
      * run all object's dt
      */
     dt: function() {
-        _.each(this.box, function(obj) {
+        _.each(this.animateList, function(obj) {
             obj.dt();
         });
     },
@@ -34,7 +38,6 @@ def ("World") ({
      * run all object's render
      */
     draw: function() {
-        console.log("world draw");
         // perspective
         gl.uniformMatrix4fv(shaderProgram.uPerspective, false,
             mat4.perspective(mat4.create(), 45, gl.viewportWidth / gl.viewportHeight, 1, 100.0)
@@ -48,7 +51,7 @@ def ("World") ({
         );
         // where is light
         gl.uniform3fv(shaderProgram.uLightPosition, this.lightPosition.toVec3());
-        _.each(this.box, function(obj) {
+        _.each(this.renderList, function(obj) {
             obj.draw();
         });
     },
@@ -67,20 +70,22 @@ def ("World") ({
                     var block = new Block(this, MODEL.BLOCK);
                     block.position.x = w;
                     block.position.y = h;
-                    self.add(block);
+                    self.addToRenderList(block);
                 } else if (entry === MAPELEMENT.PACMANSPAWN){
                     // pacman
                     var pacman = new Pacman(self, MODEL.PACMAN);
                     pacman.position.x = w;
                     pacman.position.y = h;
-                    self.add(pacman);
+                    self.addToRenderList(pacman);
+                    self.addToAnimateList(pacman);
                     self.pacman = pacman;
                 } else if (entry === MAPELEMENT.MONSTERSPAWN) {
                     // monster
                     var monster = new Monster(self, MODEL.MONSTER);
                     monster.position.x = w;
                     monster.position.y = h;
-                    self.add(monster);
+                    self.addToRenderList(monster);
+                    self.addToAnimateList(monster);
                 }
             });
         });
