@@ -38,16 +38,14 @@ def ("Obj") ({
      *
      */
     scale: function() {
-        var I = mat4.create();
-        return mat4.scale(mat4.create(), I, [this.size, this.size, this.size]);
+        return mat4.scale(mat4.create(), mat4.create(), [this.size, this.size, this.size]);
     },
 
     /*
      * return world matrix
      */
     where: function() {
-        var I = mat4.create();
-        return mat4.translate(mat4.create(), I, this.position.toVec3());
+        return mat4.translate(mat4.create(), mat4.create(), this.position.toVec3());
     },
 
     /*

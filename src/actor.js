@@ -10,6 +10,7 @@ def ("Actor") << Obj ({
 
     init: function(world, id) {
         this._super(world, id);
+        this._position = new Position(); // internal position
         this.direction = DIRECTION.NONE;
     },
 
@@ -55,6 +56,15 @@ def ("Actor") << Obj ({
         }
     },
 
+    where: function() {
+        return mat4.translate(mat4.create(), mat4.create(), this._position.toVec3());
+    },
+
+    dt: function () {
+        this._position.x += (this.position.x - this._position.x)*dt;
+        this._position.y += (this.position.y - this._position.y)*dt;
+        this._position.z += (this.position.z - this._position.z)*dt;
+    },
     /*
      * called for each turn
      * actor should make a move here

@@ -118,16 +118,14 @@ def ("GL") ({
             this.world.camera.move(0, -1, 0);
         else if (charRep == "D")
             this.world.camera.move(1, 0, 0);
-        /*
         else if (key == 37) // Left arrow
-            this.world.camera.theta++;
+            this.world.camera.theta += 5;
         else if (key == 39) // Right arrow
-            this.world.camera.theta--;
-        */
+            this.world.camera.theta -= 5;
         else if (key == 38) // Up arrow
-            this.world.camera.phi++;
+            this.world.camera.phi += 5;
         else if (key == 40) // Down arrow
-            this.world.camera.phi--;
+            this.world.camera.phi -= 5;
 
         this.drawScene();
     },
@@ -162,6 +160,9 @@ def ("GL") ({
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.enable(gl.DEPTH_TEST);
 
+        // time delta
+        dt = 1/30;
+
         this.drawScene();
 
         // animate
@@ -169,6 +170,6 @@ def ("GL") ({
             self.world.camera.dt();
             self.world.dt();
             self.drawScene();
-        }, 1000/30);
+        }, dt*1000);
     }
 });
