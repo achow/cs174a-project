@@ -64,9 +64,11 @@ def ("GL") ({
         shaderProgram.uWorld = gl.getUniformLocation(shaderProgram, "uWorld");
         shaderProgram.uPerspective = gl.getUniformLocation(shaderProgram, "uPerspective");
         shaderProgram.aTextureCoord = gl.getAttribLocation(shaderProgram, "aTextureCoord");
+        shaderProgram.aNormal = gl.getAttribLocation(shaderProgram, "aNormal");
+        shaderProgram.uLightPosition = gl.getUniformLocation(shaderProgram, "uLightPosition");
 
         gl.enableVertexAttribArray(shaderProgram.aPosition);
-
+        gl.enableVertexAttribArray(shaderProgram.aNormal);
     },
 
     initBuffers: function() {
@@ -75,22 +77,34 @@ def ("GL") ({
         var mySphere = new SphereBuffer();
 
         // cube
-        var cubeBuf = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, cubeBuf);
+        var cubeVertices = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertices);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(myCube.Vertices), gl.STATIC_DRAW);
-        cubeBuf.itemSize = 4;
-        cubeBuf.numItems = myCube.numVertices;
+        cubeVertices.itemSize = 4;
+        cubeVertices.numItems = myCube.numVertices;
+
+        var cubeNormals = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, cubeNormals);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(myCube.Normals), gl.STATIC_DRAW);
+        cubeNormals.itemSize = 3;
+        cubeNormals.numItems = myCube.numVertices;
 
         // sphere
-        var sphereBuf = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, sphereBuf);
+        var sphereVertices = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, sphereVertices);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mySphere.Vertices), gl.STATIC_DRAW);
-        sphereBuf.itemSize = 4;
-        sphereBuf.numItems = mySphere.numVertices;
+        sphereVertices.itemSize = 4;
+        sphereVertices.numItems = mySphere.numVertices;
 
-        MODEL.buffer[MODEL.BLOCK] = cubeBuf;
-        MODEL.buffer[MODEL.PACMAN] = sphereBuf;
-        MODEL.buffer[MODEL.MONSTER] = sphereBuf;
+        var sphereNormals = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, sphereNormals);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mySphere.Normals), gl.STATIC_DRAW);
+        sphereNormals.itemSize = 3;
+        sphereNormals.numItems = mySphere.numVertices;
+
+        MODEL.buffer[MODEL.BLOCK] = { vertices: cubeVertices, normals: cubeNormals };
+        MODEL.buffer[MODEL.PACMAN] = { vertices: sphereVertices, normals: sphereNormals };
+        MODEL.buffer[MODEL.MONSTER] = { vertices: sphereVertices, normals: sphereNormals };
     },
     onKeyUp: function (key) {
         console.log(key);

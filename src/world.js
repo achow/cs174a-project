@@ -4,9 +4,15 @@ def ("World") ({
         this.box = [];
         this.camera = new Camera();
         // move cam back a little bit
-        this.camera.position.z = 20;
+        this.camera.position.z = 7;
         this.camera.position.y = -10;
-        this.camera.phi = 20;
+        this.camera.phi = 60;
+
+        this.lightPosition = new Position();
+        this.lightPosition.x = 0;
+        this.lightPosition.y = 4;
+        this.lightPosition.z = 20;
+
         this.initMap();
     },
 
@@ -29,14 +35,19 @@ def ("World") ({
      */
     draw: function() {
         console.log("world draw");
+        // perspective
         gl.uniformMatrix4fv(shaderProgram.uPerspective, false,
             mat4.perspective(mat4.create(), 45, gl.viewportWidth / gl.viewportHeight, 1, 100.0)
             //mat4.create()
         );
+
+        // camera transform
         gl.uniformMatrix4fv(shaderProgram.uView, false,
             //mat4.create()
             this.camera.view()
         );
+        // where is light
+        gl.uniform3fv(shaderProgram.uLightPosition, this.lightPosition.toVec3());
         _.each(this.box, function(obj) {
             obj.draw();
         });
@@ -56,7 +67,6 @@ def ("World") ({
                     var block = new Block(this, MODEL.BLOCK);
                     block.position.x = w;
                     block.position.y = h;
-                    block.position.z = 1;
                     self.add(block);
                 } else if (entry === MAPELEMENT.PACMANSPAWN){
                     // pacman

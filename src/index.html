@@ -44,18 +44,20 @@
         <!-- fragment shader-->
         <script id="shader-fs" type="x-shader/x-fragment">
             precision mediump float;
+            varying vec3 vLight;
             //uniform sampler2D uSampler;
             //varying vec2 vTextureCoord;
 
             void main(void) {
                 //gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
-                gl_FragColor = vec4(1, 1, 1, 1);
+                gl_FragColor = vec4(vLight, 1);
             }
         </script>
 
         <!-- vertex shader-->
         <script id="shader-vs" type="x-shader/x-vertex">
             attribute vec4 aPosition;
+            attribute vec3 aNormal;
             //attribute vec2 aTextureCoord;
 
             //varying vec2 vTextureCoord;
@@ -63,9 +65,17 @@
             uniform mat4 uWorld;
             uniform mat4 uView;
             uniform mat4 uPerspective;
+            uniform vec3 uLightPosition;
+            varying vec3 vLight;
 
             void main(void) {
-                gl_Position = uPerspective * uView * uWorld * aPosition;
+                vec4 worldPosition = uWorld * aPosition;
+                gl_Position = uPerspective * uView * worldPosition;
+
+                vec3 lightDirection = normalize(uLightPosition - worldPosition.xyz);
+
+                float directionalLightWeighting = max(dot(aNormal, lightDirection), 0.0);
+                vLight = vec3(0.2, 0.2, 0.2) + vec3(0.8, 0.8, 0.8) * directionalLightWeighting;
                 //vTextureCoord = aTextureCoord;
             }
         </script>

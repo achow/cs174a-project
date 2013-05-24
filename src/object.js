@@ -3,8 +3,6 @@ def ("Obj") ({
     init: function(world, id) {
         this.modelId = id;
         this.position = new Position();
-        //this.ambLight = new Color();
-        //this.dirLight = new Color();
         this.size = 1;
         this.world = world;
     },
@@ -23,9 +21,16 @@ def ("Obj") ({
 
         // draw it with right buffer
         var buf = MODEL.buffer[this.modelId];
-        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-        gl.vertexAttribPointer(shaderProgram.aPosition, buf.itemSize, gl.FLOAT, false, 0, 0);
-        gl.drawArrays(gl.TRIANGLES, 0, buf.numItems);
+
+        // use vertices
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf.vertices);
+        gl.vertexAttribPointer(shaderProgram.aPosition, buf.vertices.itemSize, gl.FLOAT, false, 0, 0);
+
+        // use normals
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf.normals);
+        gl.vertexAttribPointer(shaderProgram.aNormal, buf.normals.itemSize, gl.FLOAT, false, 0, 0);
+
+        gl.drawArrays(gl.TRIANGLES, 0, buf.vertices.numItems);
     },
 
     /*
