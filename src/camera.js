@@ -2,9 +2,21 @@ def ("Camera") ({
 
     init: function() {
         this.position = new Position();
-        this.theta = 0;
+        this.theta = 0; // Horizontal 
         this.phi = 0;
         this.attachObject = null;
+    },
+    
+    setPosition: function(x, y, z) {
+        this.position.x = x;
+        this.position.y = y;
+        this.position.z = z;
+    },
+    
+    move: function(x, y, z) {
+        this.position.x += x;
+        this.position.y += y;
+        this.position.z += z;
     },
 
     /*
