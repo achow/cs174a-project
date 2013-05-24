@@ -59,12 +59,13 @@ GL = new JS.Class({
 
         gl.useProgram(shaderProgram);
 
-        shaderProgram.vPosition = gl.getAttribLocation(shaderProgram, "vPosition");
+        shaderProgram.aPosition = gl.getAttribLocation(shaderProgram, "aPosition");
         shaderProgram.uView = gl.getUniformLocation(shaderProgram, "uView");
         shaderProgram.uWorld = gl.getUniformLocation(shaderProgram, "uWorld");
         shaderProgram.uPerspective = gl.getUniformLocation(shaderProgram, "uPerspective");
+        shaderProgram.aTextureCoord = gl.getAttribLocation(shaderProgram, "aTextureCoord");
 
-        gl.enableVertexAttribArray(shaderProgram.vPosition);
+        gl.enableVertexAttribArray(shaderProgram.aPosition);
 
     },
 

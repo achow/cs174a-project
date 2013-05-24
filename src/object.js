@@ -3,8 +3,8 @@ Obj = new JS.Class({
     initialize: function(world, id) {
         this.modelId = id;
         this.position = new Position();
-        this.ambLight = new Color();
-        this.dirLight = new Color();
+        //this.ambLight = new Color();
+        //this.dirLight = new Color();
         this.size = 1;
         this.world = world;
     },
@@ -24,7 +24,7 @@ Obj = new JS.Class({
         // draw it with right buffer
         var buf = MODEL.buffer[this.modelId];
         gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-        gl.vertexAttribPointer(shaderProgram.vPosition, buf.itemSize, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(shaderProgram.aPosition, buf.itemSize, gl.FLOAT, false, 0, 0);
         gl.drawArrays(gl.TRIANGLES, 0, buf.numItems);
     },
 
