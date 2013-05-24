@@ -2,15 +2,15 @@ World = new JS.Class({
 
     initialize: function(id) {
         this.box = [];
-        this.initMap();
-
         this.pacman = new Pacman(this, MODEL.PACMAN);
-        //this.add(this.pacman);
+        this.add(this.pacman);
         this.camera = new Camera();
         // move cam back a little bit
         this.camera.position.z = 20;
-        this.camera.position.x = 5;
-        this.camera.position.y = 5;
+        this.camera.position.x = 10;
+        this.camera.position.y = -3;
+        this.camera.phi = 20;
+        this.initMap();
     },
 
     /*
@@ -50,6 +50,7 @@ World = new JS.Class({
     initMap: function() {
         var self = this;
         _.each(MapData, function(row, h) {
+            h = MAP_SIZE_H - 1 - h; // the map is upside down (by design)
             _.each(row.split(""), function(entry, w) {
                 // this is a wall
                 if (entry === MAPELEMENT.WALL) {
@@ -58,6 +59,9 @@ World = new JS.Class({
                     block.position.y = h;
                     block.position.z = 1;
                     self.add(block);
+                } else if (entry === MAPELEMENT.PACMANSPAWN){
+                    self.pacman.position.x = w;
+                    self.pacman.position.y = h;
                 }
             });
         });

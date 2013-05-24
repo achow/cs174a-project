@@ -98,12 +98,8 @@ GL = new JS.Class({
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         // draw it
-        world.draw();
+        this.world.draw();
     },
-    createObject: function () {
-        world = new World();
-    },
-
     initialize: function() {
         var canvas = document.getElementById("game-canvas");
 
@@ -114,7 +110,8 @@ GL = new JS.Class({
         this.initGL(canvas);
         this.initShaders();
         this.initBuffers();
-        this.createObject();
+
+        this.world = new World();
 
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.enable(gl.DEPTH_TEST);
