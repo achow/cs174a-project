@@ -10,7 +10,6 @@ GL = new JS.Class({
             console.log("Could not initialise WebGL, sorry :-(");
         }
     },
-    //var aVertexPosition;
     initShaders: function() {
         function getShader(gl, id) {
             var shaderScript = document.getElementById(id);
@@ -60,8 +59,12 @@ GL = new JS.Class({
 
         gl.useProgram(shaderProgram);
 
-        shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "vPosition");
-        gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+        shaderProgram.vPosition = gl.getAttribLocation(shaderProgram, "vPosition");
+        shaderProgram.uView = gl.getUniformLocation(shaderProgram, "uView");
+        shaderProgram.uWorld = gl.getUniformLocation(shaderProgram, "uWorld");
+        shaderProgram.uPerspective = gl.getUniformLocation(shaderProgram, "uPerspective");
+
+        gl.enableVertexAttribArray(shaderProgram.vPosition);
 
     },
 

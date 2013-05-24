@@ -53,10 +53,12 @@
         <!-- vertex shader-->
         <script id="shader-vs" type="x-shader/x-vertex">
             attribute vec4 vPosition;
+            uniform mat4 uWorld;
+            uniform mat4 uView;
+            uniform mat4 uPerspective;
 
             void main(void) {
-
-                gl_Position = vPosition;
+                gl_Position = uPerspective * uView * uWorld * vPosition;
             }
         </script>
 

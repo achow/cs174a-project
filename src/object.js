@@ -16,10 +16,13 @@ Obj = new JS.Class({
      * drawing function
      */
     draw: function() {
+        // move it
+        gl.uniformMatrix4fv(shaderProgram.uWorld, false, this.where());
+
+        // draw it with right buffer
         var buf = MODEL.buffer[this.modelId];
-        //sphere
         gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, buf.itemSize, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(shaderProgram.vPosition, buf.itemSize, gl.FLOAT, false, 0, 0);
         gl.drawArrays(gl.TRIANGLES, 0, buf.numItems);
     },
 

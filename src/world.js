@@ -5,8 +5,12 @@ World = new JS.Class({
         this.initMap();
 
         this.pacman = new Pacman(this, MODEL.PACMAN);
-        this.add(this.pacman);
+        //this.add(this.pacman);
         this.camera = new Camera();
+        // move cam back a little bit
+        this.camera.position.z = 20;
+        this.camera.position.x = 5;
+        this.camera.position.y = 5;
     },
 
     /*
@@ -27,6 +31,15 @@ World = new JS.Class({
      * run all object's render
      */
     draw: function() {
+        console.log("world draw");
+        gl.uniformMatrix4fv(shaderProgram.uPerspective, false,
+            mat4.perspective(mat4.create(), 45, gl.viewportWidth / gl.viewportHeight, 1, 100.0)
+            //mat4.create()
+        );
+        gl.uniformMatrix4fv(shaderProgram.uView, false,
+            //mat4.create()
+            this.camera.view()
+        );
         _.each(this.box, function(obj) {
             obj.draw();
         });
