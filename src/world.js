@@ -19,12 +19,12 @@ def ("World") ({
 
     /*
      * add object to the box
+     * animate: optional, set it to true to turn on animation for this object
      */
-    addToRenderList: function(obj) {
+    addToRenderList: function(obj, animate) {
+        if (animate === true)
+            this.animateList.push(obj);
         this.renderList.push(obj);
-    },
-    addToAnimateList: function(obj) {
-        this.animateList.push(obj);
     },
     /*
      * run all object's dt
@@ -76,16 +76,14 @@ def ("World") ({
                     var pacman = new Pacman(self, MODEL.PACMAN);
                     pacman.position.x = w;
                     pacman.position.y = h;
-                    self.addToRenderList(pacman);
-                    self.addToAnimateList(pacman);
+                    self.addToRenderList(pacman, true);
                     self.pacman = pacman;
                 } else if (entry === MAPELEMENT.MONSTERSPAWN) {
                     // monster
                     var monster = new Monster(self, MODEL.MONSTER);
                     monster.position.x = w;
                     monster.position.y = h;
-                    self.addToRenderList(monster);
-                    self.addToAnimateList(monster);
+                    self.addToRenderList(monster, true);
                 }
             });
         });
