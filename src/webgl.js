@@ -91,7 +91,9 @@ GL = new JS.Class({
         MODEL.buffer[MODEL.PACMAN] = sphereBuf;
         MODEL.buffer[MODEL.MONSTER] = sphereBuf;
     },
-
+    onKeyUp: function (key) {
+        console.log(key);
+    },
 
     drawScene: function() {
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
@@ -101,6 +103,13 @@ GL = new JS.Class({
         this.world.draw();
     },
     initialize: function() {
+
+        // set up key
+        var self = this;
+        document.onkeyup = function (e) {
+            self.onKeyUp(e.keyCode);
+        };
+
         var canvas = document.getElementById("game-canvas");
 
         // full screen
