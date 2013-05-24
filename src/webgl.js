@@ -120,6 +120,16 @@ def ("GL") ({
             this.world.camera.move(0, -1, 0);
         else if (charRep == "D")  
             this.world.camera.move(1, 0, 0);
+        /*
+        else if (key == 37) // Left arrow
+            this.world.camera.theta++;
+        else if (key == 39) // Right arrow
+            this.world.camera.theta--;
+        */
+        else if (key == 38) // Up arrow
+            this.world.camera.phi++;
+        else if (key == 40) // Down arrow
+            this.world.camera.phi--;
         
         this.drawScene();
     },
