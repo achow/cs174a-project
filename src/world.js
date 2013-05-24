@@ -2,8 +2,6 @@ World = new JS.Class({
 
     initialize: function(id) {
         this.box = [];
-        this.pacman = new Pacman(this, MODEL.PACMAN);
-        this.add(this.pacman);
         this.camera = new Camera();
         // move cam back a little bit
         this.camera.position.z = 20;
@@ -60,8 +58,11 @@ World = new JS.Class({
                     block.position.z = 1;
                     self.add(block);
                 } else if (entry === MAPELEMENT.PACMANSPAWN){
-                    self.pacman.position.x = w;
-                    self.pacman.position.y = h;
+                    var pacman = new Pacman(self, MODEL.PACMAN);
+                    pacman.position.x = w;
+                    pacman.position.y = h;
+                    self.add(pacman);
+                    self.pacman = pacman;
                 }
             });
         });
