@@ -7,8 +7,7 @@ World = new JS.Class({
         this.camera = new Camera();
         // move cam back a little bit
         this.camera.position.z = 20;
-        this.camera.position.x = 10;
-        this.camera.position.y = -3;
+        this.camera.position.y = -10;
         this.camera.phi = 20;
         this.initMap();
     },
@@ -50,8 +49,9 @@ World = new JS.Class({
     initMap: function() {
         var self = this;
         _.each(MapData, function(row, h) {
-            h = MAP_SIZE_H - 1 - h; // the map is upside down (by design)
+            h = - (MAP_SIZE_H/2) + MAP_SIZE_H - 1 - h; // the map is upside down (by design)
             _.each(row.split(""), function(entry, w) {
+                w = w - (MAP_SIZE_W/2);
                 // this is a wall
                 if (entry === MAPELEMENT.WALL) {
                     var block = new Block(this, MODEL.BLOCK);
