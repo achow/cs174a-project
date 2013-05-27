@@ -1,9 +1,8 @@
 <html>
     <head>
         <title>pacman!</title>
-        <style>
-            body, html { width: 100%; height: 100%; margin: 0;}
-        </style>
+        <link href='http://fonts.googleapis.com/css?family=Finger+Paint' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="style.css">
     </head>
 
     <body>
@@ -80,9 +79,13 @@
                 //vTextureCoord = aTextureCoord;
             }
         </script>
-
-        <canvas id="game-canvas" style="border: none;"></canvas>
-        <canvas id="minimap" style="border: none; position: absolute; bottom: 1em; right: 1em;"></canvas>
+        <div class="title">
+            <div><span class="first">3D</span><span class="second">PACMAN</span> <span class="third">!</span></div>
+            <div class="subtitle">CS174A Project</div>
+        </div>
+        <canvas id="game-canvas"></canvas>
+        <canvas id="minimap"></canvas>
+        <div class="minimap-title">MiniMap↷</div>
         <script src="gl.js"></script>
         <script src="canvas.data.js"></script>
         <script>

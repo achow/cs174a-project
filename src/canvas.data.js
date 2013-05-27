@@ -1,5 +1,5 @@
 CANVAS_DATA = [
-{
+    {
         id: "minimap",
         shader: ["shader-vs", "shader-fs"],
         shaderAttribute : [
@@ -72,5 +72,4 @@ CANVAS_DATA = [
             console.log(buf);
         },
     },
-
 ];

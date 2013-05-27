@@ -1,0 +1,40 @@
+body, html {
+    width: 100%; height: 100%; margin: 0;
+    font-family: 'Finger Paint', cursive;
+}
+canvas {
+    border: none;
+}
+#minimap {
+    position: absolute; bottom: 10px; right: 10px;
+}
+.minimap-title {
+    position: absolute;
+    bottom: 190px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #FFF;
+    right: 170px;
+}
+.first {
+    color: #8A0023;
+    font-weight: bold;
+    font-size: 100px;
+    border-bottom: 10px dashed;
+}
+.second {
+    font-size: 70px;
+    color: #978400;
+}
+.third {
+    font-size: 70px;
+    color: #005B5B;
+}
+.title {
+    position: absolute; top: 10px; left: 20px;
+}
+.subtitle {
+    margin-top: 20px;
+    font-size: 30px;
+    color: #FFF;
+}
