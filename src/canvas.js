@@ -16,8 +16,8 @@ def ("Canvas") ({
 
         // create shader for canvas
         this.initGL(canvas, data.shader);
-        data.initShader(this);
-        data.initBuffer(this);
+        this.initShader(data.shaderAttribute, data.shaderUniform);
+        this.initBuffer(data.model, data.modelMap);
         data.createObject(this);
 
         // time delta
@@ -64,6 +64,43 @@ def ("Canvas") ({
             console.log("Could not initialise WebGL, sorry :-(");
         }
     },
+    initBuffer: function(model, mapping) {
+        var gl = this.gl;
+        // load model here
+
+        var glBuffer = _.map(model, function(buf, key) {
+            var vbuf = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, vbuf);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(buf.Vertices), gl.STATIC_DRAW);
+            vbuf.itemSize = 4;
+            vbuf.numItems = buf.numVertices;
+
+            var nbuf = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, nbuf);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(buf.Normals), gl.STATIC_DRAW);
+            nbuf.itemSize = 3;
+            nbuf.numItems = buf.numVertices;
+            return { vertices: vbuf, normals: nbuf };
+        });
+
+        _.each(mapping, function(map) {
+            MODEL.buffer[map.type] = glBuffer[map.index];
+        });
+    },
+    initShader: function(attribute, uniform) {
+        var gl = this.gl;
+        var shaderProgram = this.shaderProgram;
+
+        _.each(attribute, function(attr) {
+            shaderProgram[attr] = gl.getAttribLocation(shaderProgram, attr);
+            gl.enableVertexAttribArray(shaderProgram[attr]);
+        });
+
+        _.each(uniform, function(unif) {
+            shaderProgram[unif] = gl.getUniformLocation(shaderProgram, unif);
+        });
+    },
+
     /*
      * add shader by id
      */

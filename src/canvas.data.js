@@ -4,6 +4,16 @@ CANVAS_DATA = [
         shader: ["shader-vs", "shader-fs"],
         width: document.width,
         height: document.height,
+        shaderAttribute : [
+            "aPosition",
+            "aNormal",
+        ],
+        shaderUniform : [
+            "uView",
+            "uWorld",
+            "uPerspective",
+            "uLightPosition",
+        ],
         keyPress: function (canvas, key) {
             var charRep = String.fromCharCode(key);
 
@@ -24,58 +34,15 @@ CANVAS_DATA = [
             else if (key == 40) // Down arrow
                 canvas.world.camera.phi -= 5;
         },
-        initShader: function(canvas) {
-            var gl = canvas.gl;
-            var shaderProgram = canvas.shaderProgram;
-
-            var attribute = [
-                "aPosition",
-                "aNormal",
-            ];
-
-            var uniform = [
-                "uView",
-                "uWorld",
-                "uPerspective",
-                "uLightPosition",
-            ];
-
-            _.each(attribute, function(attr) {
-                shaderProgram[attr] = gl.getAttribLocation(shaderProgram, attr);
-                gl.enableVertexAttribArray(shaderProgram[attr]);
-            });
-
-            _.each(uniform, function(unif) {
-                shaderProgram[unif] = gl.getUniformLocation(shaderProgram, unif);
-            });
-        },
-        initBuffer: function(canvas) {
-            var gl = canvas.gl;
-            // load model here
-            var buffer = [
-                new CubeBuffer(),
-                new SphereBuffer(),
-            ];
-
-            var glBuffer = _.map(buffer, function(buf, key) {
-                var vbuf = gl.createBuffer();
-                gl.bindBuffer(gl.ARRAY_BUFFER, vbuf);
-                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(buf.Vertices), gl.STATIC_DRAW);
-                vbuf.itemSize = 4;
-                vbuf.numItems = buf.numVertices;
-
-                var nbuf = gl.createBuffer();
-                gl.bindBuffer(gl.ARRAY_BUFFER, nbuf);
-                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(buf.Normals), gl.STATIC_DRAW);
-                nbuf.itemSize = 3;
-                nbuf.numItems = buf.numVertices;
-                return { vertices: vbuf, normals: nbuf };
-            });
-
-            MODEL.buffer[MODEL.BLOCK] = glBuffer[0];
-            MODEL.buffer[MODEL.PACMAN] = glBuffer[1];
-            MODEL.buffer[MODEL.MONSTER] = glBuffer[1];
-        },
+        model: [
+            new CubeBuffer(),
+            new SphereBuffer(),
+        ],
+        modelMap: [
+            {type: MODEL.BLOCK, index: 0 }, // index in model
+            {type: MODEL.PACMAN, index: 1 },
+            {type: MODEL.MONSTER, index: 1 },
+        ],
         createObject: function (canvas) {
             canvas.world = new World();
         },
@@ -87,7 +54,6 @@ CANVAS_DATA = [
                 gl.readPixels(e.pageX, canvas.gl.viewportHeight - e.pageY, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixelValues);
                 alert(pixelValues[0]);
             }
-
         },
     }
 ];
