@@ -12,6 +12,7 @@ def ("Actor") << Obj ({
         this._super(world, id);
         this._position = new Position(); // internal position
         this.direction = DIRECTION.NONE;
+        this.size = 0.5;
     },
 
     setDirection: function(dir) {
