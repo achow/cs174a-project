@@ -3,10 +3,8 @@ def ("Canvas") ({
         console.log("canvas setup", data);
         var self = this;
         this.id = data.id;
-        // set size
+        this.buffer = [];
         var canvas = document.getElementById(data.id);
-        canvas.width = data.width;
-        canvas.height = data.height;
 
         // check webgl
         try {
@@ -21,7 +19,6 @@ def ("Canvas") ({
 
         // canvas only has one world
         this.world = new World();
-
         // set up key
         this.keyPress = function (e) {
             data.keyPress(self, e.keyCode);
@@ -50,9 +47,6 @@ def ("Canvas") ({
     initGL: function(canvas, shader) {
         var gl = canvas.getContext("experimental-webgl", {preserveDrawingBuffer: true});
         this.gl = gl;
-        // set size
-        gl.viewportWidth = canvas.width;
-        gl.viewportHeight = canvas.height;
 
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.enable(gl.DEPTH_TEST);
@@ -90,8 +84,9 @@ def ("Canvas") ({
             return { vertices: vbuf, normals: nbuf };
         });
 
+        var self = this;
         _.each(mapping, function(map) {
-            MODEL.buffer[map.type] = glBuffer[map.index];
+            self.buffer[map.type] = glBuffer[map.index];
         });
     },
     initShader: function(attribute, uniform) {
@@ -149,7 +144,14 @@ def ("Canvas") ({
 
     draw: function() {
         var gl = this.gl;
+        // set size
+        var canvas = document.getElementById(this.id);
+        //console.log(this.id, canvas.width, canvas.height);
+        gl.viewportWidth = canvas.width;
+        gl.viewportHeight = canvas.height;
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+
+
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         this.world.draw(this);
     },

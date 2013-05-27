@@ -1,9 +1,34 @@
 CANVAS_DATA = [
+{
+        id: "minimap",
+        shader: ["shader-vs", "shader-fs"],
+        shaderAttribute : [
+            "aPosition",
+            "aNormal",
+        ],
+        shaderUniform : [
+            "uView",
+            "uWorld",
+            "uPerspective",
+            "uLightPosition",
+        ],
+        keyPress: function (canvas, key) {},
+        model: [
+            new CubeBuffer(),
+            new SphereBuffer(),
+        ],
+        modelMap: [
+            {type: MODEL.BLOCK, index: 0 }, // index in model
+            {type: MODEL.PACMAN, index: 1 },
+            {type: MODEL.MONSTER, index: 1 },
+        ],
+        picker: function(canvas, buf) {
+            console.log(buf);
+        },
+    },
     {
         id: "game-canvas",
         shader: ["shader-vs", "shader-fs"],
-        width: document.width,
-        height: document.height,
         shaderAttribute : [
             "aPosition",
             "aNormal",
@@ -46,5 +71,6 @@ CANVAS_DATA = [
         picker: function(canvas, buf) {
             console.log(buf);
         },
-    }
+    },
+
 ];

@@ -6,5 +6,4 @@ MODEL = {
     BLOCK: 1,
     PACMAN: 2,
     MONSTER: 3,
-    buffer: [],
 };

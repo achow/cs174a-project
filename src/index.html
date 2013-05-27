@@ -82,9 +82,26 @@
         </script>
 
         <canvas id="game-canvas" style="border: none;"></canvas>
+        <canvas id="minimap" style="border: none; position: absolute; bottom: 1em; right: 1em;"></canvas>
         <script src="gl.js"></script>
         <script src="canvas.data.js"></script>
-        <script> GL = new GL(CANVAS_DATA);
+        <script>
+            var game = document.getElementById("game-canvas");
+            game.width = document.width;
+            game.height = document.height;
+
+            var minimap = document.getElementById("minimap");
+            minimap.width = 300;
+            minimap.height = 200;
+
+
+            GL = new GL(CANVAS_DATA);
+            // sync minimap
+            GL.canvas[0].world.camera = new Camera();
+            GL.canvas[0].world.camera.position.z = 15;
+            GL.canvas[0].world.lightPosition.z = 1000;
+            GL.canvas[0].world.renderList = GL.canvas[1].world.renderList;
+            GL.canvas[0].world.animateList = GL.canvas[1].world.animateList;
             for(var i in window) {
                 //console.log(i);
             }
