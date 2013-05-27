@@ -15,7 +15,9 @@ def ("Obj") ({
     /*
      * drawing function
      */
-    draw: function() {
+    draw: function(canvas) {
+        var gl = canvas.gl;
+        var shaderProgram = canvas.shaderProgram;
         // move it
         gl.uniformMatrix4fv(shaderProgram.uWorld, false, this.where());
 

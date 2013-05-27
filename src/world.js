@@ -37,7 +37,9 @@ def ("World") ({
     /*
      * run all object's render
      */
-    draw: function() {
+    draw: function(canvas) {
+        var gl = canvas.gl;
+        var shaderProgram = canvas.shaderProgram;
         // perspective
         gl.uniformMatrix4fv(shaderProgram.uPerspective, false,
             mat4.perspective(mat4.create(), 45, gl.viewportWidth / gl.viewportHeight, 1, 100.0)
@@ -52,7 +54,7 @@ def ("World") ({
         // where is light
         gl.uniform3fv(shaderProgram.uLightPosition, this.lightPosition.toVec3());
         _.each(this.renderList, function(obj) {
-            obj.draw();
+            obj.draw(canvas);
         });
     },
     /*
