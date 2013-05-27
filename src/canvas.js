@@ -8,8 +8,14 @@ def ("Canvas") ({
         canvas.width = data.width;
         canvas.height = data.height;
 
-        // create shader for canvas
-        this.initGL(canvas, data.shader);
+        // check webgl
+        try {
+            // create shader for canvas
+            this.initGL(canvas, data.shader);
+        } catch (e) {
+            console.log("Could not initialise WebGL, sorry :-(");
+            return;
+        }
         this.initShader(data.shaderAttribute, data.shaderUniform);
         this.initBuffer(data.model, data.modelMap);
 
@@ -42,34 +48,28 @@ def ("Canvas") ({
      * create actual canvas and program
      */
     initGL: function(canvas, shader) {
-        try {
-            var gl = canvas.getContext("experimental-webgl", {preserveDrawingBuffer: true});
-            this.gl = gl;
-            // set size
-            gl.viewportWidth = canvas.width;
-            gl.viewportHeight = canvas.height;
+        var gl = canvas.getContext("experimental-webgl", {preserveDrawingBuffer: true});
+        this.gl = gl;
+        // set size
+        gl.viewportWidth = canvas.width;
+        gl.viewportHeight = canvas.height;
 
-            gl.clearColor(0.0, 0.0, 0.0, 1.0);
-            gl.enable(gl.DEPTH_TEST);
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.enable(gl.DEPTH_TEST);
 
-            // create program
-            var shaderProgram = gl.createProgram();
-            this.shaderProgram = shaderProgram;
-            var self = this;
-            _.each(shader, function(shaderId) {
-                self.addShader(shaderId);
-            });
-            gl.linkProgram(shaderProgram);
+        // create program
+        var shaderProgram = gl.createProgram();
+        this.shaderProgram = shaderProgram;
+        var self = this;
+        _.each(shader, function(shaderId) {
+            self.addShader(shaderId);
+        });
+        gl.linkProgram(shaderProgram);
 
-            if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-                console.log("Could not initialise shaders");
-            }
-            gl.useProgram(shaderProgram);
-        } catch (e) {
+        if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+            console.log("Could not initialise shaders");
         }
-        if (!this.gl) {
-            console.log("Could not initialise WebGL, sorry :-(");
-        }
+        gl.useProgram(shaderProgram);
     },
     initBuffer: function(model, mapping) {
         var gl = this.gl;
@@ -117,9 +117,8 @@ def ("Canvas") ({
 
         console.log("add shader", id);
         var shaderScript = document.getElementById(id);
-        if (!shaderScript) {
-            return null;
-        }
+        if (!shaderScript) return;
+
         var str = "";
         var k = shaderScript.firstChild;
         while (k) {
@@ -135,7 +134,7 @@ def ("Canvas") ({
         } else if (shaderScript.type == "x-shader/x-vertex") {
             shader = gl.createShader(gl.VERTEX_SHADER);
         } else {
-            return null;
+            return;
         }
 
         gl.shaderSource(shader, str);
@@ -143,7 +142,7 @@ def ("Canvas") ({
 
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
             console.log(gl.getShaderInfoLog(shader));
-            return null;
+            return;
         }
         gl.attachShader(shaderProgram, shader);
     },
