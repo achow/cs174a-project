@@ -36,7 +36,7 @@ def ("Canvas") ({
      */
     initGL: function(canvas, shader) {
         try {
-            var gl = canvas.getContext("experimental-webgl");
+            var gl = canvas.getContext("experimental-webgl", {preserveDrawingBuffer: true});
             this.gl = gl;
             // set size
             gl.viewportWidth = canvas.width;

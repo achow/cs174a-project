@@ -84,7 +84,12 @@
         <canvas id="game-canvas" style="border: none;"></canvas>
         <script src="gl.js"></script>
         <script src="canvas.data.js"></script>
-        <script> GL = new GL(CANVAS_DATA); </script>
+        <script> GL = new GL(CANVAS_DATA);
+            for(var i in window) {
+                //console.log(i);
+            }
+
+        </script>
     </body>
 
 </html>
