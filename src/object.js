@@ -18,8 +18,9 @@ def ("Obj") ({
     draw: function(canvas) {
         var gl = canvas.gl;
         var shaderProgram = canvas.shaderProgram;
+        
         // move it
-        gl.uniformMatrix4fv(shaderProgram.uWorld, false, this.where());
+        gl.uniformMatrix4fv(shaderProgram.uWorld, false, mat4.mul(mat4.create(), this.where(), this.scale()));
 
         // draw it with right buffer
         var buf = MODEL.buffer[this.modelId];
