@@ -8,17 +8,25 @@ def ("Canvas") ({
         canvas.width = data.width;
         canvas.height = data.height;
 
-        // set up key
-        this.keyPress = function (e) {
-            data.keyPress(self, e.keyCode);
-        };
-        this.active();
-
         // create shader for canvas
         this.initGL(canvas, data.shader);
         this.initShader(data.shaderAttribute, data.shaderUniform);
         this.initBuffer(data.model, data.modelMap);
-        data.createObject(this);
+
+        // canvas only has one world
+        this.world = new World();
+
+        // set up key
+        this.keyPress = function (e) {
+            data.keyPress(self, e.keyCode);
+        };
+        this.picker = function (e) {
+            var gl = self.gl;
+            var pixelValues = new Uint8Array(4);
+            gl.readPixels(e.pageX, canvas.height - e.pageY, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixelValues);
+            data.picker(self, pixelValues);
+        }
+        this.active();
 
         // time delta
         dt = 1/30;
@@ -27,8 +35,7 @@ def ("Canvas") ({
         window.setInterval(function() {
             self.world.camera.dt();
             self.world.dt();
-            self.clear();
-            data.draw(self);
+            self.draw();
         }, dt*1000);
     },
     /*
@@ -140,13 +147,12 @@ def ("Canvas") ({
         }
         gl.attachShader(shaderProgram, shader);
     },
-    /*
-     * clear the canvas
-     */
-    clear: function() {
+
+    draw: function() {
         var gl = this.gl;
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        this.world.draw(this);
     },
     /*
      * only one active canvas can access user keyboard
@@ -154,5 +160,6 @@ def ("Canvas") ({
     active: function() {
         console.log("active", this.id);
         document.onkeyup = this.keyPress;
+        document.onmouseup = this.picker;
     }
 });

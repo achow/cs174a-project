@@ -43,17 +43,8 @@ CANVAS_DATA = [
             {type: MODEL.PACMAN, index: 1 },
             {type: MODEL.MONSTER, index: 1 },
         ],
-        createObject: function (canvas) {
-            canvas.world = new World();
-        },
-        draw: function (canvas) {
-            canvas.world.draw(canvas);
-            document.onmouseup = function(e) {
-                var gl = canvas.gl;
-                var pixelValues = new Uint8Array(4);
-                gl.readPixels(e.pageX, canvas.gl.viewportHeight - e.pageY, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixelValues);
-                alert(pixelValues[0]);
-            }
+        picker: function(canvas, buf) {
+            console.log(buf);
         },
     }
 ];
