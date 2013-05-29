@@ -12,6 +12,7 @@ def ("Actor") << Obj ({
         this._super(world, id);
         this._position = new Position(); // internal position
         this.direction = DIRECTION.NONE;
+		this.prevDirection = DIRECTION.NONE;
         this.size = 0.5;
     },
 
@@ -30,7 +31,61 @@ def ("Actor") << Obj ({
 
             case DIRECTION.DOWN:
                 if (this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.WALL
-                    && getMapElement(this.position.x, this.position.y-1) != MAPELEMENT_CAGEDOOR)
+                    && this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.CAGEDOOR)
+					{
+						this.prevDirection = DIRECTION.DOWN;
+						--this.position.y;
+					}
+				else
+					this.moveOld();
+                break;
+
+            case DIRECTION.UP:
+                if (this.world.getMapElement(this.position.x, this.position.y+1) != MAPELEMENT.WALL
+                    && this.world.getMapElement(this.position.x, this.position.y+1) != MAPELEMENT.CAGEDOOR)
+					{
+						this.prevDirection = DIRECTION.UP;
+						++this.position.y;
+					}
+				else
+					this.moveOld();
+                break;
+
+            case DIRECTION.LEFT:
+                if (this.world.getMapElement(this.position.x-1, this.position.y) != MAPELEMENT.WALL
+                    && this.world.getMapElement(this.position.x-1, this.position.y) != MAPELEMENT.CAGEDOOR)
+					{
+						this.prevDirection = DIRECTION.LEFT;
+						--this.position.x;
+					}
+				else
+					this.moveOld();
+                break;
+
+            case DIRECTION.RIGHT:
+                if (this.world.getMapElement(this.position.x+1, this.position.y) != MAPELEMENT.WALL
+                    && this.world.getMapElement(this.position.x+1, this.position.y) != MAPELEMENT.CAGEDOOR)
+				{
+						this.prevDirection = DIRECTION.RIGHT;
+						++this.position.x;
+				}
+				else
+					this.moveOld();
+				break;
+
+            default:
+                console.log("Bad direction: ", this.direction);
+        }
+    },
+
+    moveOld: function() {
+        switch (this.prevDirection) {
+            case DIRECTION.NONE:
+                break;
+
+            case DIRECTION.DOWN:
+                if (this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.WALL
+                    && this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.CAGEDOOR)
                     --this.position.y;
                 break;
 
@@ -53,19 +108,21 @@ def ("Actor") << Obj ({
                 break;
 
             default:
-                console.log("Bad direction: ", this.direction);
+                console.log("Bad direction: ", this.prevDirection);
         }
     },
-
+	
     where: function() {
         return mat4.translate(mat4.create(), mat4.create(), this._position.toVec3());
     },
 
+	
     dt: function () {
         this._position.x += (this.position.x - this._position.x)*dt;
         this._position.y += (this.position.y - this._position.y)*dt;
         this._position.z += (this.position.z - this._position.z)*dt;
     },
+	
     /*
      * called for each turn
      * actor should make a move here

@@ -10,8 +10,8 @@ def ("World") ({
         this.camera.phi = 60;
 
         this.lightPosition = new Position();
-        this.lightPosition.x = 0;
-        this.lightPosition.y = 0;
+        this.lightPosition.x = 15;
+        this.lightPosition.y = 10;
         this.lightPosition.z = 200;
 
         this.initMap();
@@ -32,6 +32,14 @@ def ("World") ({
     dt: function() {
         _.each(this.animateList, function(obj) {
             obj.dt();
+        });
+    },
+	 /*
+     * run all object's doAction
+     */
+    doAction: function() {
+        _.each(this.animateList, function(obj) {
+            obj.doAction();
         });
     },
     /*
@@ -63,10 +71,9 @@ def ("World") ({
     initMap: function() {
         var self = this;
         _.each(MapData, function(row, h) {
-            h = - (MAP_SIZE_H/2) + MAP_SIZE_H - 1 - h; // the map is upside down (by design)
+           // h = - (MAP_SIZE_H/2) + MAP_SIZE_H - 1 - h; // the map is upside down (by design)
             _.each(row.split(""), function(entry, w) {
-                w = w - (MAP_SIZE_W/2);
-
+             //   w = w - (MAP_SIZE_W/2);
                 if (entry === MAPELEMENT.WALL) {
                     // wall
                     var block = new Block(this, MODEL.BLOCK);

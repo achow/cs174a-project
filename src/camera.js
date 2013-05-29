@@ -2,6 +2,7 @@ def ("Camera") ({
 
     init: function() {
         this.position = new Position();
+		this.setPosition(10, 7, 0);
         this._position = new Position(); // internal position
         this._theta = 0;
         this._phi = 0;
@@ -43,6 +44,16 @@ def ("Camera") ({
         if (this.attachObject) {
             // attach
             this.position = this.attachObject.position;
+			// adapt to direction
+			/*
+			if(this.attachObject.direction == 0)	//DOWN
+				
+			    NONE: -1, // For when we start, pacman is immobile
+    DOWN: 0,
+    UP: 1,
+    LEFT: 2,
+    RIGHT: 3,*/
+			this._position.z += 0.1;
         }
         this._position.x += (this.position.x - this._position.x)*dt;
         this._position.y += (this.position.y - this._position.y)*dt;

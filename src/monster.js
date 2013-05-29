@@ -30,37 +30,39 @@ def ("Monster") << Actor ({
             // West
             if (this.getDirection() != DIRECTION.LEFT && this.position.x > targetX
                 && this.world.getMapElement(this.position.x-1, this.position.y) != MAPELEMENT.WALL) {
-                this.setDirection(DIRECTION.RIGHT);
+                this.setDirection(DIRECTION.LEFT);
                 this.move();
                 return;
             }
             // East
             if (this.getDirection() != DIRECTION.RIGHT && this.position.x < targetX
                 && this.world.getMapElement(this.position.x+1, this.position.y) != MAPELEMENT.WALL) {
-                this.setDirection(DIRECTION.LEFT);
+                this.setDirection(DIRECTION.RIGHT);
                 this.move();
                 return;
             }
         }
 
         // Vertical movement
-        if (this.position.y != targetY) {
+        else if (this.position.y != targetY) {
             // North
             if (this.getDirection() != DIRECTION.DOWN && this.position.y > targetY
                 && this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.WALL) {
-                this.setDirection(DIRECTION.UP);
+                this.setDirection(DIRECTION.DOWN);
                 this.move();
                 return;
             }
             // South
             if (this.getDirection() != DIRECTION.UP && this.position.y < targetY
                 && this.world.getMapElement(this.position.x, this.position.y+1) != MAPELEMENT.WALL) {
-                this.setDirection(SOUTH);
+                this.setDirection(DIRECTION.UP);
                 this.move();
                 return;
             }
         }
 
+		else {
+		
         // Otherwise move in a random valid direction
         var dirmove = Math.floor(Math.random() * 4);
         for (var i = 0; i < 4; i++) {
@@ -68,7 +70,7 @@ def ("Monster") << Actor ({
                 case 0: // North
                     if (this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.WALL
                         && this.getDirection() != DIRECTION.DOWN) {
-                        this.setDirection(DIRECTION.UP);
+                        this.setDirection(DIRECTION.DOWN);
                         this.move();
                         return;
                     }
@@ -77,7 +79,7 @@ def ("Monster") << Actor ({
                 case 1: // East
                     if (this.world.getMapElement(this.position.x+1, this.position.y) != MAPELEMENT.WALL
                         && this.getDirection() != DIRECTION.LEFT) {
-                        this.setDirection(DIRECTION.RIGHT);
+                        this.setDirection(DIRECTION.LEFT);
                         this.move();
                         return;
                     }
@@ -86,7 +88,7 @@ def ("Monster") << Actor ({
                 case 2: // South
                     if (this.world.getMapElement(this.position.x, this.position.y+1) != MAPELEMENT.WALL
                         && this.getDirection() != DIRECTION.UP) {
-                        this.setDirection(DIRECTION.DOWN);
+                        this.setDirection(DIRECTION.UP);
                         this.move();
                         return;
                     }
@@ -94,7 +96,7 @@ def ("Monster") << Actor ({
                 case 3: // West
                     if (this.world.getMapElement(this.position.x-1, this.position.y) != MAPELEMENT.WALL
                         && this.getDirection() != DIRECTION.RIGHT) {
-                        this.setDirection(DIRECTION.LEFT);
+                        this.setDirection(DIRECTION.RIGHT);
                         this.move();
                         return;
                     }
@@ -102,6 +104,7 @@ def ("Monster") << Actor ({
             }
             dirmove = (dirmove + 1) % 4;
         }
+		}
     },
 
     doAction: function() {

@@ -40,6 +40,10 @@ def ("Canvas") ({
             self.world.dt();
             self.draw();
         }, dt*1000);
+		
+		window.setInterval(function() {
+            self.world.doAction();
+        }, dt*10000);
     },
     /*
      * create actual canvas and program

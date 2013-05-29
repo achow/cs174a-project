@@ -43,19 +43,25 @@ def ("Obj") ({
     scale: function() {
         return mat4.scale(mat4.create(), mat4.create(), [this.size, this.size, this.size]);
     },
+	
+	
+	dt: function() {
+		alert("object dt called!");
+	},
+	
+	doAction: function() {
+		alert("object doAction called!");	
+	},
+	
+	setDirection: function(dir){
+		alert("object setPosition called!");	
+	},
 
     /*
      * return world matrix
      */
     where: function() {
         return mat4.translate(mat4.create(), mat4.create(), this.position.toVec3());
-    },
-
-    /*
-     *  for animation
-     */
-    dt: function() {
-
     },
 
     /*
