@@ -15,11 +15,11 @@ CANVAS_DATA = [
         ],
         keyPress: function (canvas, key) {
 		},
-	    handleMouseDown: function (event) {		
+	    handleMouseDown: function (canvas, event) {		
 		},
-        handleMouseUp: function (event) {		
+        handleMouseUp: function (canvas, event) {		
 		},
-        handleMouseMove: function (event) {	
+        handleMouseMove: function (canvas, event) {	
 		},
         model: [
             new CubeBuffer(),
@@ -96,16 +96,16 @@ CANVAS_DATA = [
 			}
 			
         },
-        handleMouseDown: function (event) {		
-			this.mouseDown = true;
-			this.lastMouseX = event.clientX;
-			this.lastMouseY = event.clientY;
+        handleMouseDown: function (canvas, event) {		
+			canvas.mouseDown = true;
+			canvas.lastMouseX = event.clientX;
+			canvas.lastMouseY = event.clientY;
 		},
-        handleMouseUp: function (event) {		
-			this.mouseDown = false;
+        handleMouseUp: function (canvas, event) {		
+			canvas.mouseDown = false;
 		},
-        handleMouseMove: function (event) {		
-			if(!this.mouseDown)
+        handleMouseMove: function (canvas, event) {		
+			if(!canvas.mouseDown)
 				return;
 			
 			var newX = event.clientX;
@@ -113,8 +113,8 @@ CANVAS_DATA = [
 			
 			// detect where mouse is
 			
-			this.lastMouseX = newX;
-			this.lastMouseY = newY;
+			canvas.lastMouseX = newX;
+			canvas.lastMouseY = newY;
 			
 		},
         model: [

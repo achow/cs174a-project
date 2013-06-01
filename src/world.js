@@ -10,6 +10,7 @@ def ("World") ({
         this.camera.phi = 60;
 
         this.lightPosition = new Position();
+
         this.lightPosition.x = 15;
         this.lightPosition.y = 10;
         this.lightPosition.z = 200;

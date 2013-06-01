@@ -39,7 +39,7 @@ def ("SphereBuffer") ({
         d = Math.sqrt(d);
         if(d > 0.0)
             for(var i=0; i<3; i++)
-                c[i] = p[i]/d;
+                c[i] = 0.5 * p[i]/d; //changed this to make the radius smaller
         c[3] = 1.0;
         return c;
     },
