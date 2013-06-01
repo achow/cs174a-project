@@ -12,7 +12,7 @@ def ("World") ({
         this.lightPosition = new Position();
         this.lightPosition.x = 0;
         this.lightPosition.y = 0;
-        this.lightPosition.z = 200;
+        this.lightPosition.z = 400;//changed lighting position to see all of the maze
 
         this.initMap();
     },

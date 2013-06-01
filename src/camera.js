@@ -33,6 +33,8 @@ def ("Camera") ({
             Math.cos(glMatrix.toRadian(this._theta))*Math.cos(glMatrix.toRadian(this._phi)),
         ];
         var t = vec3.subtract(vec3.create(), this._position.toVec3(), at);
+        temp = mat4.create();
+        //return mat4.ortho(temp, -20.0, 20.0, -20.0, 20.0, 0, 100);
         return mat4.lookAt(mat4.create(), this._position.toVec3(), t, [0, 1, 0]);
     },
 
