@@ -26,7 +26,7 @@ def ("Monster") << Actor ({
         // Check if movement is achievable without changing direction
 
         // Horizontal movement
-        if (this.position.x != targetX) {
+        if (this.position.x == targetX) {
             // West
             if (this.getDirection() != DIRECTION.LEFT && this.position.x > targetX
                 && this.world.getMapElement(this.position.x-1, this.position.y) != MAPELEMENT.WALL) {
@@ -44,7 +44,7 @@ def ("Monster") << Actor ({
         }
 
         // Vertical movement
-        else if (this.position.y != targetY) {
+        else if (this.position.y == targetY) {
             // North
             if (this.getDirection() != DIRECTION.DOWN && this.position.y > targetY
                 && this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.WALL) {

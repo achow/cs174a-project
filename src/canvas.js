@@ -23,14 +23,28 @@ def ("Canvas") ({
         this.keyPress = function (e) {
             data.keyPress(self, e.keyCode);
         };
+		this.handleMouseDown = function (event) {
+			data.handleMouseDown(self, event);
+		},
+        this.handleMouseUp = function (event) {		
+			data.handleMouseUp(self, event);
+		},
+        this.handleMouseMove = function (event) {	
+			data.handleMouseMove(self, event);
+		},
         this.picker = function (e) {
             var gl = self.gl;
             var pixelValues = new Uint8Array(4);
             gl.readPixels(e.pageX, canvas.height - e.pageY, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixelValues);
             data.picker(self, pixelValues);
         }
+		
+		canvas.onmousedown = this.handleMouseDown;
+		document.onmouseup = this.handleMouseUp;
+		document.onmousemove = this.handleMouseMove;
+		
         this.active();
-
+		
         // time delta
         dt = 1/30;
 
@@ -54,6 +68,10 @@ def ("Canvas") ({
 
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.enable(gl.DEPTH_TEST);
+		
+		this.mouseDown = false;
+		this.lastMouseX = null;
+		this.lastMouseY = null;
 
         // create program
         var shaderProgram = gl.createProgram();

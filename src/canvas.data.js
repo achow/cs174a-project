@@ -11,8 +11,15 @@ CANVAS_DATA = [
             "uWorld",
             "uPerspective",
             "uLightPosition",
+			"uColor",
         ],
         keyPress: function (canvas, key) {
+		},
+	    handleMouseDown: function (event) {		
+		},
+        handleMouseUp: function (event) {		
+		},
+        handleMouseMove: function (event) {	
 		},
         model: [
             new CubeBuffer(),
@@ -39,6 +46,7 @@ CANVAS_DATA = [
             "uWorld",
             "uPerspective",
             "uLightPosition",
+			"uColor",
         ],
         keyPress: function (canvas, key) {
             var charRep = String.fromCharCode(key);
@@ -67,18 +75,18 @@ CANVAS_DATA = [
 			//move pacman and monsters
 			else if (charRep == "I" || charRep == "J" || charRep == "K" || charRep == "M")
 			{
-				var direction = -1;
+				var direction = DIRECTION.NONE;
 				if(charRep == "I")
-					direction = 1;
+					direction = DIRECTION.UP;
 				else if(charRep == "J")
-					direction = 2;
+					direction = DIRECTION.LEFT;
 				else if(charRep == "K")
-					direction = 3;
+					direction = DIRECTION.RIGHT;
 				else if(charRep == "M")
-					direction = 0;
+					direction = DIRECTION.DOWN;
 				
 				_.each(canvas.world.animateList, function(obj) {
-					if(obj.modelId == 2)
+					if(obj.modelId == MODEL.PACMAN)
 					{
 						obj.setDirection(direction);
 						canvas.world.camera.attachObject = obj;
@@ -88,6 +96,27 @@ CANVAS_DATA = [
 			}
 			
         },
+        handleMouseDown: function (event) {		
+			this.mouseDown = true;
+			this.lastMouseX = event.clientX;
+			this.lastMouseY = event.clientY;
+		},
+        handleMouseUp: function (event) {		
+			this.mouseDown = false;
+		},
+        handleMouseMove: function (event) {		
+			if(!this.mouseDown)
+				return;
+			
+			var newX = event.clientX;
+			var newY = event.clientY;
+			
+			// detect where mouse is
+			
+			this.lastMouseX = newX;
+			this.lastMouseY = newY;
+			
+		},
         model: [
             new CubeBuffer(),
             new SphereBuffer(),
