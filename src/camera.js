@@ -51,10 +51,10 @@ def ("Camera") ({
 			if(this.attachObject.direction == 0)	//DOWN
 				
 			    NONE: -1, // For when we start, pacman is immobile
-    DOWN: 0,
-    UP: 1,
-    LEFT: 2,
-    RIGHT: 3,*/
+                DOWN: 0,
+                UP: 1,
+                LEFT: 2,
+                RIGHT: 3,*/
 			this._position.z += 0.1;
         }
         this._position.x += (this.position.x - this._position.x)*dt;

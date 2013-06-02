@@ -102,6 +102,10 @@ def ("World") ({
                     monster.position.x = w;
                     monster.position.y = h;
                     self.addToRenderList(monster, true);
+                } else if (entry === MAPELEMENT.PELLET) {
+                    self.addToRenderList(new Pellet(self, MODEL.PELLET, w, h, 0.25), MODEL.PELLET);
+                } else if (entry === MAPELEMENT.SUPERPELLET) {
+                    self.addToRenderList(new Pellet(self, MODEL.PELLET, w, h, 0.35), MODEL.PELLET);
                 }
             });
         });
