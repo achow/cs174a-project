@@ -13,6 +13,7 @@ def ("Actor") << Obj ({
         this._position = new Position(); // internal position
         this.direction = DIRECTION.NONE;
         this.size = 0.5;
+        this.color.setColor(1, 1, 0);
     },
 
     setDirection: function(dir) {

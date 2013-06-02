@@ -5,6 +5,7 @@ def ("Obj") ({
         this.position = new Position();
         this.size = 1;
         this.world = world;
+        this.color = new Color();
     },
 
     setPosition: function(newX, newY) {

@@ -10,6 +10,7 @@ def ("Monster") << Actor ({
     init: function(world, id) {
         this._super(world, id);
         this.m_state = MONSTER_STATE.ALIVE;
+        this.color.setColor(1, 1, 1);
     },
 
     getState: function() {

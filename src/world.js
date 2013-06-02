@@ -64,14 +64,10 @@ def ("World") ({
         // where is light
         gl.uniform3fv(shaderProgram.uLightPosition, this.lightPosition.toVec3());
 		
-		var color = new Color();
-		color.r = 1; color.g = 1; color.b = 1;
-		gl.uniform3fv(shaderProgram.uColor, color.toVec3());
-		
-		
-		
-		
+		//gl.uniform3fv(shaderProgram.uColor, color.toVec3());
+        
         _.each(this.renderList, function(obj) {
+            gl.uniform3fv(shaderProgram.uColor, obj.color.toVec3());
             obj.draw(canvas);
         });
     },
