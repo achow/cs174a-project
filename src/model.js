@@ -6,5 +6,5 @@ MODEL = {
     BLOCK: 1,
     PACMAN: 2,
     MONSTER: 3,
-    PELLET: 2,
+    PELLET: 4,
 };
