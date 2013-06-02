@@ -27,6 +27,7 @@ def ("World") ({
             this.animateList.push(obj);
         this.renderList.push(obj);
     },
+    
     /*
      * run all object's dt
      */
@@ -103,9 +104,9 @@ def ("World") ({
                     monster.position.y = h;
                     self.addToRenderList(monster, true);
                 } else if (entry === MAPELEMENT.PELLET) {
-                    self.addToRenderList(new Pellet(self, MODEL.PELLET, w, h, 0.25), MODEL.PELLET);
+                    self.addToRenderList(new Pellet(self, MODEL.PELLET, w, h, 0.25), true);
                 } else if (entry === MAPELEMENT.SUPERPELLET) {
-                    self.addToRenderList(new Pellet(self, MODEL.PELLET, w, h, 0.35), MODEL.PELLET);
+                    self.addToRenderList(new Pellet(self, MODEL.PELLET, w, h, 0.35), true);
                 }
             });
         });
