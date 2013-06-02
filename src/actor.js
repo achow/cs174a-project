@@ -118,9 +118,65 @@ def ("Actor") << Obj ({
 
 	
     dt: function () {
+
+        if ((this.position.x - this._position.x) > 0 )
+        {
+            this._position.x += dt;
+            if (this._position.x > this.position.x)
+            {
+                this._position.x = this.position.x;
+            }
+        }
+        else if ((this.position.x - this._position.x) < 0)
+        {
+            this._position.x -= dt;
+            if (this._position.x < this.position.x)
+            {
+                this._position.x = this.position.x;
+            }
+        }
+
+        if ((this.position.y - this._position.y) > 0 )
+        {
+            this._position.y += dt;
+            if (this._position.y > this.position.y)
+            {
+                this._position.y = this.position.y;
+            }
+        }
+        else if ((this.position.y - this._position.y) < 0)
+        {
+            this._position.y -= dt;
+            if (this._position.y < this.position.y)
+            {
+                this._position.y = this.position.y;
+            }
+        }
+
+      if ((this.position.z - this._position.z) > 0 )
+        {
+            this._position.z += dt;
+            if (this._position.z > this.position.z)
+            {
+                this._position.z = this.position.z;
+            }
+        }
+        else if ((this.position.z - this._position.z) < 0)
+        {
+            this._position.z -= dt;
+            if (this._position.z < this.position.z)
+            {
+                this._position.z = this.position.z;
+            }
+        }
+        
+        /*
+
+
         this._position.x += (this.position.x - this._position.x)*dt;
         this._position.y += (this.position.y - this._position.y)*dt;
         this._position.z += (this.position.z - this._position.z)*dt;
+        */
     },
 	
     /*
