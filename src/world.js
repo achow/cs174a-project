@@ -16,11 +16,12 @@ def ("World") ({
         this.lightPosition.z = 500;
 
 		this.pickedColor = new Color();
-		this.pickedColor.setColor(-1, -1, -1);
 		
 		this.mouseDown = false;
 		this.lastMouseX = null;
 		this.lastMouseY = null;
+		this.nextMouseX = null;
+		this.nextMouseY = null;
 		
         this.initMap();
     },
@@ -54,6 +55,9 @@ def ("World") ({
     /*
      * run all object's render
      */
+	 
+
+	 
     draw: function(canvas) {
         var gl = canvas.gl;
         var shaderProgram = canvas.shaderProgram;
@@ -82,11 +86,12 @@ def ("World") ({
         _.each(this.renderList, function(obj) {
             gl.uniform3fv(shaderProgram.uColor, obj.color.toVec3());
 			gl.uniform1i(shaderProgram.uIsPicked, 0);
-	
-			//if(obj.color.r == 1 && obj.color.g == 1 && obj.color.b == 1)
-				//gl.uniform1i(shaderProgram.uIsPicked, 1);		
-			if(obj.color.r*255 == r && obj.color.g*255 == g && obj.color.b*255 == b)
-				gl.uniform1i(shaderProgram.uIsPicked, 1);	
+		
+			//if(obj.color.r*255 == r && obj.color.g*255 == g && obj.color.b*255 == b)
+				//gl.uniform1i(shaderProgram.uIsPicked, 1);	
+				
+			if(obj.isEqual(obj.color.r, r) && obj.isEqual(obj.color.g, g) && obj.isEqual(obj.color.b, b))
+				gl.uniform1i(shaderProgram.uIsPicked, 1);
 			/*
 			if(r == obj.color.r*255 &&
 				g == obj.color.g*255 &&
@@ -99,22 +104,21 @@ def ("World") ({
             obj.draw(canvas);		
         });
 		
-		
-		//what color picked
-		if(this.lastMouseX != null && this.lastMouseY != null)
-		{
 		/*
+		//what color picked
+		if(this.nextMouseX != null && this.nextMouseY != null &&
+			this.lastMouseX != this.nextMouseX && this.lastMouseY != this.nextMouseY)
+		{
 			var readout = new Uint8Array(4);
-			gl.readPixels(this.lastMouseX,this.lastMouseY,1,1,gl.RGBA,gl.UNSIGNED_BYTE,readout);
+			gl.readPixels(this.nextMouseX,this.nextMouseY,1,1,gl.RGBA,gl.UNSIGNED_BYTE,readout);
 		
-			this.pickedColor.r = readout[0];
-			this.pickedColor.g = readout[1];
-			this.pickedColor.b = readout[2];*/
-			
-		    this.pickedColor.r = 255;
-			this.pickedColor.g = 255;
-			this.pickedColor.b = 255;	
-		}
+			if(!(readout[0] == 255 && readout[1] == 0 && readout[2] == 0))
+			{
+				this.pickedColor.r = readout[0];
+				this.pickedColor.g = readout[1];
+				this.pickedColor.b = readout[2];
+			}
+		}*/
     },
     /*
      * make a map

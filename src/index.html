@@ -83,11 +83,11 @@
 				
 				if(uIsPicked == 0)
 				{
-					vLight = uColor;// * directionalLightWeighting;
+					vLight = uColor * directionalLightWeighting;
 				}
 				else
 				{
-					vLight = vec3(1, 0, 0);// * directionalLightWeighting;
+					vLight = vec3(1, 0, 0) * directionalLightWeighting;
 				}
                 //vTextureCoord = aTextureCoord;
             }

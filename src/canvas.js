@@ -2,6 +2,9 @@ def ("Canvas") ({
     init: function(data) {
         console.log("canvas setup", data);
         var self = this;
+
+        //this.world = new World();
+
         this.id = data.id;
         this.buffer = [];
         var canvas = document.getElementById(data.id);
@@ -23,21 +26,19 @@ def ("Canvas") ({
         this.keyPress = function (e) {
             data.keyPress(self, e.keyCode);
         };
+		/*
 		this.handleMouseDown = function (event) {
 			data.handleMouseDown(self, event);
 		},
         this.handleMouseUp = function (event) {		
 			data.handleMouseUp(self, event);
-		},
+		},*/
         this.picker = function (e) {
-            var gl = self.gl;
-            var pixelValues = new Uint8Array(4);
-            gl.readPixels(e.pageX, canvas.height - e.pageY, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixelValues);
-            data.picker(self, pixelValues);
+            data.picker(self, e);
         }
 		
-		document.onmousedown = this.handleMouseDown;
-		document.onmouseup = this.handleMouseUp;
+		//document.onmousedown = this.handleMouseDown;
+	//	document.onmouseup = this.handleMouseUp;
 		
         this.active();
 		
@@ -175,6 +176,6 @@ def ("Canvas") ({
     active: function() {
         console.log("active", this.id);
         document.onkeyup = this.keyPress;
-       // document.onmouseup = this.picker;
+        document.onmousedown = this.picker;
     }
 });
