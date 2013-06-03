@@ -13,7 +13,7 @@ def ("World") ({
 
         this.lightPosition.x = 15;
         this.lightPosition.y = 10;
-        this.lightPosition.z = 400;
+        this.lightPosition.z = 500;
 
         this.initMap();
     },

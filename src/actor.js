@@ -12,6 +12,7 @@ def ("Actor") << Obj ({
         this._super(world, id);
         this._position = new Position(); // internal position
         this.direction = DIRECTION.NONE;
+        this.alignment = true;
         this.size = 0.5;
         this.color.setColor(1, 1, 0);
     },
@@ -31,25 +32,29 @@ def ("Actor") << Obj ({
 
             case DIRECTION.DOWN:
                 if (this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.WALL
-                    && this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.CAGEDOOR)
+                    && this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.CAGEDOOR
+                    && this.alignment == true)
                     --this.position.y;
                 break;
 
             case DIRECTION.UP:
                 if (this.world.getMapElement(this.position.x, this.position.y+1) != MAPELEMENT.WALL
-                    && this.world.getMapElement(this.position.x, this.position.y+1) != MAPELEMENT.CAGEDOOR)
+                    && this.world.getMapElement(this.position.x, this.position.y+1) != MAPELEMENT.CAGEDOOR
+                    && this.alignment == true)
                     ++this.position.y;
                 break;
 
             case DIRECTION.LEFT:
                 if (this.world.getMapElement(this.position.x-1, this.position.y) != MAPELEMENT.WALL
-                    && this.world.getMapElement(this.position.x-1, this.position.y) != MAPELEMENT.CAGEDOOR)
+                    && this.world.getMapElement(this.position.x-1, this.position.y) != MAPELEMENT.CAGEDOOR
+                    && this.alignment == true)
                     --this.position.x;
                 break;
 
             case DIRECTION.RIGHT:
                 if (this.world.getMapElement(this.position.x+1, this.position.y) != MAPELEMENT.WALL
-                    && this.world.getMapElement(this.position.x+1, this.position.y) != MAPELEMENT.CAGEDOOR)
+                    && this.world.getMapElement(this.position.x+1, this.position.y) != MAPELEMENT.CAGEDOOR
+                    && this.alignment == true)
                     ++this.position.x;
                 break;
 
@@ -66,51 +71,63 @@ def ("Actor") << Obj ({
 
         if ((this.position.x - this._position.x) > 0 )
         {
+            this.alignment = false;
             this._position.x += dt;
             if (this._position.x > this.position.x)
             {
                 this._position.x = this.position.x;
+                this.alignment = true;
             }
         }
         else if ((this.position.x - this._position.x) < 0)
         {
+            this.alignment = false;
             this._position.x -= dt;
             if (this._position.x < this.position.x)
             {
                 this._position.x = this.position.x;
+                this.alignment = true;
             }
         }
 
         if ((this.position.y - this._position.y) > 0 )
         {
+            this.alignment = false;
             this._position.y += dt;
             if (this._position.y > this.position.y)
             {
                 this._position.y = this.position.y;
+                this.alignment = true;
             }
         }
         else if ((this.position.y - this._position.y) < 0)
         {
+            this.alignment = false;
             this._position.y -= dt;
             if (this._position.y < this.position.y)
             {
+                this.alignment = true;
                 this._position.y = this.position.y;
             }
         }
 
-      if ((this.position.z - this._position.z) > 0 )
+        if ((this.position.z - this._position.z) > 0 )
         {
+            this.alignment = false;
             this._position.z += dt;
             if (this._position.z > this.position.z)
             {
+                this.alignment = true;
                 this._position.z = this.position.z;
             }
         }
         else if ((this.position.z - this._position.z) < 0)
         {
+            this.alignment = false;
             this._position.z -= dt;
             if (this._position.z < this.position.z)
             {
+                this.alignment = true;
                 this._position.z = this.position.z;
             }
         }

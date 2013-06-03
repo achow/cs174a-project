@@ -4,6 +4,7 @@ def ("Pacman") << Actor ({
         this._super(world, id);
         this.m_dead = false;
         this.m_lives = 3;
+        this.color.setColor(1,1,0);
     },
 
     isDead: function() {

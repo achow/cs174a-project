@@ -46,7 +46,7 @@ def ("Canvas") ({
         this.active();
 		
         // time delta
-        dt = 1/30;
+        dt = 1/25;
 
         // render loop
         window.setInterval(function() {
