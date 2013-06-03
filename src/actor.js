@@ -35,28 +35,44 @@ def ("Actor") << Obj ({
                 if (this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.WALL
                     && this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.CAGEDOOR
                     && this.alignment == true)
+                {
+                    this.alignment = false;
                     --this.position.y;
+                }
+                    
                 break;
 
             case DIRECTION.UP:
                 if (this.world.getMapElement(this.position.x, this.position.y+1) != MAPELEMENT.WALL
                     && this.world.getMapElement(this.position.x, this.position.y+1) != MAPELEMENT.CAGEDOOR
                     && this.alignment == true)
+                {
+                    this.alignment = false;
                     ++this.position.y;
+                }
+                    
                 break;
 
             case DIRECTION.LEFT:
                 if (this.world.getMapElement(this.position.x-1, this.position.y) != MAPELEMENT.WALL
                     && this.world.getMapElement(this.position.x-1, this.position.y) != MAPELEMENT.CAGEDOOR
                     && this.alignment == true)
+                {
+                    this.alignment = false;
                     --this.position.x;
+                }
+                    
                 break;
 
             case DIRECTION.RIGHT:
                 if (this.world.getMapElement(this.position.x+1, this.position.y) != MAPELEMENT.WALL
                     && this.world.getMapElement(this.position.x+1, this.position.y) != MAPELEMENT.CAGEDOOR
                     && this.alignment == true)
+                {
+                    this.alignment = false;
                     ++this.position.x;
+                }
+                    
                 break;
 
             default:
