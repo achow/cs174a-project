@@ -31,7 +31,7 @@ def ("Actor") << Obj ({
 
             case DIRECTION.DOWN:
                 if (this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.WALL
-                    && getMapElement(this.position.x, this.position.y-1) != MAPELEMENT_CAGEDOOR)
+                    && this.world.getMapElement(this.position.x, this.position.y-1) != MAPELEMENT.CAGEDOOR)
                     --this.position.y;
                 break;
 
