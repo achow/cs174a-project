@@ -90,7 +90,7 @@ CANVAS_DATA = [
 					if(obj.modelId == MODEL.PACMAN)
 					{
 						obj.setDirection(direction);
-						//canvas.world.camera.attachObject = obj;
+						canvas.world.camera.attachObject = obj;
 						//canvas.world.lightPosition = obj.position;
 					}
 				});	
