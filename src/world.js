@@ -15,6 +15,13 @@ def ("World") ({
         this.lightPosition.y = 10;
         this.lightPosition.z = 500;
 
+		this.pickedColor = new Color();
+		this.pickedColor.setColor(-1, -1, -1);
+		
+		this.mouseDown = false;
+		this.lastMouseX = null;
+		this.lastMouseY = null;
+		
         this.initMap();
     },
 
@@ -64,12 +71,50 @@ def ("World") ({
         // where is light
         gl.uniform3fv(shaderProgram.uLightPosition, this.lightPosition.toVec3());
 		
-		//gl.uniform3fv(shaderProgram.uColor, color.toVec3());
-        
+		//gl.uniform1i(shaderProgram.uIsPicked, 0);
+		
+		var r = this.pickedColor.r;
+		var g = this.pickedColor.g;
+		var b = this.pickedColor.b;
+	//	var r = 255;
+	//	var g = 255;
+	//	var b = 255;
         _.each(this.renderList, function(obj) {
             gl.uniform3fv(shaderProgram.uColor, obj.color.toVec3());
-            obj.draw(canvas);
+			gl.uniform1i(shaderProgram.uIsPicked, 0);
+	
+			//if(obj.color.r == 1 && obj.color.g == 1 && obj.color.b == 1)
+				//gl.uniform1i(shaderProgram.uIsPicked, 1);		
+			if(obj.color.r*255 == r && obj.color.g*255 == g && obj.color.b*255 == b)
+				gl.uniform1i(shaderProgram.uIsPicked, 1);	
+			/*
+			if(r == obj.color.r*255 &&
+				g == obj.color.g*255 &&
+				b == obj.color.b*255) // color picked
+				{
+					gl.uniform1i(shaderProgram.uIsPicked, 1);			
+				}
+				*/
+
+            obj.draw(canvas);		
         });
+		
+		
+		//what color picked
+		if(this.lastMouseX != null && this.lastMouseY != null)
+		{
+		/*
+			var readout = new Uint8Array(4);
+			gl.readPixels(this.lastMouseX,this.lastMouseY,1,1,gl.RGBA,gl.UNSIGNED_BYTE,readout);
+		
+			this.pickedColor.r = readout[0];
+			this.pickedColor.g = readout[1];
+			this.pickedColor.b = readout[2];*/
+			
+		    this.pickedColor.r = 255;
+			this.pickedColor.g = 255;
+			this.pickedColor.b = 255;	
+		}
     },
     /*
      * make a map

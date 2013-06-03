@@ -5,7 +5,7 @@ def ("Canvas") ({
         this.id = data.id;
         this.buffer = [];
         var canvas = document.getElementById(data.id);
-
+		
         // check webgl
         try {
             // create shader for canvas
@@ -29,9 +29,6 @@ def ("Canvas") ({
         this.handleMouseUp = function (event) {		
 			data.handleMouseUp(self, event);
 		},
-        this.handleMouseMove = function (event) {	
-			data.handleMouseMove(self, event);
-		},
         this.picker = function (e) {
             var gl = self.gl;
             var pixelValues = new Uint8Array(4);
@@ -39,9 +36,8 @@ def ("Canvas") ({
             data.picker(self, pixelValues);
         }
 		
-		canvas.onmousedown = this.handleMouseDown;
+		document.onmousedown = this.handleMouseDown;
 		document.onmouseup = this.handleMouseUp;
-		document.onmousemove = this.handleMouseMove;
 		
         this.active();
 		
@@ -68,10 +64,6 @@ def ("Canvas") ({
 
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.enable(gl.DEPTH_TEST);
-		
-		this.mouseDown = false;
-		this.lastMouseX = null;
-		this.lastMouseY = null;
 
         // create program
         var shaderProgram = gl.createProgram();
@@ -183,6 +175,6 @@ def ("Canvas") ({
     active: function() {
         console.log("active", this.id);
         document.onkeyup = this.keyPress;
-        document.onmouseup = this.picker;
+       // document.onmouseup = this.picker;
     }
 });

@@ -1,9 +1,9 @@
 def ("Color") ({
 
     init: function() {
-        this.r = 1;//255;
-        this.g = 1;//255;
-        this.b = 1;//255;
+        this.r = 0;//255;
+        this.g = 0;//255;
+        this.b = 0;//255;
     },
     
     setColor: function(r, g, b) {

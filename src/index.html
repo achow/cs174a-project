@@ -69,6 +69,7 @@
             uniform mat4 uPerspective;
             uniform vec3 uLightPosition;
 			uniform vec3 uColor;
+			uniform int uIsPicked;
 			
             varying vec3 vLight;
 
@@ -79,7 +80,15 @@
                 vec3 lightDirection = normalize(uLightPosition - worldPosition.xyz);
 
                 float directionalLightWeighting = max(dot((uWorld * vec4(aNormal, 1)).xyz, lightDirection), 0.0);
-                vLight = uColor * directionalLightWeighting;
+				
+				if(uIsPicked == 0)
+				{
+					vLight = uColor;// * directionalLightWeighting;
+				}
+				else
+				{
+					vLight = vec3(1, 0, 0);// * directionalLightWeighting;
+				}
                 //vTextureCoord = aTextureCoord;
             }
         </script>
@@ -109,6 +118,7 @@
             GL.canvas[0].world.lightPosition.z = 1000;
             GL.canvas[0].world.renderList = GL.canvas[1].world.renderList;
             GL.canvas[0].world.animateList = GL.canvas[1].world.animateList;
+			GL.canvas[0].world.pickedColor = GL.canvas[1].world.pickedColor;
             for(var i in window) {
                 //console.log(i);
             }
