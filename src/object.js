@@ -19,22 +19,30 @@ def ("Obj") ({
 		var c1;
 		// 0 --> 255
 		var c2;
-		if(color1 >= 0 && color1 <= 0.5)
+		if(color1 >= 0 && color1 <= 0.3)
 		{
 			c1 = 0;
+		}
+		else if(color1 >= 0.3 && color1 <= 0.7)
+		{
+			c1 = 0.5;
 		}
 		else
 		{
 			c1 = 1;
 		}
 		
-		if(color2 >= 0 && color2 <= 125)
+		if(color2 >= 0 && color2 <= 85)
 		{
 			c2 = 0;
 		}
+		else if(color2 >= 85 && color2 <= 170)
+		{
+			c2 = 0.5;
+		}
 		else
 		{
-			c2 = 1;
+			c2 = 1;		
 		}
 		
 		if(c1 == c2) return true;
@@ -62,6 +70,9 @@ def ("Obj") ({
         gl.bindBuffer(gl.ARRAY_BUFFER, buf.normals);
         gl.vertexAttribPointer(shaderProgram.aNormal, buf.normals.itemSize, gl.FLOAT, false, 0, 0);
 
+		if(this.modelId == MODEL.MONSTER && this.world.pacman.isEater())
+			gl.uniform3fv(shaderProgram.uColor, [0.0, 1.0, 1.0]);
+		
         gl.drawArrays(gl.TRIANGLES, 0, buf.vertices.numItems);
     },
 

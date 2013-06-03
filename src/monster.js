@@ -3,6 +3,7 @@ MONSTER_STATE = {
     GO_HOME: 2,
     ALIVE: 3,
     STOP: 4,
+	EATABLE: 5,
 };
 
 def ("Monster") << Actor ({
@@ -14,7 +15,7 @@ def ("Monster") << Actor ({
         this.initial_position = new Position();
         this.initial_position = this.position;
     },
-
+	
     getState: function() {
         return this.m_state;
     },
@@ -113,19 +114,44 @@ def ("Monster") << Actor ({
     doAction: function() {
         this.moveToward(this.world.pacman.position.x, this.world.pacman.position.y);
 
+		if(this.world.pacman.isEater())
+		{
+			this.setState(MONSTER_STATE.EATABLE);
+		}
+		else
+		{
+			this.setState(MONSTER_STATE.ALIVE);			
+		}
         
         if ((Math.abs(this._position.x - this.world.pacman._position.x) <= dt)
             && (Math.abs(this._position.y - this.world.pacman._position.y) <= dt)) {
-            window.clearInterval(GL.canvas[0].renderInterval);
-            window.clearInterval(GL.canvas[0].actionInterval);
-            window.clearInterval(GL.canvas[1].renderInterval);
-            window.clearInterval(GL.canvas[1].actionInterval);
-            
-            this._position.x = this.world.pacman._position.x;
-            this._position.y = this.world.pacman._position.y;
-            
-            GL.canvas[0].draw();
-            GL.canvas[1].draw();
+			
+			
+			if(this.world.pacman.isEater())
+			{
+				this.setState(MONSTER_STATE.DEAD);
+				var i = this.world.animateList.indexOf(this);
+				if (i != -1)
+					this.world.animateList.splice(i, 1);
+                
+				i = this.world.renderList.indexOf(this);
+				if (i != -1)
+					this.world.renderList.splice(i, 1);				
+			}
+			else
+			{
+			
+				window.clearInterval(GL.canvas[0].renderInterval);
+				window.clearInterval(GL.canvas[0].actionInterval);
+				window.clearInterval(GL.canvas[1].renderInterval);
+				window.clearInterval(GL.canvas[1].actionInterval);
+				
+				this._position.x = this.world.pacman._position.x;
+				this._position.y = this.world.pacman._position.y;
+				
+				GL.canvas[0].draw();
+				GL.canvas[1].draw();
+			}
 
         }
     },
