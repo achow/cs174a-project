@@ -105,6 +105,18 @@
             GL = new GL(CANVAS_DATA);
             // sync minimap
             GL.canvas[0].world.camera = new Camera();
+            GL.canvas[0].world.camera.view = function() {
+                // we face negative z
+                var at = [
+                    Math.sin(glMatrix.toRadian(this._theta))*Math.cos(glMatrix.toRadian(this._phi)),
+                    -Math.sin(glMatrix.toRadian(this._phi)),
+                    Math.cos(glMatrix.toRadian(this._theta))*Math.cos(glMatrix.toRadian(this._phi)),
+                ];
+                var t = vec3.subtract(vec3.create(), this._position.toVec3(), at);
+                temp = mat4.create();
+                //return mat4.ortho(temp, -20.0, 20.0, -20.0, 20.0, 0, 100);
+                return mat4.lookAt(mat4.create(), this._position.toVec3(), t, [0, 1, 0]);
+            }
             GL.canvas[0].world.camera.position.z = 15;
             GL.canvas[0].world.lightPosition.z = 1000;
             GL.canvas[0].world.renderList = GL.canvas[1].world.renderList;

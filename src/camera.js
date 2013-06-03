@@ -9,6 +9,10 @@ def ("Camera") ({
         this.theta = 0; // Horizontal
         this.phi = 0; // up/down
         this.attachObject = null;
+        
+        this.changingView = false;
+        this.attachOffsetZ = 2;
+        this.attachDistance = 1;
     },
 
     setPosition: function(x, y, z) {
@@ -27,54 +31,51 @@ def ("Camera") ({
      * return view matrix
      */
     view: function() {
-        // we face negative z
-        var at = [
-            Math.sin(glMatrix.toRadian(this._theta))*Math.cos(glMatrix.toRadian(this._phi)),
-            -Math.sin(glMatrix.toRadian(this._phi)),
-            Math.cos(glMatrix.toRadian(this._theta))*Math.cos(glMatrix.toRadian(this._phi)),
-        ];
-        var t = vec3.subtract(vec3.create(), this._position.toVec3(), at);
-        temp = mat4.create();
-        //return mat4.ortho(temp, -20.0, 20.0, -20.0, 20.0, 0, 100);
-        return mat4.lookAt(mat4.create(), this._position.toVec3(), t, [0, 1, 0]);
+        if (!this.attachObject) {
+            // we face negative z
+            var at = [
+                Math.sin(glMatrix.toRadian(this._theta))*Math.cos(glMatrix.toRadian(this._phi)),
+                -Math.sin(glMatrix.toRadian(this._phi)),
+                Math.cos(glMatrix.toRadian(this._theta))*Math.cos(glMatrix.toRadian(this._phi)),
+            ];
+            var t = vec3.subtract(vec3.create(), this._position.toVec3(), at);
+            temp = mat4.create();
+            //return mat4.ortho(temp, -20.0, 20.0, -20.0, 20.0, 0, 100);
+            return mat4.lookAt(mat4.create(), this._position.toVec3(), t, [0, 1, 0]);
+        }
+        else {
+            var at = this.attachObject._position.toVec3();
+                
+            this.position.x = 0;
+            this.position.y = 0;
+            this.position.z = this.attachOffsetZ;
+            
+            if (this.attachObject.direction == DIRECTION.RIGHT) {
+                this.position.x = -this.attachDistance;
+            }
+            else if (this.attachObject.direction == DIRECTION.LEFT) {
+                this.position.x = this.attachDistance;
+            }
+            else if (this.attachObject.direction == DIRECTION.UP) {
+                this.position.y = -this.attachDistance;
+            }
+            else if (this.attachObject.direction == DIRECTION.DOWN) {
+                this.position.y = this.attachDistance;
+            }
+            
+            this.position.x += this.attachObject._position.x;
+            this.position.y += this.attachObject._position.y;
+            this.position.z += this.attachObject._position.z;
+            //console.log(this.attachObject._position, this._position);
+
+            return mat4.lookAt(mat4.create(), this._position.toVec3(), at, [0, 0, 1]);
+        }
     },
 
     /*
      *  for animation
      */
     dt: function() {
-        if (this.attachObject) {
-            // attach
-            this.position = this.attachObject.position;
-			// adapt to direction
-			/*
-			if(this.attachObject.direction == 0)	//DOWN
-				
-			    NONE: -1, // For when we start, pacman is immobile
-                DOWN: 0,
-                UP: 1,
-                LEFT: 2,
-                RIGHT: 3,*/
-            switch (this.attachObject.direction)
-            {   
-                case DIRECTION.NONE:
-                this._position.y -= 0.1;
-
-                case DIRECTION.UP:
-                this._position.y -= 0.1;
-
-                case DIRECTION.DOWN:
-                this._position.y -= 0.1;
-
-                case DIRECTION.LEFT:
-                this._position.x -= 0.1;
-
-                case DIRECTION.RIGHT:
-                this._position.x += 0.1;
-
-            }
-            
-        }
         this._position.x += (this.position.x - this._position.x)*dt;
         this._position.y += (this.position.y - this._position.y)*dt;
         this._position.z += (this.position.z - this._position.z)*dt;
