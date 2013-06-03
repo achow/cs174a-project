@@ -46,18 +46,21 @@ def ("Canvas") ({
         this.active();
 		
         // time delta
-        dt = 1/15;
+        dt = 1/30;
 
         // render loop
-        window.setInterval(function() {
+        this.renderInterval = window.setInterval(function() {
             self.world.camera.dt();
             self.world.dt();
             self.draw();
         }, dt*1000);
 		
-		window.setInterval(function() {
+		this.actionInterval = window.setInterval(function() {
             self.world.doAction();
-        }, dt*10000);
+        }, dt*1000);
+        
+        console.log("renderInterval=", this.world.renderInterval);
+        console.log("actionInterval=", this.world.actionInterval);
     },
     /*
      * create actual canvas and program
