@@ -84,6 +84,8 @@ CANVAS_DATA = [
 					canvas.world.pacman.direction = DIRECTION.RIGHT;
 				else if(charRep == "M")
 					canvas.world.pacman.direction = DIRECTION.DOWN;
+                    
+                canvas.world.camera.attachObject = canvas.world.pacman;
 			}
 			
         },
