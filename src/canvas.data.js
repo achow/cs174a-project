@@ -86,16 +86,6 @@ CANVAS_DATA = [
 					canvas.world.pacman.direction = DIRECTION.RIGHT;
 				else if(key == 40)
 					canvas.world.pacman.direction = DIRECTION.DOWN;
-				
-				_.each(canvas.world.animateList, function(obj) {
-					if(obj.modelId == MODEL.PACMAN)
-					{
-						obj.setDirection(direction);
-						canvas.world.camera.attachObject = obj;
-						//canvas.world.lightPosition = obj.position;
-					}
-				});	
-
 			}
 			
         },
