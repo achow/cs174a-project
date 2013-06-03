@@ -12,15 +12,15 @@ CANVAS_DATA = [
             "uPerspective",
             "uLightPosition",
 			"uColor",
+			"uIsPicked",
         ],
         keyPress: function (canvas, key) {
 		},
+		/*
 	    handleMouseDown: function (canvas, event) {		
 		},
         handleMouseUp: function (canvas, event) {		
-		},
-        handleMouseMove: function (canvas, event) {	
-		},
+		},*/
         model: [
             new CubeBuffer(),
             new SphereBuffer(),
@@ -48,6 +48,7 @@ CANVAS_DATA = [
             "uPerspective",
             "uLightPosition",
 			"uColor",
+			"uIsPicked",
         ],
         keyPress: function (canvas, key) {
             var charRep = String.fromCharCode(key);
@@ -91,27 +92,34 @@ CANVAS_DATA = [
 			}
 			
         },
+		/*
         handleMouseDown: function (canvas, event) {		
-			canvas.mouseDown = true;
-			canvas.lastMouseX = event.clientX;
-			canvas.lastMouseY = event.clientY;
+			//canvas.world.mouseDown = true;
+				var tempX = canvas.world.nextMouseX;
+				var tempY = canvas.world.nextMouseY;
+
+				canvas.world.nextMouseX = event.clientX;
+				canvas.world.nextMouseY = event.clientY;
+				
+				canvas.world.lastMouseX = tempX;
+				canvas.world.lastMouseY = tempY;
 		},
         handleMouseUp: function (canvas, event) {		
-			canvas.mouseDown = false;
+
+			if(canvas.world.mouseDown == true)
+			{
+				var tempX = canvas.world.nextMouseX;
+				var tempY = canvas.world.nextMouseY;
+
+				canvas.world.nextMouseX = event.clientX;
+				canvas.world.nextMouseY = event.clientY;
+				
+				canvas.world.lastMouseX = tempX;
+				canvas.world.lastMouseY = tempY;
+			}
+			canvas.world.mouseDown = false;
 		},
-        handleMouseMove: function (canvas, event) {		
-			if(!canvas.mouseDown)
-				return;
-			
-			var newX = event.clientX;
-			var newY = event.clientY;
-			
-			// detect where mouse is
-			
-			canvas.lastMouseX = newX;
-			canvas.lastMouseY = newY;
-			
-		},
+		*/
         model: [
             new CubeBuffer(),
             new SphereBuffer(),
@@ -122,8 +130,32 @@ CANVAS_DATA = [
             {type: MODEL.MONSTER, index: 1 },
             {type: MODEL.PELLET, index: 1 },
         ],
-        picker: function(canvas, buf) {
-            console.log(buf);
-        },
-    },
+        picker: function(canvas, event) {
+		
+			var tempX = canvas.world.nextMouseX;
+			var tempY = canvas.world.nextMouseY;
+
+			canvas.world.nextMouseX = event.clientX;
+			canvas.world.nextMouseY = event.clientY;
+				
+			canvas.world.lastMouseX = tempX;
+			canvas.world.lastMouseY = tempY;
+		
+		    var gl = canvas.gl;
+		
+			if(canvas.world.nextMouseX != null && canvas.world.nextMouseY != null &&
+			canvas.world.lastMouseX != canvas.world.nextMouseX && canvas.world.lastMouseY != canvas.world.nextMouseY)
+			{
+				var readout = new Uint8Array(4);
+				gl.readPixels(canvas.world.nextMouseX,canvas.gl.canvas.height - canvas.world.nextMouseY,1,1,gl.RGBA,gl.UNSIGNED_BYTE,readout);
+			
+				if(!(readout[0] == 255 && readout[1] == 0 && readout[2] == 0))
+				{
+					canvas.world.pickedColor.r = readout[0];
+					canvas.world.pickedColor.g = readout[1];
+					canvas.world.pickedColor.b = readout[2];
+				}
+			}
+		}
+	}
 ];

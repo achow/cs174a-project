@@ -15,7 +15,6 @@ def ("Actor") << Obj ({
         this.alignment = true;
         this.initialset = false;
         this.size = 0.5;
-        this.color.setColor(1, 1, 0);
     },
 
     setDirection: function(dir) {

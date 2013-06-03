@@ -2,10 +2,13 @@ def ("Canvas") ({
     init: function(data) {
         console.log("canvas setup", data);
         var self = this;
+
+        //this.world = new World();
+
         this.id = data.id;
         this.buffer = [];
         var canvas = document.getElementById(data.id);
-
+		
         // check webgl
         try {
             // create shader for canvas
@@ -23,25 +26,19 @@ def ("Canvas") ({
         this.keyPress = function (e) {
             data.keyPress(self, e.keyCode);
         };
+		/*
 		this.handleMouseDown = function (event) {
 			data.handleMouseDown(self, event);
 		},
         this.handleMouseUp = function (event) {		
 			data.handleMouseUp(self, event);
-		},
-        this.handleMouseMove = function (event) {	
-			data.handleMouseMove(self, event);
-		},
+		},*/
         this.picker = function (e) {
-            var gl = self.gl;
-            var pixelValues = new Uint8Array(4);
-            gl.readPixels(e.pageX, canvas.height - e.pageY, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixelValues);
-            data.picker(self, pixelValues);
+            data.picker(self, e);
         }
 		
-		canvas.onmousedown = this.handleMouseDown;
-		document.onmouseup = this.handleMouseUp;
-		document.onmousemove = this.handleMouseMove;
+		//document.onmousedown = this.handleMouseDown;
+	//	document.onmouseup = this.handleMouseUp;
 		
         this.active();
 		
@@ -69,10 +66,6 @@ def ("Canvas") ({
 
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.enable(gl.DEPTH_TEST);
-		
-		this.mouseDown = false;
-		this.lastMouseX = null;
-		this.lastMouseY = null;
 
         // create program
         var shaderProgram = gl.createProgram();
@@ -184,6 +177,6 @@ def ("Canvas") ({
     active: function() {
         console.log("active", this.id);
         document.onkeyup = this.keyPress;
-        document.onmouseup = this.picker;
+        document.onmousedown = this.picker;
     }
 });

@@ -13,6 +13,34 @@ def ("Obj") ({
         this.position.y = newY;
     },
 
+	isEqual: function(color1, color2)
+	{
+		// 0 --> 1
+		var c1;
+		// 0 --> 255
+		var c2;
+		if(color1 >= 0 && color1 <= 0.5)
+		{
+			c1 = 0;
+		}
+		else
+		{
+			c1 = 1;
+		}
+		
+		if(color2 >= 0 && color2 <= 125)
+		{
+			c2 = 0;
+		}
+		else
+		{
+			c2 = 1;
+		}
+		
+		if(c1 == c2) return true;
+		else return false;
+	},
+	
     /*
      * drawing function
      */

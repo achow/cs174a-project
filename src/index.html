@@ -70,6 +70,7 @@
             uniform mat4 uPerspective;
             uniform vec3 uLightPosition;
 			uniform vec3 uColor;
+			uniform int uIsPicked;
 			
             varying vec3 vLight;
 
@@ -80,7 +81,15 @@
                 vec3 lightDirection = normalize(uLightPosition - worldPosition.xyz);
 
                 float directionalLightWeighting = max(dot((uWorld * vec4(aNormal, 1)).xyz, lightDirection), 0.0);
-                vLight = uColor * directionalLightWeighting;
+				
+				if(uIsPicked == 0)
+				{
+					vLight = uColor * directionalLightWeighting;
+				}
+				else
+				{
+					vLight = vec3(1, 0, 0) * directionalLightWeighting;
+				}
                 //vTextureCoord = aTextureCoord;
             }
         </script>
@@ -106,10 +115,23 @@
             GL = new GL(CANVAS_DATA);
             // sync minimap
             GL.canvas[0].world.camera = new Camera();
+            GL.canvas[0].world.camera.view = function() {
+                // we face negative z
+                var at = [
+                    Math.sin(glMatrix.toRadian(this._theta))*Math.cos(glMatrix.toRadian(this._phi)),
+                    -Math.sin(glMatrix.toRadian(this._phi)),
+                    Math.cos(glMatrix.toRadian(this._theta))*Math.cos(glMatrix.toRadian(this._phi)),
+                ];
+                var t = vec3.subtract(vec3.create(), this._position.toVec3(), at);
+                temp = mat4.create();
+                //return mat4.ortho(temp, -20.0, 20.0, -20.0, 20.0, 0, 100);
+                return mat4.lookAt(mat4.create(), this._position.toVec3(), t, [0, 1, 0]);
+            }
             GL.canvas[0].world.camera.position.z = 15;
             GL.canvas[0].world.lightPosition.z = 1000;
             GL.canvas[0].world.renderList = GL.canvas[1].world.renderList;
             GL.canvas[0].world.animateList = GL.canvas[1].world.animateList;
+			GL.canvas[0].world.pickedColor = GL.canvas[1].world.pickedColor;
             for(var i in window) {
                 //console.log(i);
             }
