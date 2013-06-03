@@ -11,6 +11,8 @@ def ("Monster") << Actor ({
         this._super(world, id);
         this.m_state = MONSTER_STATE.ALIVE;
         this.color.setColor(1, 1, 1);
+        this.initial_position = new Position();
+        this.initial_position = this.position;
     },
 
     getState: function() {
@@ -110,10 +112,22 @@ def ("Monster") << Actor ({
 
     doAction: function() {
         this.moveToward(this.world.pacman.position.x, this.world.pacman.position.y);
+        if (this.position.x == Math.floor(this.world.pacman._position.x)
+            && this.position.y == Math.floor(this.world.pacman._position.y)) {
+            var i = this.world.animateList.indexOf(this);
+            if (i != -1)
+                this.world.animateList.splice(i, 1);
+                
+            i = this.world.renderList.indexOf(this);
+            if (i != -1)
+                this.world.renderList.splice(i, 1);
+            /*this.goHome();*/
+        }
     },
 
     goHome: function()
     {
+        this.position = this.initial_position;
         //logic to make monster go home after death
     },
 

@@ -55,6 +55,7 @@ def ("Camera") ({
                 UP: 1,
                 LEFT: 2,
                 RIGHT: 3,*/
+            this._position.y -= 0.1;
 			this._position.z += 0.1;
         }
         this._position.x += (this.position.x - this._position.x)*dt;

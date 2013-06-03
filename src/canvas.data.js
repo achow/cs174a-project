@@ -64,26 +64,26 @@ CANVAS_DATA = [
 					canvas.world.camera.move(1, 0, 0);
 			}
                 
-            if (key == 37) // Left arrow
+            if (charRep == "J") // Left arrow
                 canvas.world.camera.theta += 5;
-            else if (key == 39) // Right arrow
+            else if (charRep == "K") // Right arrow
                 canvas.world.camera.theta -= 5;
-            else if (key == 38) // Up arrow
+            else if (charRep == "I") // Up arrow
                 canvas.world.camera.phi += 5;
-            else if (key == 40) // Down arrow
+            else if (charRep == "M") // Down arrow
                 canvas.world.camera.phi -= 5;
 				
 			//move pacman and monsters
-			else if (charRep == "I" || charRep == "J" || charRep == "K" || charRep == "M")
+			else if (key == 37|| key == 38|| key == 39 || key == 40)
 			{
 				var direction = DIRECTION.NONE;
-				if(charRep == "I")
+				if(key == 38)
 					direction = DIRECTION.UP;
-				else if(charRep == "J")
+				else if( key == 37 )
 					direction = DIRECTION.LEFT;
-				else if(charRep == "K")
+				else if(key == 39)
 					direction = DIRECTION.RIGHT;
-				else if(charRep == "M")
+				else if(key == 40)
 					direction = DIRECTION.DOWN;
 				
 				_.each(canvas.world.animateList, function(obj) {
