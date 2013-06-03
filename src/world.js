@@ -144,7 +144,7 @@ def ("World") ({
                     self.pacman = pacman;
                 } else if (entry === MAPELEMENT.MONSTERSPAWN) {
                     // monster
-                    var monster = new Monster(self, MODEL.MONSTER);
+                    var monster = new Monster2(self, MODEL.MONSTER);
                     monster.position.x = w;
                     monster.position.y = h;
                     self.addToRenderList(monster, true);

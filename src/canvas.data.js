@@ -30,6 +30,7 @@ CANVAS_DATA = [
             {type: MODEL.PACMAN, index: 1 },
             {type: MODEL.MONSTER, index: 1 },
             {type: MODEL.PELLET, index: 1 },
+            {type: MODEL.MONSTER2, index:1},
         ],
         picker: function(canvas, buf) {
             console.log(buf);
