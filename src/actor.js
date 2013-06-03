@@ -13,6 +13,7 @@ def ("Actor") << Obj ({
         this._position = new Position(); // internal position
         this.direction = DIRECTION.NONE;
         this.alignment = true;
+        this.initialset = false;
         this.size = 0.5;
         this.color.setColor(1, 1, 0);
     },
@@ -68,7 +69,13 @@ def ("Actor") << Obj ({
     },
 
     dt: function () {
-
+        if (this.initialset == false)
+        {
+            this._position.x = this.position.x;
+            this._position.y = this.position.y;
+            this.initialset = true;
+        }
+        else
         if ((this.position.x - this._position.x) > 0 )
         {
             this.alignment = false;
@@ -89,8 +96,7 @@ def ("Actor") << Obj ({
                 this.alignment = true;
             }
         }
-
-        if ((this.position.y - this._position.y) > 0 )
+        else if ((this.position.y - this._position.y) > 0 )
         {
             this.alignment = false;
             this._position.y += dt;
@@ -110,8 +116,7 @@ def ("Actor") << Obj ({
                 this._position.y = this.position.y;
             }
         }
-
-        if ((this.position.z - this._position.z) > 0 )
+        else if ((this.position.z - this._position.z) > 0 )
         {
             this.alignment = false;
             this._position.z += dt;
@@ -130,6 +135,10 @@ def ("Actor") << Obj ({
                 this.alignment = true;
                 this._position.z = this.position.z;
             }
+        }
+        else
+        {
+           this.alignment = true;  
         }
         
         /*
