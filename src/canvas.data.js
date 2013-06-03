@@ -76,15 +76,16 @@ CANVAS_DATA = [
 			//move pacman and monsters
 			else if (key == 37|| key == 38|| key == 39 || key == 40)
 			{
+
 				var direction = DIRECTION.NONE;
 				if(key == 38)
-					direction = DIRECTION.UP;
+					canvas.world.pacman.direction = DIRECTION.UP;
 				else if( key == 37 )
-					direction = DIRECTION.LEFT;
+					canvas.world.pacman.direction = DIRECTION.LEFT;
 				else if(key == 39)
-					direction = DIRECTION.RIGHT;
+					canvas.world.pacman.direction = DIRECTION.RIGHT;
 				else if(key == 40)
-					direction = DIRECTION.DOWN;
+					canvas.world.pacman.direction = DIRECTION.DOWN;
 				
 				_.each(canvas.world.animateList, function(obj) {
 					if(obj.modelId == MODEL.PACMAN)
@@ -94,6 +95,7 @@ CANVAS_DATA = [
 						//canvas.world.lightPosition = obj.position;
 					}
 				});	
+
 			}
 			
         },

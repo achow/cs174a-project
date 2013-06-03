@@ -109,19 +109,24 @@ def ("Monster") << Actor ({
             }
 		}
     },
-
+    
     doAction: function() {
         this.moveToward(this.world.pacman.position.x, this.world.pacman.position.y);
-        if (this.position.x == Math.floor(this.world.pacman._position.x)
-            && this.position.y == Math.floor(this.world.pacman._position.y)) {
-            var i = this.world.animateList.indexOf(this);
-            if (i != -1)
-                this.world.animateList.splice(i, 1);
-                
-            i = this.world.renderList.indexOf(this);
-            if (i != -1)
-                this.world.renderList.splice(i, 1);
-            /*this.goHome();*/
+
+        
+        if ((Math.abs(this._position.x - this.world.pacman._position.x) <= dt)
+            && (Math.abs(this._position.y - this.world.pacman._position.y) <= dt)) {
+            window.clearInterval(GL.canvas[0].renderInterval);
+            window.clearInterval(GL.canvas[0].actionInterval);
+            window.clearInterval(GL.canvas[1].renderInterval);
+            window.clearInterval(GL.canvas[1].actionInterval);
+            
+            this._position.x = this.world.pacman._position.x;
+            this._position.y = this.world.pacman._position.y;
+            
+            GL.canvas[0].draw();
+            GL.canvas[1].draw();
+
         }
     },
 
