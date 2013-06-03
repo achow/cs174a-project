@@ -4,8 +4,10 @@ def ("Canvas") ({
         var self = this;
         this.id = data.id;
         this.buffer = [];
+		this.data = data;
+		
         var canvas = document.getElementById(data.id);
-
+		
         // check webgl
         try {
             // create shader for canvas
@@ -16,9 +18,14 @@ def ("Canvas") ({
         }
         this.initShader(data.shaderAttribute, data.shaderUniform);
         this.initBuffer(data.model, data.modelMap);
-
+		
         // canvas only has one world
         this.world = new World();
+		
+		var gl = canvas.getContext("experimental-webgl", {preserveDrawingBuffer: true});
+        		
+		this.picker = new Picker(canvas, gl);
+		
         // set up key
         this.keyPress = function (e) {
             data.keyPress(self, e.keyCode);
@@ -29,35 +36,24 @@ def ("Canvas") ({
         this.handleMouseUp = function (event) {		
 			data.handleMouseUp(self, event);
 		},
-        this.handleMouseMove = function (event) {	
-			data.handleMouseMove(self, event);
-		},
-        this.picker = function (e) {
-            var gl = self.gl;
-            var pixelValues = new Uint8Array(4);
-            gl.readPixels(e.pageX, canvas.height - e.pageY, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixelValues);
-            data.picker(self, pixelValues);
-        }
 		
-		canvas.onmousedown = this.handleMouseDown;
-		document.onmouseup = this.handleMouseUp;
-		document.onmousemove = this.handleMouseMove;
-		
+		canvas.onmousedown = this.handleMouseDown;		
         this.active();
 		
         // time delta
         dt = 1/30;
 
         // render loop
+		
+		window.setInterval(function() {
+            self.world.doAction();
+        }, dt*10000);
+		
         window.setInterval(function() {
             self.world.camera.dt();
             self.world.dt();
             self.draw();
         }, dt*1000);
-		
-		window.setInterval(function() {
-            self.world.doAction();
-        }, dt*10000);
     },
     /*
      * create actual canvas and program
@@ -65,14 +61,13 @@ def ("Canvas") ({
     initGL: function(canvas, shader) {
         var gl = canvas.getContext("experimental-webgl", {preserveDrawingBuffer: true});
         this.gl = gl;
-
+		
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
+		//gl.clearDepth(1.0);
         gl.enable(gl.DEPTH_TEST);
 		
-		this.mouseDown = false;
-		this.lastMouseX = null;
-		this.lastMouseY = null;
-
+	
+		
         // create program
         var shaderProgram = gl.createProgram();
         this.shaderProgram = shaderProgram;
@@ -109,6 +104,7 @@ def ("Canvas") ({
         var self = this;
         _.each(mapping, function(map) {
             self.buffer[map.type] = glBuffer[map.index];
+            //self.pickerBuffer[map.type] = glBuffer[map.index];
         });
     },
     initShader: function(attribute, uniform) {
@@ -169,13 +165,26 @@ def ("Canvas") ({
         // set size
         var canvas = document.getElementById(this.id);
         //console.log(this.id, canvas.width, canvas.height);
-        gl.viewportWidth = canvas.width;
+
+	    gl.viewportWidth = canvas.width;
         gl.viewportHeight = canvas.height;
-        gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
-
-
+		//gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+        //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		
+		gl.bindFramebuffer(gl.FRAMEBUFFER, this.picker.framebuffer);
+	    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		this.initShader(this.data.shaderAttribute, this.data.shaderUniform);
+        this.world.drawPicker(this);
+
+		
+		gl.bindFramebuffer(gl.FRAMEBUFFER, null);	
+	    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+	    this.initShader(this.data.shaderAttribute, this.data.shaderUniform);
         this.world.draw(this);
+		
+
     },
     /*
      * only one active canvas can access user keyboard
@@ -183,6 +192,8 @@ def ("Canvas") ({
     active: function() {
         console.log("active", this.id);
         document.onkeyup = this.keyPress;
-        document.onmouseup = this.picker;
+       // document.onmouseup = this.picker;
+		document.onmouseup = this.handleMouseUp;
+		//document.onmousemove = this.handleMouseMove;
     }
 });

@@ -5,20 +5,28 @@ def ("Obj") ({
         this.position = new Position();
         this.size = 1;
         this.world = world;
+		this.color = [1, 1, 1];
+		this.isPicked = 0;
+		this.pickerColor = [0, 0, 0];
     },
 
     setPosition: function(newX, newY) {
         this.position.x = newX;
         this.position.y = newY;
     },
+	
+	setColor: function(newColor) {
+		this.color = newColor;
+	},
 
     /*
      * drawing function
      */
     draw: function(canvas) {
+	
         var gl = canvas.gl;
         var shaderProgram = canvas.shaderProgram;
-
+		
         // move it
         gl.uniformMatrix4fv(shaderProgram.uWorld, false, mat4.mul(mat4.create(), this.where(), this.scale()));
 
@@ -28,12 +36,16 @@ def ("Obj") ({
         // use vertices
         gl.bindBuffer(gl.ARRAY_BUFFER, buf.vertices);
         gl.vertexAttribPointer(shaderProgram.aPosition, buf.vertices.itemSize, gl.FLOAT, false, 0, 0);
+		gl.enableVertexAttribArray(shaderProgram.aPosition);
 
         // use normals
         gl.bindBuffer(gl.ARRAY_BUFFER, buf.normals);
         gl.vertexAttribPointer(shaderProgram.aNormal, buf.normals.itemSize, gl.FLOAT, false, 0, 0);
-
+		gl.enableVertexAttribArray(shaderProgram.aNormal);
+		
         gl.drawArrays(gl.TRIANGLES, 0, buf.vertices.numItems);
+		
+		gl.bindBuffer(gl.ARRAY_BUFFER, null);
     },
 
     /*

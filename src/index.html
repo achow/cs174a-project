@@ -19,6 +19,7 @@
         <script src="gl-matrix/vec2.js"></script>
 
         <!-- scene -->
+		<script src="picker.js"></script>
         <script src="canvas.js"></script>
         <script src="map.data.js"></script>
         <script src="model.js"></script>
@@ -53,7 +54,6 @@
                 gl_FragColor = vec4(vLight, 1);
             }
         </script>
-
         <!-- vertex shader-->
         <script id="shader-vs" type="x-shader/x-vertex">
             attribute vec4 aPosition;
@@ -67,17 +67,28 @@
             uniform mat4 uPerspective;
             uniform vec3 uLightPosition;
 			uniform vec3 uColor;
+			uniform int uPicker;
+			uniform int uIsPicked;
 			
             varying vec3 vLight;
 
             void main(void) {
                 vec4 worldPosition = uWorld * aPosition;
                 gl_Position = uPerspective * uView * worldPosition;
-
-                vec3 lightDirection = normalize(uLightPosition - worldPosition.xyz);
-
-                float directionalLightWeighting = max(dot((uWorld * vec4(aNormal, 1)).xyz, lightDirection), 0.0);
-                vLight = uColor * directionalLightWeighting;
+				
+				if(uPicker == 0)
+				{
+				    vec3 lightDirection = normalize(uLightPosition - worldPosition.xyz);
+					float directionalLightWeighting = max(dot((uWorld * vec4(aNormal, 1)).xyz, lightDirection), 0.0);
+					if(uIsPicked == 0)
+						vLight = uColor * directionalLightWeighting;
+					else
+						vLight = vec3(1, 0, 0) * directionalLightWeighting;
+				}
+				else
+				{
+					vLight = uColor;
+				}
                 //vTextureCoord = aTextureCoord;
             }
         </script>

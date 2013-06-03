@@ -12,14 +12,14 @@ CANVAS_DATA = [
             "uPerspective",
             "uLightPosition",
 			"uColor",
-        ],
+			"uPicker",
+			"uIsPicked",
+        ],	
         keyPress: function (canvas, key) {
 		},
 	    handleMouseDown: function (canvas, event) {		
 		},
         handleMouseUp: function (canvas, event) {		
-		},
-        handleMouseMove: function (canvas, event) {	
 		},
         model: [
             new CubeBuffer(),
@@ -30,9 +30,6 @@ CANVAS_DATA = [
             {type: MODEL.PACMAN, index: 1 },
             {type: MODEL.MONSTER, index: 1 },
         ],
-        picker: function(canvas, buf) {
-            console.log(buf);
-        },
     },
     {
         id: "game-canvas",
@@ -47,6 +44,8 @@ CANVAS_DATA = [
             "uPerspective",
             "uLightPosition",
 			"uColor",
+			"uPicker",
+			"uIsPicked",
         ],
         keyPress: function (canvas, key) {
             var charRep = String.fromCharCode(key);
@@ -97,25 +96,12 @@ CANVAS_DATA = [
 			
         },
         handleMouseDown: function (canvas, event) {		
-			canvas.mouseDown = true;
-			canvas.lastMouseX = event.clientX;
-			canvas.lastMouseY = event.clientY;
+			canvas.picker.mouseDown = true;
+			canvas.picker.lastMouseX = event.clientX;
+			canvas.picker.lastMouseY = event.clientY;
 		},
         handleMouseUp: function (canvas, event) {		
-			canvas.mouseDown = false;
-		},
-        handleMouseMove: function (canvas, event) {		
-			if(!canvas.mouseDown)
-				return;
-			
-			var newX = event.clientX;
-			var newY = event.clientY;
-			
-			// detect where mouse is
-			
-			canvas.lastMouseX = newX;
-			canvas.lastMouseY = newY;
-			
+			canvas.picker.mouseDown = false;
 		},
         model: [
             new CubeBuffer(),
@@ -126,8 +112,5 @@ CANVAS_DATA = [
             {type: MODEL.PACMAN, index: 1 },
             {type: MODEL.MONSTER, index: 1 },
         ],
-        picker: function(canvas, buf) {
-            console.log(buf);
-        },
     },
 ];
