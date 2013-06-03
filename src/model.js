@@ -7,5 +7,6 @@ MODEL = {
     PACMAN: 2,
     MONSTER: 3,
     PELLET: 4,
-    MONSTER2: 5,
+	SUPERPELLET: 5,
+    MONSTER2: 6,
 };

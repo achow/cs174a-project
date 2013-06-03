@@ -23,6 +23,8 @@ def ("World") ({
 		this.nextMouseX = null;
 		this.nextMouseY = null;
 		
+		this.eaterModeTime = 0;
+		
         this.initMap();
     },
 
@@ -84,7 +86,9 @@ def ("World") ({
 	//	var g = 255;
 	//	var b = 255;
         _.each(this.renderList, function(obj) {
+		
             gl.uniform3fv(shaderProgram.uColor, obj.color.toVec3());
+				
 			gl.uniform1i(shaderProgram.uIsPicked, 0);
 		
 			//if(obj.color.r*255 == r && obj.color.g*255 == g && obj.color.b*255 == b)
@@ -151,7 +155,7 @@ def ("World") ({
                 } else if (entry === MAPELEMENT.PELLET) {
                     self.addToRenderList(new Pellet(self, MODEL.PELLET, w, h, 0.25), true);
                 } else if (entry === MAPELEMENT.SUPERPELLET) {
-                    self.addToRenderList(new Pellet(self, MODEL.PELLET, w, h, 0.35), true);
+                    self.addToRenderList(new SuperPellet(self, MODEL.SUPERPELLET, w, h, 0.35), true);
                 }
             });
         });

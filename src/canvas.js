@@ -54,6 +54,18 @@ def ("Canvas") ({
 		
 		this.actionInterval = window.setInterval(function() {
             self.world.doAction();
+			if(self.world.pacman.isEater())
+			{
+				if(self.world.eaterModeTime < 200)
+				{
+					self.world.eaterModeTime++;
+				}
+				else
+				{
+					self.world.eaterModeTime = 0;
+					self.world.pacman.setEater(false);
+				}
+			}
         }, dt*1000);
 
     },
