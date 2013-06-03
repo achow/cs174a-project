@@ -8,11 +8,8 @@ def ("Pellet") << Obj ({
     },
     
     dt: function() {
-    },
-    
-    doAction: function() {
-        if (this.position.x == Math.floor(this.world.pacman._position.x)
-            && this.position.y == Math.floor(this.world.pacman._position.y)) {
+        if ((Math.abs(this.position.x - this.world.pacman._position.x) <= dt)
+            && (Math.abs(this.position.y - this.world.pacman._position.y) <= dt)) {
             var i = this.world.animateList.indexOf(this);
             if (i != -1)
                 this.world.animateList.splice(i, 1);
@@ -21,5 +18,8 @@ def ("Pellet") << Obj ({
             if (i != -1)
                 this.world.renderList.splice(i, 1);
         }
+    },
+    
+    doAction: function() {
     },
 });
