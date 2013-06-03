@@ -58,9 +58,7 @@ def ("Canvas") ({
 		this.actionInterval = window.setInterval(function() {
             self.world.doAction();
         }, dt*1000);
-        
-        console.log("renderInterval=", this.world.renderInterval);
-        console.log("actionInterval=", this.world.actionInterval);
+
     },
     /*
      * create actual canvas and program
