@@ -111,8 +111,8 @@ def ("Monster") << Actor ({
     doAction: function() {
         this.moveToward(this.world.pacman.position.x, this.world.pacman.position.y);
         
-        if (Math.floor(this.position.x) == Math.floor(this.world.pacman.position.x) 
-            && Math.floor(this.position.y) == Math.floor(this.world.pacman.position.y)) {
+        if ((Math.abs(this._position.x - this.world.pacman._position.x) <= dt)
+            && (Math.abs(this._position.y - this.world.pacman._position.y) <= dt)) {
             window.clearInterval(GL.canvas[0].renderInterval);
             window.clearInterval(GL.canvas[0].actionInterval);
             window.clearInterval(GL.canvas[1].renderInterval);
