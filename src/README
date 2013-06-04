@@ -23,8 +23,15 @@ PROJECT DESCRIPTION:
 	Description:
 		The game will be from the perspective of Pac Man. We are planning on making this a first person game (i.e. from Pac Man’s view).
 		We will use the keyboard to control Pac Man’s movements.
-		The maze will be a 3D version of a one-story-high maze. All characters, objects (including points) will be in 3D. This will be the main view. When changing directions, the camera will turn smoothly to the new direction.
-		There will be 2D map of the maze (top-down view) in a corner of the screen. This will be modeled after a normal Pac Man game (i.e. the character will move like so).
+		The maze will be a 3D version of a one-story-high maze. All characters, objects (including points) will be in 3D. 
+		This will be the main view. When changing directions, the camera will turn smoothly to the new direction, which
+		is considered the first person view.  Another 3D mode is just the static 3d version of the map.
+		There will be 2D map of the maze (top-down view) in a corner of the screen. This will be modeled after a normal 
+		Pac Man game (i.e. the character will move like so), and this is the view that will be used to play the game
+		since it might be difficult to view the ghosts in first-person perspective.
+		
+		We are using a WebGL framework, and we decided to use classes, so that we could subclass things off of basic objects,
+		and have the pacman and ghost movement be the same.
 
 	model:
 		list all model ID
@@ -69,15 +76,39 @@ PROJECT DESCRIPTION:
 
 	Features Implemented:
 		1. Orthogonal Map - on the corner.
-		2. Pac Man Viewpoint - the camera follows Pac Man around. You can also move around the camera in place once the view attaches to Pac Man. This can be improved by giving more controls to Pac Man once in this mode.
-		3. Keyboard control - you control the game via the keyboard. We can expand this later by controlling it via a controller or phone.
-		4. Gameplay - most of the gameplay for Pac Man has been implemented. We can expand this by adding in more "stories" to the maze (i.e. a two story maze where Pac Man is able to climb stairs or use wormholes to travel).
+		2. Pac Man Viewpoint - the camera follows Pac Man around. You can also move around the camera 
+		in place once the view attaches to Pac Man. This can be improved by giving more controls to Pac Man once in this mode.
+		3. Keyboard control - you control the game via the keyboard. We can expand this later by 
+		controlling it via a controller or phone.
+		4. Gameplay - most of the gameplay for Pac Man has been implemented. We can expand this by adding in more 
+		"stories" to the maze (i.e. a two story maze where Pac Man is able to climb stairs or use wormholes to travel).
 
 	Advanced Topics:
 		1. Color Picking
 			Selecting a monster will change it into red.
-			This was done by giving each monster a different color and checking that color via readpixel. The selected object was identified via color and the color changed via the vertex shader. This was intregated into the game by making the picked monsters slower (only one monster can be picked at at time). This is only for regular monsters, not for vulnerable ones.
+			This was done by giving each monster a different color and checking that 
+			color via readpixel. The selected object was identified via color and the color 
+			changed via the vertex shader. This was intregated into the game by making the 
+			picked monsters slower (only one monster can be picked at at time). This is only 
+			for regular monsters, not for vulnerable ones.
 			
 		2. Collisions
-			All objects will interact (including the game world, i.e. the maze) when they collide. Pacman eats the pellets and dies when it completely collides with the monster.
-			The distance from each object to each other was calculated. Each object was given a position in the maze, and when detecting collisions, the distance between these positions were calculated (also given the size of each object).
+			All objects will interact (including the game world, i.e. the maze) when they collide. 
+			Pacman eats the pellets and dies when it completely collides with the monster.
+			The distance from each object to each other was calculated. Each object was given a 
+			position in the maze, and when detecting collisions, the distance between these positions 
+			were calculated (also given the size of each object).
+			
+		Keyboard Keys:
+		LEFT, RIGHT, UP, DOWN: Controls movement of pacman, look at the minimap when controlling pacman, first person perspective
+		is not how the movement works in actuality.
+		X: change to first person perspective of the camera
+		Z: change to static, regular 3d view of the camera
+		
+		//these functions are just to manipulate the camera, not used for gameplay
+		WASD: move camera forwards, backwards, left, right
+		IJKM: tilts the camera angle
+		
+	What Could Be Improved:
+	If we had more time, we could have changed the shape of the ghost to be more similar to a ghost instead of a sphere,
+	we could have also added the tunnel feature in pacman, and bump map the walls.
