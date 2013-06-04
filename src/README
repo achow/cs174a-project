@@ -96,8 +96,8 @@ PROJECT DESCRIPTION:
 			All objects will interact (including the game world, i.e. the maze) when they collide. 
 			Pacman eats the pellets and dies when it completely collides with the monster.
 			The distance from each object to each other was calculated. Each object was given a 
-			position in the maze, and when detecting collisions, the distance between these positions 
-			were calculated (also given the size of each object).
+			position in the maze, and when detecting collisions, the size (radius) of the objects were used for
+			collision detection, as well as it's position.
 			
 		Keyboard Keys:
 		LEFT, RIGHT, UP, DOWN: Controls movement of pacman, look at the minimap when controlling pacman, first person perspective
