@@ -26,6 +26,20 @@ def ("SuperPellet") << Obj ({
 				this.world.eaterModeTime = 0;
 			}
             this.world.pacman.setEater(true);
+			
+			this.world.pelletCount--;
+			if (this.world.pelletCount == 0) {
+			
+				this.world.gamewin = true;
+				
+                window.clearInterval(GL.canvas[0].renderInterval);
+                window.clearInterval(GL.canvas[0].actionInterval);
+                window.clearInterval(GL.canvas[1].renderInterval);
+                window.clearInterval(GL.canvas[1].actionInterval);
+                
+                //console.log("GG");
+                // TODO: Game win text
+            }
 
         }
     },

@@ -135,6 +135,7 @@
             GL.canvas[0].world.renderList = GL.canvas[1].world.renderList;
             GL.canvas[0].world.animateList = GL.canvas[1].world.animateList;
             GL.canvas[0].world.pickedColor = GL.canvas[1].world.pickedColor;
+			GL.canvas[0].world.pelletCount = GL.canvas[1].world.pelletCount;
             for(var i in window) {
                 //console.log(i);
             }
@@ -142,10 +143,16 @@
                 var score = GL.canvas[1].world.points;
                 var lives = GL.canvas[1].world.pacman.m_lives;
                 var gameover = GL.canvas[1].world.pacman.m_dead;
+				var gamewin = GL.canvas[1].world.gamewin;
 
                 if (gameover) {
-                    $('.pacman-info').html('gameover<br>You Got ' + score + ' Points!').css('color', '#F00');
-                } else {
+                    $('.pacman-info').html('gameover<br>you get ' + score + ' points!').css('color', '#F00');
+                }
+				else if(gamewin)
+				{
+					$('.pacman-info').html('gamewin<br>you get ' + score + ' points!').css('color', '#F00');
+				}
+				else {
                     $('.pacman-info').html('score: '+ score +'<br>lives: ' + lives);
                 }
             },10);
