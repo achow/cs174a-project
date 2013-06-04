@@ -152,17 +152,48 @@ def ("Monster") << Actor ({
 			}
 			else
 			{
-			
-				window.clearInterval(GL.canvas[0].renderInterval);
-				window.clearInterval(GL.canvas[0].actionInterval);
-				window.clearInterval(GL.canvas[1].renderInterval);
-				window.clearInterval(GL.canvas[1].actionInterval);
+				this.world.pacman.m_lives--;
+				if(this.world.pacman.m_lives == 0)
+				{
+					this.world.pacman.m_dead = true;
+					
+					window.clearInterval(GL.canvas[0].renderInterval);
+					window.clearInterval(GL.canvas[0].actionInterval);
+					window.clearInterval(GL.canvas[1].renderInterval);
+					window.clearInterval(GL.canvas[1].actionInterval);
+					
+					this._position.x = this.world.pacman._position.x;
+					this._position.y = this.world.pacman._position.y;
+				}
+				else
+				{
+					this._position.x = this.world.monsterStartX;
+					this.position.x = this.world.monsterStartX;
+					this._position.y = this.world.monsterStartY;
+					this.position.y = this.world.monsterStartY;
 				
-				this._position.x = this.world.pacman._position.x;
-				this._position.y = this.world.pacman._position.y;
+					var self = this;
+				     _.each(this.world.animateList, function(obj) {
+					 
+						if(obj.modelId == MODEL.MONSTER)
+						{
+							obj._position.x = self.world.monsterStartX;
+							obj.position.x = self.world.monsterStartX;
+							obj._position.y = self.world.monsterStartY;
+							obj.position.y = self.world.monsterStartY;							
+						}
+					 
+					});
 				
-				GL.canvas[0].draw();
-				GL.canvas[1].draw();
+					
+					this.world.pacman._position.x = this.world.pacmanStartX;
+					this.world.pacman._position.y = this.world.pacmanStartY;
+					this.world.pacman.position.x = this.world.pacmanStartX;
+					this.world.pacman.position.y = this.world.pacmanStartY;
+					
+					GL.canvas[0].draw();
+					GL.canvas[1].draw();
+				}
 			}
 
         }

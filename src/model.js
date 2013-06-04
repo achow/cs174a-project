@@ -8,5 +8,4 @@ MODEL = {
     MONSTER: 3,
     PELLET: 4,
 	SUPERPELLET: 5,
-    MONSTER2: 6,
 };

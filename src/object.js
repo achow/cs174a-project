@@ -16,27 +16,15 @@ def ("Obj") ({
 	isEqual: function(color1, color2)
 	{
 		// 0 --> 1
-		var c1;
+		var c1 = color1;
 		// 0 --> 255
 		var c2;
-		if(color1 >= 0 && color1 <= 0.3)
-		{
-			c1 = 0;
-		}
-		else if(color1 >= 0.3 && color1 <= 0.7)
-		{
-			c1 = 0.5;
-		}
-		else
-		{
-			c1 = 1;
-		}
 		
-		if(color2 >= 0 && color2 <= 85)
+		if(color2 >= 0 && color2 <= 65)
 		{
 			c2 = 0;
 		}
-		else if(color2 >= 85 && color2 <= 170)
+		else if(color2 >= 65 && color2 <= 100)
 		{
 			c2 = 0.5;
 		}

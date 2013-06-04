@@ -122,6 +122,10 @@ def ("World") ({
                     self.addToRenderList(block);
                 } else if (entry === MAPELEMENT.PACMANSPAWN){
                     // pacman
+					
+					self.pacmanStartX = w;
+					self.pacmanStartY = h;
+					
                     var pacman = new Pacman(self, MODEL.PACMAN);
                     pacman.position.x = w;
                     pacman.position.y = h;
