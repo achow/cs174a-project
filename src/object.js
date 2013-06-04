@@ -6,6 +6,7 @@ def ("Obj") ({
         this.size = 1;
         this.world = world;
         this.color = new Color();
+        this.flashcount = 0;
     },
 
     setPosition: function(newX, newY) {
@@ -62,8 +63,22 @@ def ("Obj") ({
 		{
 			this.selected = false;
 			this.wait = 0;
-			gl.uniform3fv(shaderProgram.uColor, [0.5, 0.5, 1.0]);
-			gl.uniform1i(shaderProgram.uIsPicked, 0);
+            if (this.flashcount < 10)
+            {
+            gl.uniform3fv(shaderProgram.uColor, [0.5, 0.5, 1.0]);
+            gl.uniform1i(shaderProgram.uIsPicked, 0);   
+            }
+            else if (this.flashcount >= 10 && this.flashcount < 20)
+            {
+            gl.uniform3fv(shaderProgram.uColor, [1.0, 1.0, 1.0]);
+            gl.uniform1i(shaderProgram.uIsPicked, 0);   
+            }
+            this.flashcount++;
+            if (this.flashcount >= 20)
+            {
+                this.flashcount = 0;
+            }
+			
 		}
 		
         gl.drawArrays(gl.TRIANGLES, 0, buf.vertices.numItems);
