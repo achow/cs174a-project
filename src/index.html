@@ -7,6 +7,7 @@
 
     <body>
         <!-- library -->
+        <script src="jquery/jquery-2.0.2.min.js"></script>
         <script src="underscore/underscore.js"></script>
         <script src="def.js/def.js"></script>
 
@@ -17,9 +18,9 @@
         <script src="gl-matrix/vec4.js"></script>
         <script src="gl-matrix/vec3.js"></script>
         <script src="gl-matrix/vec2.js"></script>
-        
+
         <script src="color.js"></script>
-        
+
         <!-- scene -->
         <script src="canvas.js"></script>
         <script src="map.data.js"></script>
@@ -31,7 +32,7 @@
         <script src="position.js"></script>
         <script src="object.js"></script>
         <script src="pellet.js"></script>
-		<script src="superpellet.js"></script>
+        <script src="superpellet.js"></script>
         <script src="actor.js"></script>
         <script src="monster.js"></script>
         <script src="monster2.js"></script>
@@ -70,9 +71,9 @@
             uniform mat4 uView;
             uniform mat4 uPerspective;
             uniform vec3 uLightPosition;
-			uniform vec3 uColor;
-			uniform int uIsPicked;
-			
+            uniform vec3 uColor;
+            uniform int uIsPicked;
+
             varying vec3 vLight;
 
             void main(void) {
@@ -82,15 +83,15 @@
                 vec3 lightDirection = normalize(uLightPosition - worldPosition.xyz);
 
                 float directionalLightWeighting = max(dot((uWorld * vec4(aNormal, 1)).xyz, lightDirection), 0.0);
-				
-				if(uIsPicked == 0)
-				{
-					vLight = uColor * directionalLightWeighting;
-				}
-				else
-				{
-					vLight = vec3(1, 0, 0) * directionalLightWeighting;
-				}
+
+                if(uIsPicked == 0)
+                {
+                    vLight = uColor * directionalLightWeighting;
+                }
+                else
+                {
+                    vLight = vec3(1, 0, 0) * directionalLightWeighting;
+                }
                 //vTextureCoord = aTextureCoord;
             }
         </script>
@@ -99,6 +100,7 @@
             <div class="subtitle">CS174A Project</div>
         </div>
         <canvas id="game-canvas"></canvas>
+        <div class="pacman-info"></div>
         <canvas id="minimap"></canvas>
         <div class="minimap-title">MiniMap</div>
         <script src="gl.js"></script>
@@ -132,10 +134,21 @@
             GL.canvas[0].world.lightPosition.z = 1000;
             GL.canvas[0].world.renderList = GL.canvas[1].world.renderList;
             GL.canvas[0].world.animateList = GL.canvas[1].world.animateList;
-			GL.canvas[0].world.pickedColor = GL.canvas[1].world.pickedColor;
+            GL.canvas[0].world.pickedColor = GL.canvas[1].world.pickedColor;
             for(var i in window) {
                 //console.log(i);
             }
+            setInterval(function(){
+                var score = GL.canvas[1].world.points;
+                var lives = GL.canvas[1].world.pacman.m_lives;
+                var gameover = GL.canvas[1].world.pacman.m_dead;
+
+                if (gameover) {
+                    $('.pacman-info').html('gameover<br>you get ' + score + ' points!').css('color', '#F00');
+                } else {
+                    $('.pacman-info').html('score: '+ score +'<br>lives: ' + lives);
+                }
+            },10);
 
         </script>
     </body>

@@ -6,26 +6,26 @@ def ("SuperPellet") << Obj ({
         this.position.y = y;
         this.color.setColor(1, 0.5, 0);
     },
-    
+
     dt: function() {
         if ((Math.abs(this.position.x - this.world.pacman._position.x) <= dt)
             && (Math.abs(this.position.y - this.world.pacman._position.y) <= dt)) {
-			
-			this.world.points += POINTS.SUPERPELLET;
-			
+
+            this.world.points += POINTS.SUPERPELLET;
+
             var i = this.world.animateList.indexOf(this);
             if (i != -1)
                 this.world.animateList.splice(i, 1);
-                
+
             i = this.world.renderList.indexOf(this);
             if (i != -1)
                 this.world.renderList.splice(i, 1);
-				
-			this.world.pacman.setEater(true);
-			
+
+            this.world.pacman.setEater(true);
+
         }
     },
-    
+
     doAction: function() {
     },
 });

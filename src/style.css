@@ -16,6 +16,13 @@ canvas {
     color: #FFF;
     right: 170px;
 }
+.pacman-info {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: #FFF;
+    font-size: 30px;
+}
 .first {
     color: #8A0023;
     font-weight: bold;
