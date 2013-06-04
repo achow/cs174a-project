@@ -20,15 +20,18 @@ def ("Pellet") << Obj ({
             if (i != -1)
                 this.world.renderList.splice(i, 1);
                 
-            this.pelletCount--;
+            this.world.pelletCount--;
             
-            if (this.pelletCount == 0) {
+            if (this.world.pelletCount == 0) {
+			
+				this.world.gamewin = true;
+			
                 window.clearInterval(GL.canvas[0].renderInterval);
                 window.clearInterval(GL.canvas[0].actionInterval);
                 window.clearInterval(GL.canvas[1].renderInterval);
                 window.clearInterval(GL.canvas[1].actionInterval);
                 
-                console.log("GG");
+                //console.log("GG");
                 // TODO: Game win text
             }
         }

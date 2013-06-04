@@ -34,6 +34,7 @@ def ("World") ({
 		this.points = 0;
         
         this.pelletCount = 0;
+		this.gamewin = false;
 		
         this.initMap();
     },
@@ -163,10 +164,10 @@ def ("World") ({
 
                 } else if (entry === MAPELEMENT.PELLET) {
                     self.addToRenderList(new Pellet(self, MODEL.PELLET, w, h, 0.25), true);
-                    this.pelletCount++;
+                    self.pelletCount++;
                 } else if (entry === MAPELEMENT.SUPERPELLET) {
                     self.addToRenderList(new SuperPellet(self, MODEL.SUPERPELLET, w, h, 0.35), true);
-                    this.pelletCount++;
+                    self.pelletCount++;
                 }
             });
         });
