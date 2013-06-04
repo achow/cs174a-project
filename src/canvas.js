@@ -56,7 +56,7 @@ def ("Canvas") ({
             self.world.doAction();
 			if(self.world.pacman.isEater())
 			{
-				if(self.world.eaterModeTime < 200)
+				if(self.world.eaterModeTime < 150)
 				{
 					self.world.eaterModeTime++;
 				}

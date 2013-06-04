@@ -8,10 +8,10 @@ MONSTER_STATE = {
 
 def ("Monster") << Actor ({
 
-    init: function(world, id) {
+    init: function(world, id, color) {
         this._super(world, id);
         this.m_state = MONSTER_STATE.ALIVE;
-        this.color.setColor(1, 1, 1);
+        this.color.setColor(color[0], color[1], color[2]);
         this.initial_position = new Position();
         this.initial_position = this.position;
     },
@@ -126,17 +126,29 @@ def ("Monster") << Actor ({
         if ((Math.abs(this._position.x - this.world.pacman._position.x) <= dt)
             && (Math.abs(this._position.y - this.world.pacman._position.y) <= dt)) {
 			
-			
 			if(this.world.pacman.isEater())
 			{
-				this.setState(MONSTER_STATE.DEAD);
+				this.setState(MONSTER_STATE.ALIVE);
+				this._position.x = this.world.monsterStartX;
+				this.position.x = this.world.monsterStartX;
+				this._position.y = this.world.monsterStartY;
+				this.position.y = this.world.monsterStartY;
+				
+				this.world.points += POINTS.MONSTER;
+				//console.log(this.world.points);
+				//console.log(this.position.x, this.position.y);
+				
+				GL.canvas[0].draw();
+				GL.canvas[1].draw();
+				
+				/*
 				var i = this.world.animateList.indexOf(this);
-				if (i != -1)
-					this.world.animateList.splice(i, 1);
+            if (i != -1)
+                this.world.animateList.splice(i, 1);
                 
-				i = this.world.renderList.indexOf(this);
-				if (i != -1)
-					this.world.renderList.splice(i, 1);				
+            i = this.world.renderList.indexOf(this);
+            if (i != -1)
+                this.world.renderList.splice(i, 1);*/
 			}
 			else
 			{

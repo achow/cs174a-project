@@ -10,6 +10,9 @@ def ("Pellet") << Obj ({
     dt: function() {
         if ((Math.abs(this.position.x - this.world.pacman._position.x) <= dt)
             && (Math.abs(this.position.y - this.world.pacman._position.y) <= dt)) {
+			
+			this.world.points += POINTS.PELLET;
+			
             var i = this.world.animateList.indexOf(this);
             if (i != -1)
                 this.world.animateList.splice(i, 1);

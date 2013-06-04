@@ -1,3 +1,9 @@
+POINTS = {
+    PELLET: 10,
+	SUPERPELLET: 50,
+	MONSTER: 100,
+};
+
 def ("World") ({
 
     init: function(id) {
@@ -24,6 +30,8 @@ def ("World") ({
 		this.nextMouseY = null;
 		
 		this.eaterModeTime = 0;
+		
+		this.points = 0;
 		
         this.initMap();
     },
@@ -90,39 +98,12 @@ def ("World") ({
             gl.uniform3fv(shaderProgram.uColor, obj.color.toVec3());
 				
 			gl.uniform1i(shaderProgram.uIsPicked, 0);
-		
-			//if(obj.color.r*255 == r && obj.color.g*255 == g && obj.color.b*255 == b)
-				//gl.uniform1i(shaderProgram.uIsPicked, 1);	
 				
 			if(obj.isEqual(obj.color.r, r) && obj.isEqual(obj.color.g, g) && obj.isEqual(obj.color.b, b))
 				gl.uniform1i(shaderProgram.uIsPicked, 1);
-			/*
-			if(r == obj.color.r*255 &&
-				g == obj.color.g*255 &&
-				b == obj.color.b*255) // color picked
-				{
-					gl.uniform1i(shaderProgram.uIsPicked, 1);			
-				}
-				*/
 
             obj.draw(canvas);		
         });
-		
-		/*
-		//what color picked
-		if(this.nextMouseX != null && this.nextMouseY != null &&
-			this.lastMouseX != this.nextMouseX && this.lastMouseY != this.nextMouseY)
-		{
-			var readout = new Uint8Array(4);
-			gl.readPixels(this.nextMouseX,this.nextMouseY,1,1,gl.RGBA,gl.UNSIGNED_BYTE,readout);
-		
-			if(!(readout[0] == 255 && readout[1] == 0 && readout[2] == 0))
-			{
-				this.pickedColor.r = readout[0];
-				this.pickedColor.g = readout[1];
-				this.pickedColor.b = readout[2];
-			}
-		}*/
     },
     /*
      * make a map
@@ -148,17 +129,22 @@ def ("World") ({
                     self.pacman = pacman;
                 } else if (entry === MAPELEMENT.MONSTERSPAWN) {
                     // monster
-                    var monster = new Monster2(self, MODEL.MONSTER);
+					
+					self.monsterStartX = w;
+					self.monsterStartY = h;
+					//console.log(w, h);
+					
+                    var monster = new Monster2(self, MODEL.MONSTER, [1, 1, 1]);
                     monster.position.x = w;
                     monster.position.y = h;
                     self.addToRenderList(monster, true);
 
-                    var monster = new Monster2(self, MODEL.MONSTER);
+                    var monster = new Monster2(self, MODEL.MONSTER, [1, 0, 1]);
                     monster.position.x = w;
                     monster.position.y = h;
                     self.addToRenderList(monster, true);
 
-                    var monster = new Monster(self, MODEL.MONSTER);
+                    var monster = new Monster(self, MODEL.MONSTER, [0.5, 0.5, 1]);
                     monster.position.x = w;
                     monster.position.y = h;
                     self.addToRenderList(monster, true);
