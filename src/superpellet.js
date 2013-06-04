@@ -21,6 +21,10 @@ def ("SuperPellet") << Obj ({
             if (i != -1)
                 this.world.renderList.splice(i, 1);
 
+			if(this.world.pacman.isEater())
+			{
+				this.world.eaterModeTime = 0;
+			}
             this.world.pacman.setEater(true);
 
         }
