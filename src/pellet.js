@@ -8,8 +8,7 @@ def ("Pellet") << Obj ({
     },
     
     dt: function() {
-        if ((Math.abs(this.position.x - this.world.pacman._position.x) <= dt)
-            && (Math.abs(this.position.y - this.world.pacman._position.y) <= dt)) {
+        if (this.position.diff(this.world.pacman._position) <= (this.size + this.world.pacman.size)) {
 			
 			this.world.points += POINTS.PELLET;
 			
