@@ -152,6 +152,18 @@ def ("World") ({
                     monster.position.x = w;
                     monster.position.y = h;
                     self.addToRenderList(monster, true);
+
+                    var monster = new Monster2(self, MODEL.MONSTER);
+                    monster.position.x = w;
+                    monster.position.y = h;
+                    self.addToRenderList(monster, true);
+
+                    var monster = new Monster(self, MODEL.MONSTER);
+                    monster.position.x = w;
+                    monster.position.y = h;
+                    self.addToRenderList(monster, true);
+
+
                 } else if (entry === MAPELEMENT.PELLET) {
                     self.addToRenderList(new Pellet(self, MODEL.PELLET, w, h, 0.25), true);
                 } else if (entry === MAPELEMENT.SUPERPELLET) {

@@ -5,7 +5,7 @@ MONSTER_STATE = {
     STOP: 4,
 };
 
-def ("Monster2") << Actor ({
+def ("Monster2") << Monster ({
 
     init: function(world, id) {
         this._super(world, id);
@@ -148,7 +148,7 @@ def ("Monster2") << Actor ({
 		
     },
     
-    doAction: function() {
+    /*doAction: function() {
         this.moveToward(this.world.pacman.position.x, this.world.pacman.position.y);
 
         
@@ -172,6 +172,6 @@ def ("Monster2") << Actor ({
     {
         this.position = this.initial_position;
         //logic to make monster go home after death
-    },
+    },*/
 
 });
