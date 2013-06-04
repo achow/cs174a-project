@@ -104,7 +104,7 @@ CANVAS_DATA = [
 				else if(key == 40)
 					canvas.world.pacman.direction = DIRECTION.DOWN;
                     
-                canvas.world.camera.attachObject = canvas.world.pacman;
+               // canvas.world.camera.attachObject = canvas.world.pacman;
 			}
 
 
