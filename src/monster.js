@@ -163,8 +163,6 @@ def ("Monster") << Actor ({
 					
 					this._position.x = this.world.pacman._position.x;
 					this._position.y = this.world.pacman._position.y;
-                    
-                    this.world.pacman.direction = DIRECTION.NONE;
 				}
 				else
 				{
@@ -192,6 +190,8 @@ def ("Monster") << Actor ({
 					this.world.pacman.position.x = this.world.pacmanStartX;
 					this.world.pacman.position.y = this.world.pacmanStartY;
 					
+                    this.world.pacman.direction = DIRECTION.NONE;
+                    
 					GL.canvas[0].draw();
 					GL.canvas[1].draw();
 				}

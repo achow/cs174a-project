@@ -23,6 +23,11 @@ def ("Pellet") << Obj ({
             this.pelletCount--;
             
             if (this.pelletCount == 0) {
+                window.clearInterval(GL.canvas[0].renderInterval);
+                window.clearInterval(GL.canvas[0].actionInterval);
+                window.clearInterval(GL.canvas[1].renderInterval);
+                window.clearInterval(GL.canvas[1].actionInterval);
+                
                 console.log("GG");
                 // TODO: Game win text
             }
