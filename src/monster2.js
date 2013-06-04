@@ -19,6 +19,8 @@ def ("Monster2") << Monster ({
                 this.setDirection(DIRECTION.UP);
             }*/
 
+            if (!this.world.pacman.isEater())
+            {
             if (this._position.x != targetX) {
             // West
             if (this.getDirection() != DIRECTION.RIGHT && this.position.x > targetX
@@ -33,8 +35,8 @@ def ("Monster2") << Monster ({
                 this.setDirection(DIRECTION.RIGHT);
                 this.move();
                 return;
+                }
             }
-        }
 
         // Vertical movement
         else if (this._position.y != targetY) {
@@ -52,7 +54,15 @@ def ("Monster2") << Monster ({
                 this.move();
                 return;
             }
-        }
+             }
+
+
+
+            }
+
+            
+
+
 
             // Otherwise move in a random valid direction
                 switch (this.getDirection()) {

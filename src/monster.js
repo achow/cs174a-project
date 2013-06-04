@@ -141,8 +141,7 @@ def ("Monster") << Actor ({
 			this.setState(MONSTER_STATE.ALIVE);			
 		}
         
-        if ((Math.abs(this._position.x - this.world.pacman._position.x) <= dt)
-            && (Math.abs(this._position.y - this.world.pacman._position.y) <= dt)) {
+        if (this._position.diff(this.world.pacman._position) <= (this.size + this.world.pacman.size)) {
 			
 			if(this.world.pacman.isEater())
 			{
@@ -188,6 +187,8 @@ def ("Monster") << Actor ({
 					
 					this._position.x = this.world.pacman._position.x;
 					this._position.y = this.world.pacman._position.y;
+                    
+                    this.world.pacman.direction = DIRECTION.NONE;
 				}
 				else
 				{

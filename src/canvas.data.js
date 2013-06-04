@@ -75,6 +75,20 @@ CANVAS_DATA = [
                 canvas.world.camera.phi += 5;
             else if (charRep == "M") // Down arrow
                 canvas.world.camera.phi -= 5;
+
+            else if (charRep == "X")
+            {
+                canvas.world.camera.attachObject = canvas.world.pacman;
+            }
+            else if (charRep == "Z")
+            {
+                canvas.world.camera = new Camera();
+
+                canvas.world.camera.position.z = 7;
+                canvas.world.camera.position.y = -10;
+                canvas.world.camera.phi = 60;
+                
+            }
 				
 			//move pacman and monsters
 			else if (key == 37|| key == 38|| key == 39 || key == 40)
@@ -90,8 +104,10 @@ CANVAS_DATA = [
 				else if(key == 40)
 					canvas.world.pacman.direction = DIRECTION.DOWN;
                     
-                canvas.world.camera.attachObject = canvas.world.pacman;
+               // canvas.world.camera.attachObject = canvas.world.pacman;
 			}
+
+
 			
         },
 		/*

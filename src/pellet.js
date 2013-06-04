@@ -8,8 +8,7 @@ def ("Pellet") << Obj ({
     },
     
     dt: function() {
-        if ((Math.abs(this.position.x - this.world.pacman._position.x) <= dt)
-            && (Math.abs(this.position.y - this.world.pacman._position.y) <= dt)) {
+        if (this.position.diff(this.world.pacman._position) <= (this.size + this.world.pacman.size)) {
 			
 			this.world.points += POINTS.PELLET;
 			
@@ -20,6 +19,13 @@ def ("Pellet") << Obj ({
             i = this.world.renderList.indexOf(this);
             if (i != -1)
                 this.world.renderList.splice(i, 1);
+                
+            this.pelletCount--;
+            
+            if (this.pelletCount == 0) {
+                console.log("GG");
+                // TODO: Game win text
+            }
         }
     },
     
