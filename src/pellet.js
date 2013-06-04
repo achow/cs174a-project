@@ -19,6 +19,13 @@ def ("Pellet") << Obj ({
             i = this.world.renderList.indexOf(this);
             if (i != -1)
                 this.world.renderList.splice(i, 1);
+                
+            this.pelletCount--;
+            
+            if (this.pelletCount == 0) {
+                console.log("GG");
+                // TODO: Game win text
+            }
         }
     },
     
