@@ -101,7 +101,7 @@ def ("World") ({
 				
 			gl.uniform1i(shaderProgram.uIsPicked, 0);
 			
-			this.selected = false;
+			obj.selected = false;
 				
 			if(obj.isEqual(obj.color.r, r) && obj.isEqual(obj.color.g, g) && obj.isEqual(obj.color.b, b))
 			{

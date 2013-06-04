@@ -117,13 +117,14 @@ def ("Monster") << Actor ({
     doAction: function() {
 	
 		if(this.selected == false)
+		{
 			this.wait = 0;
-	
-		if(this.wait == 0)
+			this.moveToward(this.world.pacman.position.x, this.world.pacman.position.y);
+		}
+		else if(this.selected == true && this.wait == 0)
 		{
 			this.moveToward(this.world.pacman.position.x, this.world.pacman.position.y);
-			if(this.selected)
-				this.wait++;
+			this.wait++;		
 		}
 		else
 		{

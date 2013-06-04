@@ -61,6 +61,7 @@ def ("Obj") ({
 		if(this.modelId == MODEL.MONSTER && this.world.pacman.isEater())
 		{
 			this.selected = false;
+			this.wait = 0;
 			gl.uniform3fv(shaderProgram.uColor, [0.5, 0.5, 1.0]);
 			gl.uniform1i(shaderProgram.uIsPicked, 0);
 		}

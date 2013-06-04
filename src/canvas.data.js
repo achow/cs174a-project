@@ -171,8 +171,7 @@ CANVAS_DATA = [
 				if((readout[0] > 100 && readout[1] > 100 && readout[2] > 100) ||
 					(readout[0] > 100 && readout[1] < 65 && readout[2] > 100) ||
 					(readout[0] < 65 && readout[1] > 100 && readout[2] > 100) ||
-					(readout[0] < 65 && readout[1] < 65 && readout[2] < 65) ||
-					(readout[0] > 100 && readout[1] < 65 && readout[2] < 65))
+					(readout[0] < 65 && readout[1] < 65 && readout[2] < 65))
 				{
 					canvas.world.pickedColor.r = readout[0];
 					canvas.world.pickedColor.g = readout[1];
