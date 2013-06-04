@@ -1,3 +1,37 @@
+TEAM MEMBERS:
+
+Name: Amy Lin
+ID: 903929105
+
+Name: Tai-Lin Chu
+ID: 203937255
+
+Name: Steven Ly
+ID: 803938426
+
+Name: Alexander Chow
+ID: 603888804
+ 
+
+PROJECT DESCRIPTION:
+ 
+Main Idea:
+    We will be creating a 3D Pac Man game.
+
+Description:
+    The game will be from the perspective of Pac Man. We are planning on making this a first person game (i.e. from Pac Man’s view).
+	We will use the keyboard to control Pac Man’s movements.
+	The maze will be a 3D version of a one-story-high maze. All characters, objects (including points) will be in 3D. This will be the main view. When changing directions, the camera will turn smoothly to the new direction.
+    There will be 2D map of the maze (top-down view) in a corner of the screen. This will be modeled after a normal Pac Man game (i.e. the character will move like so).
+
+Advanced Topics:
+	1. Color Picking
+		Selecting the maze and actors will change them into red.
+		
+	2. Collisions
+		All objects will interact (including the game world, i.e. the maze) when they collide. Pacman eats the pellets and dies when it collides with the monsters when they completely collide.
+
+
 model:
     list all model ID
 
