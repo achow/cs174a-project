@@ -14,6 +14,9 @@ def ("Monster") << Actor ({
         this.color.setColor(color[0], color[1], color[2]);
         this.initial_position = new Position();
         this.initial_position = this.position;
+		
+		this.selected = false;
+		this.wait = 0;
     },
 	
     getState: function() {
@@ -112,7 +115,22 @@ def ("Monster") << Actor ({
     },
     
     doAction: function() {
-        this.moveToward(this.world.pacman.position.x, this.world.pacman.position.y);
+	
+		if(this.selected == false)
+			this.wait = 0;
+	
+		if(this.wait == 0)
+		{
+			this.moveToward(this.world.pacman.position.x, this.world.pacman.position.y);
+			if(this.selected)
+				this.wait++;
+		}
+		else
+		{
+			this.wait++;
+			if(this.wait > 10)
+				this.wait = 0;
+		}
 
 		if(this.world.pacman.isEater())
 		{
@@ -135,6 +153,12 @@ def ("Monster") << Actor ({
 				this.position.y = this.world.monsterStartY;
 				
 				this.world.points += POINTS.MONSTER;
+				
+				this.selected = false;
+				this.wait = 0;
+				
+				this.world.nextMouseX = null;
+				this.world.nextMouseY = null;
 				//console.log(this.world.points);
 				//console.log(this.position.x, this.position.y);
 				

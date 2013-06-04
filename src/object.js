@@ -59,7 +59,11 @@ def ("Obj") ({
         gl.vertexAttribPointer(shaderProgram.aNormal, buf.normals.itemSize, gl.FLOAT, false, 0, 0);
 
 		if(this.modelId == MODEL.MONSTER && this.world.pacman.isEater())
-			gl.uniform3fv(shaderProgram.uColor, [0.0, 1.0, 1.0]);
+		{
+			this.selected = false;
+			gl.uniform3fv(shaderProgram.uColor, [0.5, 0.5, 1.0]);
+			gl.uniform1i(shaderProgram.uIsPicked, 0);
+		}
 		
         gl.drawArrays(gl.TRIANGLES, 0, buf.vertices.numItems);
     },

@@ -98,9 +98,14 @@ def ("World") ({
             gl.uniform3fv(shaderProgram.uColor, obj.color.toVec3());
 				
 			gl.uniform1i(shaderProgram.uIsPicked, 0);
+			
+			this.selected = false;
 				
 			if(obj.isEqual(obj.color.r, r) && obj.isEqual(obj.color.g, g) && obj.isEqual(obj.color.b, b))
+			{
+				obj.selected = true;
 				gl.uniform1i(shaderProgram.uIsPicked, 1);
+			}
 
             obj.draw(canvas);		
         });
@@ -148,7 +153,7 @@ def ("World") ({
                     monster.position.y = h;
                     self.addToRenderList(monster, true);
 
-                    var monster = new Monster(self, MODEL.MONSTER, [0.5, 0.5, 1]);
+                    var monster = new Monster(self, MODEL.MONSTER, [0, 1, 1]);
                     monster.position.x = w;
                     monster.position.y = h;
                     self.addToRenderList(monster, true);

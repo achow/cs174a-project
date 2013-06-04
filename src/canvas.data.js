@@ -152,7 +152,11 @@ CANVAS_DATA = [
 				var readout = new Uint8Array(4);
 				gl.readPixels(canvas.world.nextMouseX,canvas.gl.canvas.height - canvas.world.nextMouseY,1,1,gl.RGBA,gl.UNSIGNED_BYTE,readout);
 			
-				if(!(readout[0] == 255 && readout[1] == 0 && readout[2] == 0))
+				if((readout[0] > 100 && readout[1] > 100 && readout[2] > 100) ||
+					(readout[0] > 100 && readout[1] < 65 && readout[2] > 100) ||
+					(readout[0] < 65 && readout[1] > 100 && readout[2] > 100) ||
+					(readout[0] < 65 && readout[1] < 65 && readout[2] < 65) ||
+					(readout[0] > 100 && readout[1] < 65 && readout[2] < 65))
 				{
 					canvas.world.pickedColor.r = readout[0];
 					canvas.world.pickedColor.g = readout[1];
